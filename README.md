@@ -7,5 +7,5 @@ task install
 ```
 
 ```
-task match_fetch_development
+task match-fetch-development
 ```
