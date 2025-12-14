@@ -1,23 +1,72 @@
-# This file contains the fastlane.tools configuration
-# You can find the documentation at https://docs.fastlane.tools
-#
-# For a list of all available actions, check out
-#
-#     https://docs.fastlane.tools/actions
-#
-# For a list of all available plugins, check out
-#
-#     https://docs.fastlane.tools/plugins/available-plugins
-#
-
-# Uncomment the line if you want fastlane to automatically update itself
-# update_fastlane
-
 default_platform(:ios)
 
 platform :ios do
-  desc "Description of what the lane does"
-  lane :custom_lane do
-    # add actions here: https://docs.fastlane.tools/actions
+  ENV["FASTLANE_XCODEBUILD_SETTINGS_TIMEOUT"] = "30"
+
+  def get_app_store_connect_api_key
+    app_store_connect_api_key(
+      key_id: ENV["APP_STORE_CONNECT_API_KEY_ID"],
+      issuer_id: ENV["APP_STORE_CONNECT_API_KEY_ISSUER_ID"],
+      key_content: ENV["APP_STORE_CONNECT_API_KEY_CONTENT_BASE64"],
+      is_key_content_base64: true,
+    )
+  end
+
+  desc "Match Development"
+  lane :match_development do
+    match(
+      type: "development",
+      api_key: get_app_store_connect_api_key,
+    )
+  end
+
+  desc "Match Ad Hoc"
+  lane :match_adhoc do
+    match(
+      type: "adhoc",
+      api_key: get_app_store_connect_api_key,
+    )
+  end
+
+  desc "Match App Store"
+  lane :match_appstore do
+    match(
+      type: "appstore",
+      api_key: get_app_store_connect_api_key,
+    )
+  end
+
+  desc "Fetch Development"
+  lane :match_fetch_development do
+    match(
+      type: "development",
+      readonly: true,
+    )
+  end
+
+  desc "Fetch Ad Hoc"
+  lane :match_fetch_adhoc do
+    match(
+      type: "adhoc",
+      readonly: true,
+    )
+  end
+
+  desc "Fetch App Store"
+  lane :match_fetch_appstore do
+    match(
+      type: "appstore",
+      readonly: true,
+    )
+  end
+
+  desc "Register a new device"
+  lane :register_a_new_device do
+    register_device(
+      name: ENV["DEVICE_NAME"],
+      udid: ENV["DEVICE_UDID"],
+      platform: ENV["DEVICE_PLATFORM"],
+      api_key: get_app_store_connect_api_key,
+    )
   end
 end
