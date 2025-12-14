@@ -1,0 +1,6 @@
+git_url("git@github.com:kantacky/apple-certificates.git")
+storage_mode("git")
+app_identifier(["co.furari.OctoDeck"])
+username("iam@kantacky.com")
+force_for_new_devices(true)
+include_mac_in_profiles(true)

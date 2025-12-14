@@ -1,0 +1,30 @@
+# https://taskfile.dev
+
+version: "3"
+
+vars:
+  FASTLANE: bundle exec fastlane
+
+tasks:
+  default:
+    cmds:
+      - task --list-all
+    silent: true
+
+  install:
+    desc: Install dependencies
+    cmds:
+      - bundle install
+      - task: match-fetch-development
+
+  match-fetch-development:
+    cmds:
+      - "{{.FASTLANE}} match_fetch_development"
+
+  register-device:
+    cmds:
+      - "{{.FASTLANE}} register_a_new_device"
+    env:
+      DEVICE_NAME: '{{.DEVICE_NAME| default ""}}'
+      DEVICE_UDID: '{{.DEVICE_UDID| default ""}}'
+      DEVICE_PLATFORM: '{{.DEVICE_PLATFORM| default "ios"}}'
