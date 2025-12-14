@@ -15,7 +15,6 @@ tasks:
     desc: Install dependencies
     cmds:
       - bundle install
-      - task: match-fetch-development
 
   match-fetch-development:
     cmds:
@@ -28,3 +27,7 @@ tasks:
       DEVICE_NAME: '{{.DEVICE_NAME| default ""}}'
       DEVICE_UDID: '{{.DEVICE_UDID| default ""}}'
       DEVICE_PLATFORM: '{{.DEVICE_PLATFORM| default "ios"}}'
+
+  test:
+    cmds:
+      - "{{.FASTLANE}} test"
