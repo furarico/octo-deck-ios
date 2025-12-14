@@ -15,6 +15,7 @@ tasks:
     desc: Install dependencies
     cmds:
       - bundle install
+      - task: match-fetch-development
 
   match-fetch-development:
     cmds:
