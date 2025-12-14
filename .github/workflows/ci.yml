@@ -1,0 +1,45 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+    types:
+      - opened
+      - ready_for_review
+      - reopened
+      - synchronize
+  schedule:
+    - cron: 0 15 * * *
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test-ios-app:
+    if: github.event.pull_request.draft == false
+    runs-on:
+      - self-hosted
+      - macOS
+      - ARM64
+      - tartelet
+    timeout-minutes: 30
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Xcode
+        run: |
+          xcodes select
+          defaults write com.apple.dt.Xcode IDESkipPackagePluginFingerprintValidatation -bool YES
+          defaults write com.apple.dt.Xcode IDESkipMacroFingerprintValidation -bool YES
+      - name: Setup Project
+        run: task install
+      - name: Test
+        run: task test
+        env:
+          SLACK_URL: ${{ secrets.SLACK_URL }}
