@@ -195,6 +195,9 @@
 			);
 			mainGroup = F121DC012EEE93E300F19674;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				F15DC5A32EEFA4D500678AF7 /* XCRemoteSwiftPackageReference "swift-openapi-generator" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = F121DC0B2EEE93E300F19674 /* Products */;
 			projectDirPath = "";
@@ -586,6 +589,17 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		F15DC5A32EEFA4D500678AF7 /* XCRemoteSwiftPackageReference "swift-openapi-generator" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/apple/swift-openapi-generator";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.10.3;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
 	};
 	rootObject = F121DC022EEE93E300F19674 /* Project object */;
 }
