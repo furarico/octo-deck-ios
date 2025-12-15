@@ -197,6 +197,7 @@
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
 				F15DC5A32EEFA4D500678AF7 /* XCRemoteSwiftPackageReference "swift-openapi-generator" */,
+				F15DC5A42EEFA4F800678AF7 /* XCRemoteSwiftPackageReference "swift-openapi-runtime" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = F121DC0B2EEE93E300F19674 /* Products */;
@@ -597,6 +598,14 @@
 			requirement = {
 				kind = upToNextMajorVersion;
 				minimumVersion = 1.10.3;
+			};
+		};
+		F15DC5A42EEFA4F800678AF7 /* XCRemoteSwiftPackageReference "swift-openapi-runtime" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/apple/swift-openapi-runtime";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.9.0;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
