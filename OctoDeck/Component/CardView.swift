@@ -10,8 +10,8 @@ import SwiftUI
 
 struct CardView: View {
     let card: Card
-
     var body: some View {
+        imageCard
         HStack {
             image
                 .frame(width: 80, height: 80)
@@ -21,7 +21,21 @@ struct CardView: View {
                     RoundedRectangle(cornerRadius: 12)
                         .stroke(Color.secondary.opacity(0.2), lineWidth: 1)
                 }
+
             contentView
+        }
+    }
+
+    private var imageCard: some View {
+        ZStack {
+            RoundedRectangle(cornerRadius: 12)
+                .fill(Color(.systemBackground))
+
+        }
+        .frame(width: 356, height: 224)
+        .overlay {
+            RoundedRectangle(cornerRadius: 12)
+                .stroke(Color.secondary.opacity(0.2), lineWidth: 1)
         }
     }
 
