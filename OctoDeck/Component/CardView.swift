@@ -16,13 +16,13 @@ struct CardView: View {
             image
                 .frame(width: 80, height: 80)
                 .clipped()
-                .cornerRadius(12)
+                .clipShape(Circle())
                 .overlay {
-                    RoundedRectangle(cornerRadius: 12)
+                    Circle()
                         .stroke(Color.secondary.opacity(0.2), lineWidth: 1)
                 }
 
-            contentView
+            textView
         }
     }
 
@@ -39,15 +39,15 @@ struct CardView: View {
         }
     }
 
-    private var contentView: some View {
+    private var textView: some View {
         VStack(alignment: .leading, spacing: 8) {
-            Text(card.userName)
+            Text(card.fullName)
                 .font(.body)
                 .bold()
                 .lineLimit(1)
                 .multilineTextAlignment(.leading)
 
-            Text(card.fullName)
+            Text(card.userName)
                 .font(.caption)
                 .lineLimit(2)
                 .multilineTextAlignment(.leading)
@@ -69,7 +69,7 @@ struct CardView: View {
     }
 
     private var defaultImage: some View {
-        Image("default")
+        Image("default")// 今後修正
             .resizable()
             .aspectRatio(contentMode: .fill)
     }
