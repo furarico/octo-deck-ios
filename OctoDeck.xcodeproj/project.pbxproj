@@ -106,6 +106,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				F15DC5A72EEFA54200678AF7 /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
 				F121DC0C2EEE93E300F19674 /* OctoDeck */,
@@ -270,6 +271,10 @@
 			isa = PBXTargetDependency;
 			target = F121DC092EEE93E300F19674 /* OctoDeck */;
 			targetProxy = F121DC222EEE93E400F19674 /* PBXContainerItemProxy */;
+		};
+		F15DC5A72EEFA54200678AF7 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			productRef = F15DC5A62EEFA54200678AF7 /* OpenAPIGenerator */;
 		};
 /* End PBXTargetDependency section */
 
@@ -618,6 +623,14 @@
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		F15DC5A62EEFA54200678AF7 /* OpenAPIGenerator */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F15DC5A32EEFA4D500678AF7 /* XCRemoteSwiftPackageReference "swift-openapi-generator" */;
+			productName = "plugin:OpenAPIGenerator";
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = F121DC022EEE93E300F19674 /* Project object */;
 }
