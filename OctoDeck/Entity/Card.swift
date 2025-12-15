@@ -6,30 +6,29 @@
 //
 
 struct Card: Identifiable, Equatable {
-    let id: Int
+    let id: String
     let userName: String
     let fullName: String
     let iconUrl: String
 }
 extension Card {
-    //随時追加
     static let stub0 = Card(
-        id: 1,
-        userName: "",
-        fullName: "",
-        iconUrl: "",
+        id: "51151242",
+        userName: "kantacky",
+        fullName: "Kanta Oikawa",
+        iconUrl: "https://avatars.githubusercontent.com/u/51151242?v=4",
     )
+    //随時追加
     static let stub1 = Card(
-        id: 2,
+        id: "",
         userName: "",
         fullName: "",
         iconUrl: "",
     )
     static let stub2 = Card(
-        id: 3,
+        id: "",
         userName: "",
         fullName: "",
         iconUrl: "",
     )
-
 }
