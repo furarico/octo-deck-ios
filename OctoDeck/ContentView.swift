@@ -16,6 +16,8 @@ struct ContentView: View {
             Text("Hello, world!")
         }
         .padding()
+        .onOpenURL { url in
+        }
     }
 }
 
