@@ -10,3 +10,11 @@ struct User: Equatable, Identifiable {
     let userName: String
     let fullName: String
 }
+
+extension User {
+    static let stub0 = User(
+        id: "1",
+        userName: "octodeck-user",
+        fullName: "Octo Deck"
+    )
+}

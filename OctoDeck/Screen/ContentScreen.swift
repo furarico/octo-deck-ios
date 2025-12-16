@@ -8,7 +8,11 @@
 import SwiftUI
 
 struct ContentScreen: View {
-    @State private var viewModel = ContentViewModel()
+    @State private var viewModel: ContentViewModel
+
+    init(viewModel: ContentViewModel = ContentViewModel()) {
+        self.viewModel = viewModel
+    }
 
     var body: some View {
         content
@@ -30,15 +34,7 @@ struct ContentScreen: View {
         if viewModel.isLoading {
             ProgressView()
         } else if let user = viewModel.authenticatedUser {
-            VStack {
-                Text("Hi! \(user.fullName).")
-
-                Button("Sign Out") {
-                    Task {
-                        await viewModel.onSignOutButtonTapped()
-                    }
-                }
-            }
+            tabView(user: user)
         } else {
             Button("Sign In with GitHub") {
                 Task {
@@ -47,8 +43,38 @@ struct ContentScreen: View {
             }
         }
     }
+
+    func tabView(user: User) -> some View {
+        TabView {
+            Tab("My Deck", systemImage: "person.crop.rectangle.stack") {
+                MyDeckScreen()
+            }
+
+            Tab("Debug", systemImage: "info.circle") {
+                VStack {
+                    Text("Hi! \(user.fullName).")
+
+                    Button("Sign Out") {
+                        Task {
+                            await viewModel.onSignOutButtonTapped()
+                        }
+                    }
+                }
+            }
+        }
+    }
 }
 
+import Dependencies
+
 #Preview {
-    ContentScreen()
+    let viewModel = withDependencies {
+        $0.gitHubAuthRepository.getAuthenticatedUser = {
+            .stub0
+        }
+    } operation: {
+        ContentViewModel()
+    }
+
+    ContentScreen(viewModel: viewModel)
 }
