@@ -6,6 +6,7 @@
 //
 
 import Dependencies
+import Foundation
 
 final class ContentService {
     @Dependency(\.gitHubAuthRepository) private var gitHubAuthRepository
@@ -20,5 +21,9 @@ final class ContentService {
 
     func getAccessToken() async throws -> String {
         try await gitHubAuthRepository.getAccessToken()
+    }
+
+    func getSignInURL() async throws -> URL {
+        try await gitHubAuthRepository.getSignInURL()
     }
 }
