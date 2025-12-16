@@ -8,7 +8,7 @@
 import Dependencies
 import Foundation
 
-final class ContentService {
+final actor ContentService {
     @Dependency(\.gitHubAuthRepository) private var gitHubAuthRepository
 
     func signIn(code: String) async throws -> String {

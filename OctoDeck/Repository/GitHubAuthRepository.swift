@@ -10,7 +10,7 @@ import DependenciesMacros
 import Foundation
 
 @DependencyClient
-struct GitHubAuthRepository {
+nonisolated struct GitHubAuthRepository {
     /// SignIn して、UserIDを返却
     var signIn: @Sendable (_ code: String) async throws -> String
     /// SignOut して、UserIDを返却
@@ -20,7 +20,7 @@ struct GitHubAuthRepository {
     var getAuthenticatedUser: @Sendable () async throws -> User
 }
 
-extension GitHubAuthRepository: DependencyKey {
+nonisolated extension GitHubAuthRepository: DependencyKey {
     static let liveValue = GitHubAuthRepository(
         signIn: { code in
             let accessToken = try await fetchAccessToken(code: code)
@@ -81,25 +81,25 @@ extension GitHubAuthRepository: DependencyKey {
     )
 }
 
-extension DependencyValues {
+nonisolated extension DependencyValues {
     var gitHubAuthRepository: GitHubAuthRepository {
         get { self[GitHubAuthRepository.self] }
         set { self[GitHubAuthRepository.self] = newValue }
     }
 }
 
-extension GitHubAuthRepository {
-    nonisolated struct GetAccessTokenRequest: Encodable {
+nonisolated extension GitHubAuthRepository {
+    struct GetAccessTokenRequest: Encodable {
         let clientId: String
         let clientSecret: String
         let code: String
     }
 
-    nonisolated struct GetAccessTokenResponse: Decodable {
+    struct GetAccessTokenResponse: Decodable {
         let accessToken: String
     }
 
-    nonisolated struct GitHubUser: Decodable {
+    struct GitHubUser: Decodable {
         let id: Int
         let login: String
         let name: String

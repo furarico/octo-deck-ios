@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum KeychainHelper {
+nonisolated enum KeychainHelper {
     static func read(service: String, account: String) throws -> String {
         let query = [
             kSecAttrService: service,
