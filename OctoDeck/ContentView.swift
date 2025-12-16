@@ -8,15 +8,22 @@
 import SwiftUI
 
 struct ContentView: View {
+    @State private var viewModel = ContentViewModel()
+
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
+        Button("Sign In with GitHub") {
+            Task {
+                await viewModel.onSignInButtonTapped()
+            }
         }
         .padding()
+        .sheet(item: $viewModel.safariViewURL) { item in
+            SafariView(url: item.url)
+        }
         .onOpenURL { url in
+            Task {
+                await viewModel.handleURL(url)
+            }
         }
     }
 }
