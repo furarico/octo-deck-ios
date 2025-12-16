@@ -6,6 +6,10 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		F19665322EF13D2900983A66 /* NukeUI in Frameworks */ = {isa = PBXBuildFile; productRef = F19665312EF13D2900983A66 /* NukeUI */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		F121DC182EEE93E400F19674 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -52,6 +56,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F19665322EF13D2900983A66 /* NukeUI in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -112,6 +117,7 @@
 			);
 			name = OctoDeck;
 			packageProductDependencies = (
+				F19665312EF13D2900983A66 /* NukeUI */,
 			);
 			productName = OctoDeck;
 			productReference = F121DC0A2EEE93E300F19674 /* OctoDeck.app */;
@@ -195,6 +201,9 @@
 			);
 			mainGroup = F121DC012EEE93E300F19674;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				F196652E2EF13D2900983A66 /* XCRemoteSwiftPackageReference "Nuke" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = F121DC0B2EEE93E300F19674 /* Products */;
 			projectDirPath = "";
@@ -586,6 +595,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		F196652E2EF13D2900983A66 /* XCRemoteSwiftPackageReference "Nuke" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/kean/Nuke";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 12.8.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		F19665312EF13D2900983A66 /* NukeUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F196652E2EF13D2900983A66 /* XCRemoteSwiftPackageReference "Nuke" */;
+			productName = NukeUI;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = F121DC022EEE93E300F19674 /* Project object */;
 }
