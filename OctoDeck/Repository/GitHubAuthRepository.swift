@@ -11,7 +11,8 @@ import Foundation
 
 @DependencyClient
 struct GitHubAuthRepository {
-    var signIn: @Sendable (_ code: String) async throws -> Void
+    /// SignIn して、UserIDを返却
+    var signIn: @Sendable (_ code: String) async throws -> String
     var signOut: @Sendable () async throws -> Void
     var getAccessToken: @Sendable () async throws -> String
 }
@@ -29,6 +30,8 @@ extension GitHubAuthRepository: DependencyKey {
             }
 
             try KeychainHelper.write(accessTokenData, service: "Octo Deck", account: "\(user.id) GitHub OAuth2 Access Token")
+
+            return user.id.description
         },
         signOut: {
             guard let userId = UserDefaults.standard.string(forKey: "githubUserId") else {
