@@ -12,44 +12,63 @@ struct CardView: View {
     let card: Card
     var body: some View {
         imageCard
-        HStack {
-            image
-                .frame(width: 80, height: 80)
-                .clipped()
-                .clipShape(Circle())
-                .overlay {
-                    Circle()
-                        .stroke(Color.secondary.opacity(0.2), lineWidth: 1)
-                }
+            .overlay {
+                HStack(spacing: 16) {
+                    image
+                        .frame(width: 80, height: 80)
+                        .clipped()
+                        .clipShape(Circle())
+                        .overlay {
+                            Circle()
+                                .stroke(Color.secondary, lineWidth: 2)
+                        }
 
-            textView
-        }
+                    textView
+
+                    Spacer()
+                }
+                .padding(20)
+            }
+            .overlay {
+                VStack {
+                    HStack {
+                        Spacer()
+
+                        Text(card.userName)
+                            .font(.subheadline)
+                            .bold()
+                            .foregroundStyle(Color.secondary)
+                            .lineLimit(1)
+                            .multilineTextAlignment(.trailing)
+                    }
+
+                    Spacer()
+                }
+                .padding(16)
+            }
     }
 
     private var imageCard: some View {
-        ZStack {
-            RoundedRectangle(cornerRadius: 12)
-                .fill(Color(.systemBackground))
-
-        }
-        .frame(width: 356, height: 224)
-        .overlay {
-            RoundedRectangle(cornerRadius: 12)
-                .stroke(Color.secondary.opacity(0.2), lineWidth: 1)
-        }
+        RoundedRectangle(cornerRadius: 8)
+            .fill(Color.clear)
+            .aspectRatio(1.58, contentMode: .fit)
+            .overlay {
+                RoundedRectangle(cornerRadius: 8)
+                    .stroke(Color.secondary, lineWidth: 4)
+            }
     }
 
     private var textView: some View {
-        VStack(alignment: .leading, spacing: 8) {
+        VStack(alignment: .leading, spacing: 0) {
             Text(card.fullName)
-                .font(.body)
+                .font(.title2)
                 .bold()
                 .lineLimit(1)
                 .multilineTextAlignment(.leading)
 
             Text(card.userName)
-                .font(.caption)
-                .lineLimit(2)
+                .font(.subheadline)
+                .lineLimit(1)
                 .multilineTextAlignment(.leading)
         }
     }
@@ -77,6 +96,10 @@ struct CardView: View {
 }
 
 #Preview {
-    CardView(card: .stub0)
-        .padding()
+    VStack {
+        CardView(card: .stub0)
+        CardView(card: .stub0)
+        CardView(card: .stub0)
+    }
+    .padding()
 }
