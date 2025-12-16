@@ -7,17 +7,20 @@
 
 import Foundation
 
-struct Card: Identifiable {
+struct Card: Equatable, Identifiable {
     let id: String
     let userName: String
     let fullName: String
     let iconUrl: URL?
+    let identicon: Identicon
 }
+
 extension Card {
     static let stub0 = Card(
         id: "51151242",
         userName: "kantacky",
         fullName: "Kanta Oikawa",
-        iconUrl: URL(string: "https://avatars.githubusercontent.com/u/51151242?v=4")
+        iconUrl: URL(string: "https://avatars.githubusercontent.com/u/51151242?v=4"),
+        identicon: .stub0
     )
 }
