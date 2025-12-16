@@ -69,7 +69,8 @@ struct CardView: View {
     }
 
     private var defaultImage: some View {
-        Image("default")// 今後修正
+        // TODO: 修正
+        Image("default")
             .resizable()
             .aspectRatio(contentMode: .fill)
     }
