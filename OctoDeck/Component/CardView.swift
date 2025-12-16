@@ -50,7 +50,7 @@ struct CardView: View {
 
     private var imageCard: some View {
         RoundedRectangle(cornerRadius: 8)
-            .fill(Color.clear)
+            .fill(Color.white)
             .aspectRatio(1.58, contentMode: .fit)
             .overlay {
                 RoundedRectangle(cornerRadius: 8)
@@ -98,8 +98,7 @@ struct CardView: View {
 #Preview {
     VStack {
         CardView(card: .stub0)
-        CardView(card: .stub0)
-        CardView(card: .stub0)
+        CardView(card: .stub1)
     }
     .padding()
 }
