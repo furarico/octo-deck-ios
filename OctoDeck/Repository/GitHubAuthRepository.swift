@@ -46,6 +46,13 @@ extension GitHubAuthRepository: DependencyKey {
     )
 }
 
+extension DependencyValues {
+    var gitHubAuthRepository: GitHubAuthRepository {
+        get { self[GitHubAuthRepository.self] }
+        set { self[GitHubAuthRepository.self] = newValue }
+    }
+}
+
 extension GitHubAuthRepository {
     nonisolated struct GetAccessTokenRequest: Encodable {
         let clientId: String
