@@ -1,5 +1,5 @@
 //
-//  ContentView.swift
+//  ContentScreen.swift
 //  OctoDeck
 //
 //  Created by Kanta Oikawa on 2025/12/14.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct ContentView: View {
+struct ContentScreen: View {
     @State private var viewModel = ContentViewModel()
 
     var body: some View {
@@ -29,5 +29,5 @@ struct ContentView: View {
 }
 
 #Preview {
-    ContentView()
+    ContentScreen()
 }
