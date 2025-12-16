@@ -16,6 +16,8 @@ struct GitHubAuthRepository {
     /// SignOut して、UserIDを返却
     var signOut: @Sendable () async throws -> String
     var getAccessToken: @Sendable () async throws -> String
+    var getSignInURL: @Sendable () async throws -> URL
+    var getAuthenticatedUser: @Sendable () async throws -> User
 }
 
 extension GitHubAuthRepository: DependencyKey {
@@ -50,6 +52,31 @@ extension GitHubAuthRepository: DependencyKey {
             }
 
             return try KeychainHelper.read(service: "Octo Deck", account: "\(userId) GitHub OAuth2 Access Token")
+        },
+        getSignInURL: {
+            let clientID = try loadGitHubAppInfo().clientID
+            let callbackURL = "https://octodeck.furari.co/app/github/oauth/callback"
+            guard let url = URL(string: "https://github.com/login/oauth/authorize?client_id=\(clientID)&redirect_uri=\(callbackURL)") else {
+                throw GitHubAuthRepositoryError.failedToLoadSignInURL
+            }
+            return url
+        },
+        getAuthenticatedUser: {
+            guard let userId = UserDefaults.standard.string(forKey: "githubUserId") else {
+                throw GitHubAuthRepositoryError.userIdNotFound
+            }
+
+            let accessToken = try KeychainHelper.read(service: "Octo Deck", account: "\(userId) GitHub OAuth2 Access Token")
+
+            let response = try await getUser(accessToken: accessToken)
+
+            let user = User(
+                id: response.id.description,
+                userName: response.login,
+                fullName: response.name
+            )
+
+            return user
         }
     )
 }
@@ -75,6 +102,7 @@ extension GitHubAuthRepository {
     nonisolated struct GitHubUser: Decodable {
         let id: Int
         let login: String
+        let name: String
     }
 
     private static func loadGitHubAppInfo() throws -> (clientID: String, clientSecret: String) {

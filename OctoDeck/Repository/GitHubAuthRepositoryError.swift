@@ -11,4 +11,5 @@ enum GitHubAuthRepositoryError: Error {
     case invalidResponse
     case missingConfiguration
     case userIdNotFound
+    case failedToLoadSignInURL
 }
