@@ -7,7 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+<<<<<<< HEAD
 		F19665322EF13D2900983A66 /* NukeUI in Frameworks */ = {isa = PBXBuildFile; productRef = F19665312EF13D2900983A66 /* NukeUI */; };
+=======
+		F133D9AF2EEFF4E600468E01 /* Dependencies in Frameworks */ = {isa = PBXBuildFile; productRef = F133D9AE2EEFF4E600468E01 /* Dependencies */; };
+		F133D9B12EEFF4E600468E01 /* DependenciesMacros in Frameworks */ = {isa = PBXBuildFile; productRef = F133D9B02EEFF4E600468E01 /* DependenciesMacros */; };
+		F15DC5AA2EEFA57B00678AF7 /* OpenAPIRuntime in Frameworks */ = {isa = PBXBuildFile; productRef = F15DC5A92EEFA57B00678AF7 /* OpenAPIRuntime */; };
+		F15DC5AC2EEFA57F00678AF7 /* OpenAPIURLSession in Frameworks */ = {isa = PBXBuildFile; productRef = F15DC5AB2EEFA57F00678AF7 /* OpenAPIURLSession */; };
+>>>>>>> origin/main
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -56,7 +63,14 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+<<<<<<< HEAD
 				F19665322EF13D2900983A66 /* NukeUI in Frameworks */,
+=======
+				F133D9AF2EEFF4E600468E01 /* Dependencies in Frameworks */,
+				F15DC5AC2EEFA57F00678AF7 /* OpenAPIURLSession in Frameworks */,
+				F133D9B12EEFF4E600468E01 /* DependenciesMacros in Frameworks */,
+				F15DC5AA2EEFA57B00678AF7 /* OpenAPIRuntime in Frameworks */,
+>>>>>>> origin/main
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -83,6 +97,7 @@
 				F121DC0C2EEE93E300F19674 /* OctoDeck */,
 				F121DC1A2EEE93E400F19674 /* OctoDeckTests */,
 				F121DC242EEE93E400F19674 /* OctoDeckUITests */,
+				F15DC5A82EEFA57B00678AF7 /* Frameworks */,
 				F121DC0B2EEE93E300F19674 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -95,6 +110,13 @@
 				F121DC212EEE93E400F19674 /* OctoDeckUITests.xctest */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		F15DC5A82EEFA57B00678AF7 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -111,13 +133,21 @@
 			buildRules = (
 			);
 			dependencies = (
+				F15DC5A72EEFA54200678AF7 /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
 				F121DC0C2EEE93E300F19674 /* OctoDeck */,
 			);
 			name = OctoDeck;
 			packageProductDependencies = (
+<<<<<<< HEAD
 				F19665312EF13D2900983A66 /* NukeUI */,
+=======
+				F15DC5A92EEFA57B00678AF7 /* OpenAPIRuntime */,
+				F15DC5AB2EEFA57F00678AF7 /* OpenAPIURLSession */,
+				F133D9AE2EEFF4E600468E01 /* Dependencies */,
+				F133D9B02EEFF4E600468E01 /* DependenciesMacros */,
+>>>>>>> origin/main
 			);
 			productName = OctoDeck;
 			productReference = F121DC0A2EEE93E300F19674 /* OctoDeck.app */;
@@ -202,7 +232,14 @@
 			mainGroup = F121DC012EEE93E300F19674;
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
+<<<<<<< HEAD
 				F196652E2EF13D2900983A66 /* XCRemoteSwiftPackageReference "Nuke" */,
+=======
+				F15DC5A32EEFA4D500678AF7 /* XCRemoteSwiftPackageReference "swift-openapi-generator" */,
+				F15DC5A42EEFA4F800678AF7 /* XCRemoteSwiftPackageReference "swift-openapi-runtime" */,
+				F15DC5A52EEFA51A00678AF7 /* XCRemoteSwiftPackageReference "swift-openapi-urlsession" */,
+				F133D9AD2EEFF4E600468E01 /* XCRemoteSwiftPackageReference "swift-dependencies" */,
+>>>>>>> origin/main
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = F121DC0B2EEE93E300F19674 /* Products */;
@@ -274,6 +311,10 @@
 			isa = PBXTargetDependency;
 			target = F121DC092EEE93E300F19674 /* OctoDeck */;
 			targetProxy = F121DC222EEE93E400F19674 /* PBXContainerItemProxy */;
+		};
+		F15DC5A72EEFA54200678AF7 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			productRef = F15DC5A62EEFA54200678AF7 /* OpenAPIGenerator */;
 		};
 /* End PBXTargetDependency section */
 
@@ -404,6 +445,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = OctoDeck/OctoDeck.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
@@ -440,6 +482,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = OctoDeck/OctoDeck.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
@@ -597,21 +640,81 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+<<<<<<< HEAD
 		F196652E2EF13D2900983A66 /* XCRemoteSwiftPackageReference "Nuke" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/kean/Nuke";
 			requirement = {
 				kind = upToNextMajorVersion;
 				minimumVersion = 12.8.0;
+=======
+		F133D9AD2EEFF4E600468E01 /* XCRemoteSwiftPackageReference "swift-dependencies" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/pointfreeco/swift-dependencies";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.10.0;
+			};
+		};
+		F15DC5A32EEFA4D500678AF7 /* XCRemoteSwiftPackageReference "swift-openapi-generator" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/apple/swift-openapi-generator";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.10.3;
+			};
+		};
+		F15DC5A42EEFA4F800678AF7 /* XCRemoteSwiftPackageReference "swift-openapi-runtime" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/apple/swift-openapi-runtime";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.9.0;
+			};
+		};
+		F15DC5A52EEFA51A00678AF7 /* XCRemoteSwiftPackageReference "swift-openapi-urlsession" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/apple/swift-openapi-urlsession";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.2.0;
+>>>>>>> origin/main
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+<<<<<<< HEAD
 		F19665312EF13D2900983A66 /* NukeUI */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = F196652E2EF13D2900983A66 /* XCRemoteSwiftPackageReference "Nuke" */;
 			productName = NukeUI;
+=======
+		F133D9AE2EEFF4E600468E01 /* Dependencies */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F133D9AD2EEFF4E600468E01 /* XCRemoteSwiftPackageReference "swift-dependencies" */;
+			productName = Dependencies;
+		};
+		F133D9B02EEFF4E600468E01 /* DependenciesMacros */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F133D9AD2EEFF4E600468E01 /* XCRemoteSwiftPackageReference "swift-dependencies" */;
+			productName = DependenciesMacros;
+		};
+		F15DC5A62EEFA54200678AF7 /* OpenAPIGenerator */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F15DC5A32EEFA4D500678AF7 /* XCRemoteSwiftPackageReference "swift-openapi-generator" */;
+			productName = "plugin:OpenAPIGenerator";
+		};
+		F15DC5A92EEFA57B00678AF7 /* OpenAPIRuntime */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F15DC5A42EEFA4F800678AF7 /* XCRemoteSwiftPackageReference "swift-openapi-runtime" */;
+			productName = OpenAPIRuntime;
+		};
+		F15DC5AB2EEFA57F00678AF7 /* OpenAPIURLSession */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F15DC5A52EEFA51A00678AF7 /* XCRemoteSwiftPackageReference "swift-openapi-urlsession" */;
+			productName = OpenAPIURLSession;
+>>>>>>> origin/main
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

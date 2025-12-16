@@ -69,4 +69,9 @@ platform :ios do
       api_key: get_app_store_connect_api_key,
     )
   end
+
+  desc "Test"
+  lane :test do
+    scan
+  end
 end
