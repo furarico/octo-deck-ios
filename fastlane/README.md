@@ -71,6 +71,14 @@ Fetch App Store
 
 Register a new device
 
+### ios test
+
+```sh
+[bundle exec] fastlane ios test
+```
+
+Test
+
 ----
 
 This README.md is auto-generated and will be re-generated every time [_fastlane_](https://fastlane.tools) is run.

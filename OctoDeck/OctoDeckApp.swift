@@ -11,7 +11,7 @@ import SwiftUI
 struct OctoDeckApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            ContentScreen()
         }
     }
 }
