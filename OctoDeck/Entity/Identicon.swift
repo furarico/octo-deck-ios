@@ -7,14 +7,14 @@
 
 import Foundation
 
-struct Identicon: Decodable {
+struct Identicon: Equatable {
     let color: DomainColor
     let blocks: [[Bool]]
 }
 
 extension Identicon {
     static let stub0 = Identicon(
-        color: DomainColor(r: 165, g: 219, b: 212),
+        color: .stub0,
         blocks: [
             [true, false, false, false, true],
             [false, false, true, false, false],

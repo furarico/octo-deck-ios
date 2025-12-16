@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Card: Identifiable {
+struct Card: Equatable, Identifiable {
     let id: String
     let userName: String
     let fullName: String

@@ -7,11 +7,27 @@
 
 import Foundation
 
-struct DomainColor: Decodable, Equatable {
-    let r: Int
-    let g: Int
-    let b: Int
-
+struct DomainColor: Equatable {
+    /// 0.0...1.0
+    let r: Double
+    /// 0.0...1.0
+    let g: Double
+    /// 0.0...1.0
+    let b: Double
+    
+    /// 0...255 の値で初期化
+    /// - Parameters:
+    ///   - r: 赤 0...255
+    ///   - g: 緑 0...255
+    ///   - b: 青 0...255
+    init(r: Int, g: Int, b: Int) {
+        self.r = Double(r) / 255
+        self.g = Double(g) / 255
+        self.b = Double(b) / 255
+    }
+    
+    /// 16進数カラーコードで初期化
+    /// - Parameter hexCode: 16進数カラーコード #の有無は問わない (000000, #FFFFFF)
     init(hexCode: String) {
         var hex = hexCode
         if hex.hasPrefix("#") {
@@ -28,8 +44,12 @@ struct DomainColor: Decodable, Equatable {
             return
         }
 
-        self.r = Int((hexValue >> 16) & 0xFF)
-        self.g = Int((hexValue >> 8) & 0xFF)
-        self.b = Int(hexValue & 0xFF)
+        self.r = Double((hexValue >> 16) & 0xFF) / 255
+        self.g = Double((hexValue >> 8) & 0xFF) / 255
+        self.b = Double(hexValue & 0xFF) / 255
     }
+}
+
+extension DomainColor {
+    static let stub0 = DomainColor(r: 165, g: 219, b: 212)
 }
