@@ -26,4 +26,8 @@ final actor ContentService {
     func getSignInURL() async throws -> URL {
         try await gitHubAuthRepository.getSignInURL()
     }
+
+    func getAuthenticatedUser() async throws -> User {
+        try await gitHubAuthRepository.getAuthenticatedUser()
+    }
 }
