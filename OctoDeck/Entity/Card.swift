@@ -23,4 +23,14 @@ extension Card {
         iconUrl: URL(string: "https://avatars.githubusercontent.com/u/51151242?v=4"),
         identicon: .stub0
     )
+
+    static let stub1 = Card(
+        id: "136790650",
+        userName: "masaya-osuga",
+        fullName: "Masaya Osuga",
+        iconUrl: URL(string: "https://avatars.githubusercontent.com/u/136790650?v=4"),
+        identicon: .stub0
+    )
+
+    static let stubs = [stub0, stub1]
 }

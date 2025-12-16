@@ -98,8 +98,7 @@ struct CardView: View {
 #Preview {
     VStack {
         CardView(card: .stub0)
-        CardView(card: .stub0)
-        CardView(card: .stub0)
+        CardView(card: .stub1)
     }
     .padding()
 }
