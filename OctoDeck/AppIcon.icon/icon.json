@@ -1,0 +1,118 @@
+{
+  "fill" : {
+    "linear-gradient" : [
+      "display-p3:0.09038,0.10592,0.37543,1.00000",
+      "extended-gray:0.00000,1.00000"
+    ]
+  },
+  "groups" : [
+    {
+      "layers" : [
+        {
+          "blend-mode" : "normal",
+          "fill" : {
+            "solid" : "gray:1.00000,1.00000"
+          },
+          "glass" : true,
+          "image-name" : "OctoDeck-icon-star2.svg",
+          "name" : "OctoDeck-icon-star2",
+          "opacity" : 1,
+          "position" : {
+            "scale" : 1,
+            "translation-in-points" : [
+              354.9590179588442,
+              -103.33801225455197
+            ]
+          }
+        },
+        {
+          "fill" : {
+            "solid" : "display-p3:1.00000,1.00000,1.00000,1.00000"
+          },
+          "glass" : false,
+          "image-name" : "OctoDeck-icon-star1.svg",
+          "name" : "OctoDeck-icon-star1",
+          "position" : {
+            "scale" : 1,
+            "translation-in-points" : [
+              274.86611015934227,
+              -19.62601678923749
+            ]
+          }
+        },
+        {
+          "blend-mode" : "normal",
+          "fill" : {
+            "linear-gradient" : [
+              "display-p3:0.07439,0.20156,0.53018,1.00000",
+              "display-p3:0.88045,0.88045,0.88045,1.00000"
+            ]
+          },
+          "image-name" : "OctoDeck-icon-card3.svg",
+          "name" : "OctoDeck-icon-card3",
+          "opacity" : 1,
+          "position" : {
+            "scale" : 0.8,
+            "translation-in-points" : [
+              163.7861014386532,
+              29.237526025102085
+            ]
+          }
+        },
+        {
+          "fill" : {
+            "linear-gradient" : [
+              "display-p3:0.19263,0.66273,0.70656,1.00000",
+              "display-p3:0.88045,0.88045,0.88045,1.00000"
+            ]
+          },
+          "image-name" : "OctoDeck-icon-card1.svg",
+          "name" : "OctoDeck-icon-card1",
+          "position" : {
+            "scale" : 0.8,
+            "translation-in-points" : [
+              -9.256715651555908,
+              34.48794219930281
+            ]
+          }
+        },
+        {
+          "fill" : {
+            "linear-gradient" : [
+              "display-p3:0.22864,0.10759,0.77006,1.00000",
+              "display-p3:0.88045,0.88045,0.88045,1.00000"
+            ]
+          },
+          "image-name" : "OctoDeck-icon-CARD2.svg",
+          "name" : "OctoDeck-icon-CARD2",
+          "position" : {
+            "scale" : 0.8,
+            "translation-in-points" : [
+              -172.09390337918717,
+              38.28734370709853
+            ]
+          }
+        },
+        {
+          "hidden" : true,
+          "image-name" : "OctoDeck-background.svg",
+          "name" : "OctoDeck-background"
+        }
+      ],
+      "shadow" : {
+        "kind" : "neutral",
+        "opacity" : 0.5
+      },
+      "translucency" : {
+        "enabled" : true,
+        "value" : 0.5
+      }
+    }
+  ],
+  "supported-platforms" : {
+    "circles" : [
+      "watchOS"
+    ],
+    "squares" : "shared"
+  }
+}
