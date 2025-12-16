@@ -11,6 +11,7 @@
 		F133D9B12EEFF4E600468E01 /* DependenciesMacros in Frameworks */ = {isa = PBXBuildFile; productRef = F133D9B02EEFF4E600468E01 /* DependenciesMacros */; };
 		F15DC5AA2EEFA57B00678AF7 /* OpenAPIRuntime in Frameworks */ = {isa = PBXBuildFile; productRef = F15DC5A92EEFA57B00678AF7 /* OpenAPIRuntime */; };
 		F15DC5AC2EEFA57F00678AF7 /* OpenAPIURLSession in Frameworks */ = {isa = PBXBuildFile; productRef = F15DC5AB2EEFA57F00678AF7 /* OpenAPIURLSession */; };
+		F19665322EF13D2900983A66 /* NukeUI in Frameworks */ = {isa = PBXBuildFile; productRef = F19665312EF13D2900983A66 /* NukeUI */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -59,6 +60,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F19665322EF13D2900983A66 /* NukeUI in Frameworks */,
 				F133D9AF2EEFF4E600468E01 /* Dependencies in Frameworks */,
 				F15DC5AC2EEFA57F00678AF7 /* OpenAPIURLSession in Frameworks */,
 				F133D9B12EEFF4E600468E01 /* DependenciesMacros in Frameworks */,
@@ -132,6 +134,7 @@
 			);
 			name = OctoDeck;
 			packageProductDependencies = (
+				F19665312EF13D2900983A66 /* NukeUI */,
 				F15DC5A92EEFA57B00678AF7 /* OpenAPIRuntime */,
 				F15DC5AB2EEFA57F00678AF7 /* OpenAPIURLSession */,
 				F133D9AE2EEFF4E600468E01 /* Dependencies */,
@@ -220,6 +223,7 @@
 			mainGroup = F121DC012EEE93E300F19674;
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
+				F196652E2EF13D2900983A66 /* XCRemoteSwiftPackageReference "Nuke" */,
 				F15DC5A32EEFA4D500678AF7 /* XCRemoteSwiftPackageReference "swift-openapi-generator" */,
 				F15DC5A42EEFA4F800678AF7 /* XCRemoteSwiftPackageReference "swift-openapi-runtime" */,
 				F15DC5A52EEFA51A00678AF7 /* XCRemoteSwiftPackageReference "swift-openapi-urlsession" */,
@@ -656,6 +660,14 @@
 				minimumVersion = 1.2.0;
 			};
 		};
+		F196652E2EF13D2900983A66 /* XCRemoteSwiftPackageReference "Nuke" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/kean/Nuke";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 12.8.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -683,6 +695,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = F15DC5A52EEFA51A00678AF7 /* XCRemoteSwiftPackageReference "swift-openapi-urlsession" */;
 			productName = OpenAPIURLSession;
+		};
+		F19665312EF13D2900983A66 /* NukeUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F196652E2EF13D2900983A66 /* XCRemoteSwiftPackageReference "Nuke" */;
+			productName = NukeUI;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
