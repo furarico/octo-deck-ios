@@ -6,6 +6,11 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		309934612EF1405500BE637F /* Nuke in Frameworks */ = {isa = PBXBuildFile; productRef = 309934602EF1405500BE637F /* Nuke */; };
+		309934632EF1405500BE637F /* NukeUI in Frameworks */ = {isa = PBXBuildFile; productRef = 309934622EF1405500BE637F /* NukeUI */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		F121DC182EEE93E400F19674 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -52,6 +57,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				309934612EF1405500BE637F /* Nuke in Frameworks */,
+				309934632EF1405500BE637F /* NukeUI in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -112,6 +119,8 @@
 			);
 			name = OctoDeck;
 			packageProductDependencies = (
+				309934602EF1405500BE637F /* Nuke */,
+				309934622EF1405500BE637F /* NukeUI */,
 			);
 			productName = OctoDeck;
 			productReference = F121DC0A2EEE93E300F19674 /* OctoDeck.app */;
@@ -195,6 +204,9 @@
 			);
 			mainGroup = F121DC012EEE93E300F19674;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				3099345F2EF1405500BE637F /* XCRemoteSwiftPackageReference "Nuke" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = F121DC0B2EEE93E300F19674 /* Products */;
 			projectDirPath = "";
@@ -586,6 +598,30 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		3099345F2EF1405500BE637F /* XCRemoteSwiftPackageReference "Nuke" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/kean/Nuke.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 12.8.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		309934602EF1405500BE637F /* Nuke */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3099345F2EF1405500BE637F /* XCRemoteSwiftPackageReference "Nuke" */;
+			productName = Nuke;
+		};
+		309934622EF1405500BE637F /* NukeUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3099345F2EF1405500BE637F /* XCRemoteSwiftPackageReference "Nuke" */;
+			productName = NukeUI;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = F121DC022EEE93E300F19674 /* Project object */;
 }
