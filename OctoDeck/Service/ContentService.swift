@@ -9,4 +9,14 @@ import Dependencies
 
 final class ContentService {
     @Dependency(\.gitHubAuthRepository) private var gitHubAuthRepository
+
+    func signIn(code: String) async throws {
+    }
+
+    func signOut() async throws {
+    }
+
+    func getAccessToken() async throws -> String {
+        return ""
+    }
 }
