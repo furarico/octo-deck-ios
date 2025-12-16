@@ -12,8 +12,27 @@ import SwiftUI
 @Observable
 final class ContentViewModel {
     var safariViewURL: IdentifiableURL? = nil
+    var authenticatedUser: User? = nil
+    var isLoading: Bool = false
 
     private let service = ContentService()
+
+    func onAppear() async {
+        isLoading = true
+        defer {
+            isLoading = false
+        }
+
+        await refresh()
+    }
+
+    func refresh() async {
+        do {
+            authenticatedUser = try await service.getAuthenticatedUser()
+        } catch {
+            print(error)
+        }
+    }
 
     func onSignInButtonTapped() async {
         do {
@@ -23,6 +42,17 @@ final class ContentViewModel {
             print(error)
             return
         }
+    }
+
+    func onSignOutButtonTapped() async {
+        do {
+            let userID = try await service.signOut()
+            print("Signed out from \(userID)")
+        } catch {
+            print(error)
+        }
+        
+        authenticatedUser = nil
     }
 
     func handleURL(_ url: URL) async {
@@ -45,6 +75,13 @@ final class ContentViewModel {
         do {
             let userID = try await service.signIn(code: code)
             print("Signed in as \(userID)")
+
+            isLoading = true
+            defer {
+                isLoading = false
+            }
+
+            await refresh()
         } catch {
             print(error)
             return
