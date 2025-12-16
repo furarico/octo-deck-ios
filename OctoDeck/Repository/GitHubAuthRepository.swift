@@ -13,7 +13,8 @@ import Foundation
 struct GitHubAuthRepository {
     /// SignIn して、UserIDを返却
     var signIn: @Sendable (_ code: String) async throws -> String
-    var signOut: @Sendable () async throws -> Void
+    /// SignOut して、UserIDを返却
+    var signOut: @Sendable () async throws -> String
     var getAccessToken: @Sendable () async throws -> String
 }
 
@@ -37,13 +38,17 @@ extension GitHubAuthRepository: DependencyKey {
             guard let userId = UserDefaults.standard.string(forKey: "githubUserId") else {
                 throw GitHubAuthRepositoryError.userIdNotFound
             }
+
             try KeychainHelper.delete(service: "Octo Deck", account: "\(userId) GitHub OAuth2 Access Token")
             UserDefaults.standard.removeObject(forKey: "githubUserId")
+
+            return userId
         },
         getAccessToken: {
             guard let userId = UserDefaults.standard.string(forKey: "githubUserId") else {
                 throw GitHubAuthRepositoryError.userIdNotFound
             }
+
             return try KeychainHelper.read(service: "Octo Deck", account: "\(userId) GitHub OAuth2 Access Token")
         }
     )
