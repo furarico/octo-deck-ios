@@ -6,6 +6,7 @@
 //
 
 import Dependencies
+import Foundation
 import Testing
 @testable import OctoDeck
 
@@ -98,6 +99,66 @@ struct ContentServiceTests {
 
         await #expect(throws: GitHubAuthRepositoryError.self) {
             try await service.getAccessToken()
+        }
+    }
+
+    @Test("SignInURLが正しく返却される")
+    func testGetSignInURLSuccess() async throws {
+        let expected = URL(string: "https://github.com/login/oauth/authorize")!
+
+        let service = withDependencies {
+            $0.gitHubAuthRepository.getSignInURL = {
+                expected
+            }
+        } operation: {
+            ContentService()
+        }
+
+        #expect(try await service.getSignInURL() == expected)
+    }
+
+    @Test("SignInURLが返却されない")
+    func testGetSignInURLFailure() async throws {
+        let service = withDependencies {
+            $0.gitHubAuthRepository.getSignInURL = {
+                throw GitHubAuthRepositoryError.failedToLoadSignInURL
+            }
+        } operation: {
+            ContentService()
+        }
+
+        await #expect(throws: GitHubAuthRepositoryError.self) {
+            try await service.getSignInURL()
+        }
+    }
+
+    @Test("AuthenticatedUserが正しく返却される")
+    func testGetAuthenticatedUserSuccess() async throws {
+        let expected = User.stub0
+
+        let service = withDependencies {
+            $0.gitHubAuthRepository.getAuthenticatedUser = {
+                expected
+            }
+        } operation: {
+            ContentService()
+        }
+
+        #expect(try await service.getAuthenticatedUser() == expected)
+    }
+
+    @Test("AuthenticatedUserが返却されない")
+    func testGetAuthenticatedUserFailure() async throws {
+        let service = withDependencies {
+            $0.gitHubAuthRepository.getAuthenticatedUser = {
+                throw GitHubAuthRepositoryError.userIdNotFound
+            }
+        } operation: {
+            ContentService()
+        }
+
+        await #expect(throws: GitHubAuthRepositoryError.self) {
+            try await service.getAuthenticatedUser()
         }
     }
 }

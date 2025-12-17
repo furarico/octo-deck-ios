@@ -14,15 +14,9 @@ struct CardStackView: View {
         ZStack {
             ForEach(Array(cards.enumerated()), id: \.element.id) { index, card in
                 CardView(card: card)
-                    .offset(y: offsetY(index: index))
+                    .offset(y: CGFloat(index) * 48)
             }
         }
-    }
-
-    private func offsetY(index: Int) -> CGFloat {
-        let totalCards = cards.count
-        let reverseIndex = CGFloat(totalCards - 1 - index)
-        return reverseIndex * -48
     }
 }
 

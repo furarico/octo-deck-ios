@@ -20,7 +20,7 @@ struct CardView: View {
                         .clipShape(Circle())
                         .overlay {
                             Circle()
-                                .stroke(Color.secondary, lineWidth: 2)
+                                .stroke(Color.gray, lineWidth: 2)
                         }
 
                     textView
@@ -37,7 +37,7 @@ struct CardView: View {
                         Text(card.userName)
                             .font(.subheadline)
                             .bold()
-                            .foregroundStyle(Color.secondary)
+                            .foregroundStyle(Color.gray)
                             .lineLimit(1)
                             .multilineTextAlignment(.trailing)
                     }
@@ -54,7 +54,7 @@ struct CardView: View {
             .aspectRatio(1.58, contentMode: .fit)
             .overlay {
                 RoundedRectangle(cornerRadius: 8)
-                    .stroke(Color.secondary, lineWidth: 4)
+                    .stroke(Color.gray, lineWidth: 4)
             }
     }
 
@@ -63,11 +63,14 @@ struct CardView: View {
             Text(card.fullName)
                 .font(.title2)
                 .bold()
+                .foregroundStyle(Color.black)
                 .lineLimit(1)
                 .multilineTextAlignment(.leading)
+                .foregroundStyle(Color.black)
 
             Text(card.userName)
                 .font(.subheadline)
+                .foregroundStyle(Color.black)
                 .lineLimit(1)
                 .multilineTextAlignment(.leading)
         }
