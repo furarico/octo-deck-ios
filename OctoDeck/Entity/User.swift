@@ -6,8 +6,11 @@
 //
 
 struct User: Equatable, Identifiable {
+    /// GitHub ID
     let id: String
+    /// GitHub Login
     let userName: String
+    /// GitHub Name
     let fullName: String
 }
 
