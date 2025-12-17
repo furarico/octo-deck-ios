@@ -8,5 +8,5 @@
 import Foundation
 
 enum CardRepositoryError: Error {
-    case failedToFetchCards
+    case apiError(_ statusCode: Int, _ payload: Any?)
 }

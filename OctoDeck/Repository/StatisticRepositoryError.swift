@@ -8,5 +8,5 @@
 import Foundation
 
 enum StatisticRepositoryError: Error {
-    case failedToFetchStats
+    case apiError(_ statusCode: Int, _ payload: Any?)
 }

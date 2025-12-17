@@ -8,6 +8,7 @@
 import Dependencies
 import DependenciesMacros
 import Foundation
+import OpenAPIRuntime
 
 @DependencyClient
 nonisolated struct StatisticRepository {
@@ -31,8 +32,10 @@ nonisolated extension StatisticRepository: DependencyKey {
                         return Contribution(date: date, count: Int(contribution.count))
                     }
                 )
-            default:
-                throw StatisticRepositoryError.failedToFetchStats
+
+            case .undocumented(let statusCode, let payload):
+                print("API Error: \(statusCode), \(payload.body, default: "")")
+                throw StatisticRepositoryError.apiError(statusCode, payload)
             }
         },
         getUserStats: { githubId in
@@ -49,8 +52,10 @@ nonisolated extension StatisticRepository: DependencyKey {
                         return Contribution(date: date, count: Int(contribution.count))
                     }
                 )
-            default:
-                throw StatisticRepositoryError.failedToFetchStats
+
+            case .undocumented(let statusCode, let payload):
+                print("API Error: \(statusCode), \(payload.body, default: "")")
+                throw StatisticRepositoryError.apiError(statusCode, payload)
             }
         }
     )

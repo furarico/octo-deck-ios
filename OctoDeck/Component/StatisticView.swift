@@ -49,8 +49,8 @@ struct StatisticView: View {
                     LinearGradient(
                         gradient: Gradient(
                             colors: [
-                                Color(uiColor: .init(red: 1, green: 1, blue: 0.87, alpha: 1)),
-                                Color(uiColor: .init(red: 0.87, green: 0.85, blue: 0.33, alpha: 1.0))
+                                Color(red: 1, green: 1, blue: 0.87),
+                                Color(red: 0.87, green: 0.85, blue: 0.33)
                             ]
                         ),
                         startPoint: .topLeading,
