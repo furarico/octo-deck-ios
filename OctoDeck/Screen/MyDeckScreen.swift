@@ -57,16 +57,5 @@ struct MyDeckScreen: View {
 import Dependencies
 
 #Preview {
-    let viewModel = withDependencies {
-        $0.cardRepository.getMyCard = {
-            .stub0
-        }
-        $0.cardRepository.listCards = {
-            Card.stubs
-        }
-    } operation: {
-        MyDeckViewModel()
-    }
-
-    MyDeckScreen(viewModel: viewModel)
+    MyDeckScreen()
 }

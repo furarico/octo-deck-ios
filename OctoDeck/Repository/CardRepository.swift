@@ -10,13 +10,13 @@ import DependenciesMacros
 import Foundation
 
 @DependencyClient
-struct CardRepository {
+nonisolated struct CardRepository {
     var listCards: @Sendable () async throws -> [Card]
     var getCard: @Sendable (_ id: Card.ID) async throws -> Card
     var getMyCard: @Sendable () async throws -> Card
 }
 
-extension CardRepository: DependencyKey {
+nonisolated extension CardRepository: DependencyKey {
     static let liveValue = CardRepository(
         listCards: {
             let client = try await Client.build()
@@ -83,7 +83,21 @@ extension CardRepository: DependencyKey {
     )
 }
 
-extension DependencyValues {
+nonisolated extension CardRepository: TestDependencyKey {
+    static let previewValue = CardRepository(
+        listCards: {
+            Card.stubs
+        },
+        getCard: { _ in
+            .stub0
+        },
+        getMyCard: {
+            .stub0
+        }
+    )
+}
+
+nonisolated extension DependencyValues {
     var cardRepository: CardRepository {
         get { self[CardRepository.self] }
         set { self[CardRepository.self] = newValue }

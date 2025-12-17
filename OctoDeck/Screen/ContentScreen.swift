@@ -69,19 +69,5 @@ struct ContentScreen: View {
 import Dependencies
 
 #Preview {
-    let viewModel = withDependencies {
-        $0.gitHubAuthRepository.getAuthenticatedUser = {
-            .stub0
-        }
-        $0.cardRepository.getMyCard = {
-            .stub0
-        }
-        $0.cardRepository.listCards = {
-            Card.stubs
-        }
-    } operation: {
-        ContentViewModel()
-    }
-
-    ContentScreen(viewModel: viewModel)
+    ContentScreen()
 }
