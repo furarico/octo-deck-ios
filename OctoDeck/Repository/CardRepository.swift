@@ -26,7 +26,7 @@ extension CardRepository: DependencyKey {
                 let responseCards = try okResponse.body.json.cards
                 return responseCards.map {
                     Card(
-                        id: $0.id,
+                        id: $0.githubId,
                         userName: $0.userName,
                         fullName: $0.fullName,
                         iconUrl: URL(string: $0.iconUrl),
@@ -42,12 +42,12 @@ extension CardRepository: DependencyKey {
         },
         getCard: { id in
             let client = try await Client.build()
-            let response = try await client.getCard(path: .init(id: id))
+            let response = try await client.getCard(path: .init(githubId: id))
             switch response {
             case .ok(let okResponse):
                 let responseCard = try okResponse.body.json.card
                 return Card(
-                    id: responseCard.id,
+                    id: responseCard.githubId,
                     userName: responseCard.userName,
                     fullName: responseCard.fullName,
                     iconUrl: URL(string: responseCard.iconUrl),
@@ -67,7 +67,7 @@ extension CardRepository: DependencyKey {
             case .ok(let okResponse):
                 let responseCard = try okResponse.body.json.card
                 return Card(
-                    id: responseCard.id,
+                    id: responseCard.githubId,
                     userName: responseCard.userName,
                     fullName: responseCard.fullName,
                     iconUrl: URL(string: responseCard.iconUrl),
