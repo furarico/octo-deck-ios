@@ -12,6 +12,7 @@ final class MyDeckViewModel {
     private(set) var myCard: Card?
     private(set) var cardsInMyDeck: [Card] = []
     private(set) var isLoading: Bool = false
+    var selectedCard: Card?
 
     private let service = MyDeckService()
 
@@ -28,5 +29,9 @@ final class MyDeckViewModel {
         } catch {
             print(error)
         }
+    }
+
+    func onCardSelected(_ card: Card) {
+        selectedCard = card
     }
 }

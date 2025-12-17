@@ -9,6 +9,7 @@ import Foundation
 import SwiftUI
 
 struct CardDetailScreen: View {
+    @Environment(\.dismiss) private var dismiss
     private let card: Card
     @State private var viewModel: CardDetailViewModel
 
@@ -41,6 +42,7 @@ struct CardDetailScreen: View {
                 VStack(spacing: 16) {
                     HStack {
                         Button(role: .close) {
+                            dismiss()
                         } label: {
                             Image(systemName: "xmark")
                                 .font(.title3)
@@ -58,7 +60,7 @@ struct CardDetailScreen: View {
                         StatisticView(statistic: statistic)
                     }
                 }
-                .padding(.horizontal)
+                .padding()
             }
         } else {
             Text("No statistic available.")

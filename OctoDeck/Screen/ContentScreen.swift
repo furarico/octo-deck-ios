@@ -66,8 +66,6 @@ struct ContentScreen: View {
     }
 }
 
-import Dependencies
-
 #Preview {
     ContentScreen()
 }
