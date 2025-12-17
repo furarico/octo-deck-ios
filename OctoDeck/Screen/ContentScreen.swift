@@ -7,22 +7,53 @@
 
 import SwiftUI
 
+extension UIFont.TextStyle {
+    static var emphasizedLargeTitle: UIFont.TextStyle {
+        return UIFont.TextStyle(rawValue: "UICTFontTextStyleEmphasizedTitle0")
+    }
+    static var sfProDisplayMedium: UIFont.TextStyle {
+        return UIFont.TextStyle(rawValue: "SFProText-Medium")
+    }
+}
+
 struct ContentScreen: View {
     @State private var viewModel = ContentViewModel()
-
     var body: some View {
-        content
-            .task {
-                await viewModel.onAppear()
+        ZStack{
+        Image("OctoDeck-background")
+            .resizable()
+            .scaledToFill()
+            .ignoresSafeArea()
+            VStack{
+                Spacer()
+            Image("OctoDeck")
+                .resizable()
+                .scaledToFit()
+                .frame(width:160, height:160)
+                Text("さぁ はじめよう")
+                    .foregroundColor(Color.white)
+                    .font(Font(UIFont.preferredFont(forTextStyle: .emphasizedLargeTitle)))
+                Spacer().frame(height:20)
+                Text("テキストテキストテキストテキスト\nテキストテキストテキスト")
+                    .multilineTextAlignment(.center)
+                    .foregroundColor(Color.white)
+                Spacer().frame(height:48)
+                content
+                    .task {
+                        await viewModel.onAppear()
+                    }
+                    .sheet(item: $viewModel.safariViewURL) { item in
+                        SafariView(url: item.url)
+                    }
+                    .onOpenURL { url in
+                        Task {
+                            await viewModel.handleURL(url)
+                        }
+                    }
+                Spacer()
             }
-            .sheet(item: $viewModel.safariViewURL) { item in
-                SafariView(url: item.url)
-            }
-            .onOpenURL { url in
-                Task {
-                    await viewModel.handleURL(url)
-                }
-            }
+        }
+
     }
 
     @ViewBuilder
@@ -40,10 +71,19 @@ struct ContentScreen: View {
                 }
             }
         } else {
-            Button("Sign In with GitHub") {
+            Button{
                 Task {
                     await viewModel.onSignInButtonTapped()
                 }
+            }label:{
+                Text(("GitHub連携"))
+                .accentColor(Color.white)
+                .frame(width:132, height:48)
+                    .font(Font(UIFont.preferredFont(forTextStyle: .sfProDisplayMedium)).pointSize(16))
+                    .background(Color.cyan)
+                    .clipShape(Capsule())
+
+
             }
         }
     }
@@ -52,3 +92,4 @@ struct ContentScreen: View {
 #Preview {
     ContentScreen()
 }
+
