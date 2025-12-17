@@ -7,37 +7,27 @@
 
 import SwiftUI
 
-extension UIFont.TextStyle {
-    static var emphasizedLargeTitle: UIFont.TextStyle {
-        return UIFont.TextStyle(rawValue: "UICTFontTextStyleEmphasizedTitle0")
-    }
-    static var sfProDisplayMedium: UIFont.TextStyle {
-        return UIFont.TextStyle(rawValue: "SFProText-Medium")
-    }
-}
-
 struct ContentScreen: View {
     @State private var viewModel = ContentViewModel()
     var body: some View {
-        ZStack{
-        Image("OctoDeck-background")
-            .resizable()
-            .scaledToFill()
-            .ignoresSafeArea()
-            VStack{
-                Spacer()
-            Image("OctoDeck")
+        ZStack {
+            Image("OctoDeck-background")
                 .resizable()
-                .scaledToFit()
-                .frame(width:160, height:160)
+                .scaledToFill()
+                .ignoresSafeArea()
+            VStack {
+                Spacer()
+                Image("OctoDeck")
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 160, height: 160)
                 Text("さぁ はじめよう")
                     .foregroundColor(Color.white)
-                    .font(Font(UIFont.preferredFont(forTextStyle: .emphasizedLargeTitle)))
-                Spacer().frame(height:20)
+                Spacer().frame(height: 20)
                 Text("テキストテキストテキストテキスト\nテキストテキストテキスト")
                     .multilineTextAlignment(.center)
                     .foregroundColor(Color.white)
-                Spacer().frame(height:48)
+                Spacer().frame(height: 48)
                 content
                     .task {
                         await viewModel.onAppear()
@@ -63,15 +53,14 @@ struct ContentScreen: View {
         } else if let user = viewModel.authenticatedUser {
             tabView(user: user)
         } else {
-            Button{
+            Button {
                 Task {
                     await viewModel.onSignInButtonTapped()
                 }
-            }label:{
-                Text(("GitHub連携"))
-                .accentColor(Color.white)
-                .frame(width:132, height:48)
-                    .font(Font(UIFont.preferredFont(forTextStyle: .sfProDisplayMedium)).pointSize(16))
+            } label: {
+                Text("GitHub連携")
+                    .accentColor(Color.white)
+                    .frame(width: 132, height: 48)
                     .background(Color.cyan)
                     .clipShape(Capsule())
 
