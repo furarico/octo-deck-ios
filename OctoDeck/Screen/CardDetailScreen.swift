@@ -38,18 +38,27 @@ struct CardDetailScreen: View {
             ProgressView()
         } else if let statistic = viewModel.statistic {
             ScrollView {
-                HStack {
-                    Button(role: .close) {
-                    } label: {
-                        Image(systemName: "xmark")
-                            .font(.title3)
-                            .padding(8)
+                VStack(spacing: 16) {
+                    HStack {
+                        Button(role: .close) {
+                        } label: {
+                            Image(systemName: "xmark")
+                                .font(.title3)
+                                .padding(8)
+                        }
+                        .buttonStyle(.glass)
+                        .buttonBorderShape(.circle)
+                        Spacer()
+                        shareLink
                     }
-                    .buttonStyle(.glass)
-                    .buttonBorderShape(.circle)
-                    Spacer()
-                    shareLink
+
+                    VStack(alignment: .leading, spacing: 54) {
+                        CardView(card: viewModel.card)
+
+                        StatisticView(statistic: statistic)
+                    }
                 }
+                .padding(.horizontal)
             }
         } else {
             Text("No statistic available.")
