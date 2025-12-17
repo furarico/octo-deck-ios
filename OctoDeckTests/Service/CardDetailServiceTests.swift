@@ -34,7 +34,7 @@ struct CardDetailServiceTests {
 
         let service = withDependencies {
             $0.statisticRepository.getUserStats = { _ in
-                throw StatisticRepositoryError.failedToFetchStats
+                throw StatisticRepositoryError.apiError(500, nil)
             }
         } operation: {
             CardDetailService()

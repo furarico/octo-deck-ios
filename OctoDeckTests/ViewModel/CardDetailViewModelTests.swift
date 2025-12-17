@@ -55,7 +55,7 @@ struct CardDetailViewModelTests {
 
         let viewModel = withDependencies {
             $0.statisticRepository.getUserStats = { _ in
-                throw StatisticRepositoryError.failedToFetchStats
+                throw StatisticRepositoryError.apiError(500, nil)
             }
         } operation: {
             CardDetailViewModel(card: card)
