@@ -9,12 +9,16 @@ import SwiftUI
 
 struct CardStackView: View {
     let cards: [Card]
+    let onSelected: (_ card: Card) -> Void
 
     var body: some View {
         ZStack {
             ForEach(Array(cards.enumerated()), id: \.element.id) { index, card in
                 CardView(card: card)
                     .offset(y: CGFloat(index) * 48)
+                    .onTapGesture {
+                        onSelected(card)
+                    }
             }
         }
     }
@@ -23,6 +27,7 @@ struct CardStackView: View {
 #Preview {
     CardStackView(
         cards: Card.stubs
-    )
+    ) { _ in
+    }
     .padding()
 }

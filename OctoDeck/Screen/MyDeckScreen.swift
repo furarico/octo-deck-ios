@@ -21,6 +21,9 @@ struct MyDeckScreen: View {
                     await viewModel.onAppear()
                 }
             }
+            .sheet(item: $viewModel.selectedCard) { card in
+                CardDetailScreen(card: card)
+            }
     }
 
     @ViewBuilder
@@ -36,6 +39,9 @@ struct MyDeckScreen: View {
                             .bold()
 
                         CardView(card: myCard)
+                            .onTapGesture {
+                                viewModel.onCardSelected(myCard)
+                            }
                     }
 
                     VStack(alignment: .leading) {
@@ -43,7 +49,9 @@ struct MyDeckScreen: View {
                             .font(.title)
                             .bold()
 
-                        CardStackView(cards: viewModel.cardsInMyDeck)
+                        CardStackView(cards: viewModel.cardsInMyDeck) { card in
+                            viewModel.onCardSelected(card)
+                        }
                     }
                 }
                 .padding()
@@ -53,8 +61,6 @@ struct MyDeckScreen: View {
         }
     }
 }
-
-import Dependencies
 
 #Preview {
     MyDeckScreen()

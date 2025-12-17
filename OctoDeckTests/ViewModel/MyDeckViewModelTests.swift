@@ -118,5 +118,46 @@ struct MyDeckViewModelTests {
         #expect(viewModel.myCard == nil)
         #expect(viewModel.cardsInMyDeck == [])
         #expect(viewModel.isLoading == false)
+        #expect(viewModel.selectedCard == nil)
+    }
+
+    @Test("onCardSelectedでselectedCardが設定される")
+    func testOnCardSelected() async throws {
+        let viewModel = withDependencies {
+            $0.cardRepository.getMyCard = {
+                .stub0
+            }
+            $0.cardRepository.listCards = {
+                Card.stubs
+            }
+        } operation: {
+            MyDeckViewModel()
+        }
+
+        #expect(viewModel.selectedCard == nil)
+
+        viewModel.onCardSelected(Card.stub0)
+
+        #expect(viewModel.selectedCard == Card.stub0)
+    }
+
+    @Test("onCardSelectedで別のカードを選択するとselectedCardが更新される")
+    func testOnCardSelectedUpdatesSelection() async throws {
+        let viewModel = withDependencies {
+            $0.cardRepository.getMyCard = {
+                .stub0
+            }
+            $0.cardRepository.listCards = {
+                Card.stubs
+            }
+        } operation: {
+            MyDeckViewModel()
+        }
+
+        viewModel.onCardSelected(Card.stub0)
+        #expect(viewModel.selectedCard == Card.stub0)
+
+        viewModel.onCardSelected(Card.stub1)
+        #expect(viewModel.selectedCard == Card.stub1)
     }
 }
