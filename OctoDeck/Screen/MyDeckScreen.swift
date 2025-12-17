@@ -29,12 +29,22 @@ struct MyDeckScreen: View {
             ProgressView()
         } else if let myCard = viewModel.myCard {
             ScrollView {
-                VStack(alignment: .leading) {
-                    Text("My Card")
-                        .font(.title)
-                        .bold()
+                VStack(alignment: .leading, spacing: 32) {
+                    VStack(alignment: .leading) {
+                        Text("My Card")
+                            .font(.title)
+                            .bold()
 
-                    CardView(card: myCard)
+                        CardView(card: myCard)
+                    }
+
+                    VStack(alignment: .leading) {
+                        Text("My Deck")
+                            .font(.title)
+                            .bold()
+
+                        CardStackView(cards: viewModel.cardsInMyDeck)
+                    }
                 }
                 .padding()
             }
@@ -50,6 +60,9 @@ import Dependencies
     let viewModel = withDependencies {
         $0.cardRepository.getMyCard = {
             .stub0
+        }
+        $0.cardRepository.listCards = {
+            Card.stubs
         }
     } operation: {
         MyDeckViewModel()

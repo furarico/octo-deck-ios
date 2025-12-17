@@ -10,7 +10,7 @@ import Observation
 @Observable
 final class MyDeckViewModel {
     private(set) var myCard: Card?
-    private(set) var cardsInMyDeck: [Card]
+    private(set) var cardsInMyDeck: [Card] = []
     private(set) var isLoading: Bool = false
 
     private let service = MyDeckService()
