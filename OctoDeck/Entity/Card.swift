@@ -8,6 +8,7 @@
 import Foundation
 
 struct Card: Equatable, Identifiable {
+    /// GitHub ID
     let id: String
     let userName: String
     let fullName: String

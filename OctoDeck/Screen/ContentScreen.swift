@@ -61,15 +61,7 @@ struct ContentScreen: View {
         if viewModel.isLoading {
             ProgressView()
         } else if let user = viewModel.authenticatedUser {
-            VStack {
-                Text("Hi! \(user.fullName).")
-
-                Button("Sign Out") {
-                    Task {
-                        await viewModel.onSignOutButtonTapped()
-                    }
-                }
-            }
+            tabView(user: user)
         } else {
             Button{
                 Task {
@@ -84,6 +76,26 @@ struct ContentScreen: View {
                     .clipShape(Capsule())
 
 
+            }
+        }
+    }
+
+    func tabView(user: User) -> some View {
+        TabView {
+            Tab("My Deck", systemImage: "person.crop.rectangle.stack") {
+                MyDeckScreen()
+            }
+
+            Tab("Debug", systemImage: "info.circle") {
+                VStack {
+                    Text("Hi! \(user.fullName).")
+
+                    Button("Sign Out") {
+                        Task {
+                            await viewModel.onSignOutButtonTapped()
+                        }
+                    }
+                }
             }
         }
     }

@@ -81,6 +81,26 @@ nonisolated extension GitHubAuthRepository: DependencyKey {
     )
 }
 
+nonisolated extension GitHubAuthRepository: TestDependencyKey {
+    static let previewValue = GitHubAuthRepository(
+        signIn: { _ in
+            ""
+        },
+        signOut: {
+            ""
+        },
+        getAccessToken: {
+            ""
+        },
+        getSignInURL: {
+            URL(string: "https://octodeck.furari.co")!
+        },
+        getAuthenticatedUser: {
+            .stub0
+        }
+    )
+}
+
 nonisolated extension DependencyValues {
     var gitHubAuthRepository: GitHubAuthRepository {
         get { self[GitHubAuthRepository.self] }
