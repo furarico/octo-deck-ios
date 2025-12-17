@@ -9,6 +9,10 @@ import Foundation
 
 struct Statistic: Equatable {
     let contributions: [Contribution]
+
+    func maxContributionCount() -> Int {
+        contributions.map { $0.count }.max() ?? 0
+    }
 }
 
 extension Statistic {
