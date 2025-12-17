@@ -34,4 +34,12 @@ final class MyDeckViewModel {
     func onCardSelected(_ card: Card) {
         selectedCard = card
     }
+
+    func onAddButtonTapped(card: Card) {
+        if cardsInMyDeck.contains(card) {
+            cardsInMyDeck.removeAll(where: { $0.id == card.id })
+        } else {
+            cardsInMyDeck.append(card)
+        }
+    }
 }
