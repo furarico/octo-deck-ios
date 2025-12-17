@@ -22,7 +22,8 @@ struct MyDeckScreen: View {
                 }
             }
             .sheet(item: $viewModel.selectedCard) { card in
-                CardDetailScreen(card: card)
+                CardDetailScreen(card: card, isAdded: true) {
+                }
             }
     }
 
