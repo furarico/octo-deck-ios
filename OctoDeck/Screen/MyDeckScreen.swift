@@ -22,7 +22,8 @@ struct MyDeckScreen: View {
                 }
             }
             .sheet(item: $viewModel.selectedCard) { card in
-                CardDetailScreen(card: card, isAdded: true) {
+                CardDetailScreen(card: card, isAdded: viewModel.cardsInMyDeck.contains(card)) {
+                    viewModel.onAddButtonTapped(card: card)
                 }
             }
     }
