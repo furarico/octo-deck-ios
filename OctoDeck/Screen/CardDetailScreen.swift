@@ -86,14 +86,24 @@ struct CardDetailScreen: View {
 
     private var addButtonTapped: some View {
         Button {
+            Task {
+                await viewModel.onAddButtonTapped(isAdding: !isAdded)
+            }
             onAddButtonTapped()
         } label: {
-            Image(systemName: isAdded ? "trash" : "plus")
-                .foregroundStyle(Color.primary)
-                .frame(width: 48, height: 48)
-                .font(.system(size: 24))
-                .glassEffect()
+            if viewModel.isDeckStatusLoading {
+                ProgressView()
+                    .frame(width: 48, height: 48)
+                    .glassEffect()
+            } else {
+                Image(systemName: isAdded ? "trash" : "plus")
+                    .foregroundStyle(Color.primary)
+                    .frame(width: 48, height: 48)
+                    .font(.system(size: 24))
+                    .glassEffect()
+            }
         }
+        .disabled(viewModel.isDeckStatusLoading)
     }
 
     private var shareLink: some View {
