@@ -160,4 +160,124 @@ struct MyDeckViewModelTests {
         viewModel.onCardSelected(Card.stub1)
         #expect(viewModel.selectedCard == Card.stub1)
     }
+
+    // MARK: - onAddButtonTapped
+
+    @Test("onAddButtonTappedでデッキにないカードが追加される")
+    func testOnAddButtonTappedAddsCard() async throws {
+        let viewModel = withDependencies {
+            $0.cardRepository.getMyCard = {
+                .stub0
+            }
+            $0.cardRepository.listCards = {
+                []
+            }
+        } operation: {
+            MyDeckViewModel()
+        }
+
+        await viewModel.onAppear()
+        #expect(viewModel.cardsInMyDeck == [])
+
+        viewModel.onAddButtonTapped(card: Card.stub1)
+
+        #expect(viewModel.cardsInMyDeck.contains(Card.stub1))
+        #expect(viewModel.cardsInMyDeck.count == 1)
+    }
+
+    @Test("onAddButtonTappedでデッキにあるカードが削除される")
+    func testOnAddButtonTappedRemovesCard() async throws {
+        let initialCards = [Card.stub0, Card.stub1]
+
+        let viewModel = withDependencies {
+            $0.cardRepository.getMyCard = {
+                .stub0
+            }
+            $0.cardRepository.listCards = {
+                initialCards
+            }
+        } operation: {
+            MyDeckViewModel()
+        }
+
+        await viewModel.onAppear()
+        #expect(viewModel.cardsInMyDeck == initialCards)
+
+        viewModel.onAddButtonTapped(card: Card.stub1)
+
+        #expect(!viewModel.cardsInMyDeck.contains(Card.stub1))
+        #expect(viewModel.cardsInMyDeck.contains(Card.stub0))
+        #expect(viewModel.cardsInMyDeck.count == 1)
+    }
+
+    @Test("onAddButtonTappedで同じカードを2回タップするとトグルされる")
+    func testOnAddButtonTappedTogglesCard() async throws {
+        let viewModel = withDependencies {
+            $0.cardRepository.getMyCard = {
+                .stub0
+            }
+            $0.cardRepository.listCards = {
+                []
+            }
+        } operation: {
+            MyDeckViewModel()
+        }
+
+        await viewModel.onAppear()
+
+        // 追加
+        viewModel.onAddButtonTapped(card: Card.stub1)
+        #expect(viewModel.cardsInMyDeck.contains(Card.stub1))
+
+        // 削除
+        viewModel.onAddButtonTapped(card: Card.stub1)
+        #expect(!viewModel.cardsInMyDeck.contains(Card.stub1))
+    }
+
+    @Test("onAddButtonTappedで複数のカードを追加できる")
+    func testOnAddButtonTappedAddsMultipleCards() async throws {
+        let viewModel = withDependencies {
+            $0.cardRepository.getMyCard = {
+                .stub0
+            }
+            $0.cardRepository.listCards = {
+                []
+            }
+        } operation: {
+            MyDeckViewModel()
+        }
+
+        await viewModel.onAppear()
+
+        viewModel.onAddButtonTapped(card: Card.stub0)
+        viewModel.onAddButtonTapped(card: Card.stub1)
+
+        #expect(viewModel.cardsInMyDeck.contains(Card.stub0))
+        #expect(viewModel.cardsInMyDeck.contains(Card.stub1))
+        #expect(viewModel.cardsInMyDeck.count == 2)
+    }
+
+    @Test("onAddButtonTappedで削除しても他のカードに影響しない")
+    func testOnAddButtonTappedRemovesOnlyTargetCard() async throws {
+        let initialCards = [Card.stub0, Card.stub1]
+
+        let viewModel = withDependencies {
+            $0.cardRepository.getMyCard = {
+                .stub0
+            }
+            $0.cardRepository.listCards = {
+                initialCards
+            }
+        } operation: {
+            MyDeckViewModel()
+        }
+
+        await viewModel.onAppear()
+
+        viewModel.onAddButtonTapped(card: Card.stub0)
+
+        #expect(!viewModel.cardsInMyDeck.contains(Card.stub0))
+        #expect(viewModel.cardsInMyDeck.contains(Card.stub1))
+        #expect(viewModel.cardsInMyDeck.count == 1)
+    }
 }
