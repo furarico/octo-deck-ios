@@ -8,6 +8,7 @@
 import Dependencies
 import DependenciesMacros
 import Foundation
+import OpenAPIRuntime
 
 @DependencyClient
 nonisolated struct CardRepository {
@@ -36,8 +37,10 @@ nonisolated extension CardRepository: DependencyKey {
                         )
                     )
                 }
-            default:
-                throw CardRepositoryError.failedToFetchCards
+
+            case .undocumented(let statusCode, let payload):
+                print("API Error: \(statusCode), \(payload.body, default: "")")
+                throw StatisticRepositoryError.apiError(statusCode, payload)
             }
         },
         getCard: { id in
@@ -56,8 +59,10 @@ nonisolated extension CardRepository: DependencyKey {
                         blocks: responseCard.identicon.blocks
                     )
                 )
-            default:
-                throw CardRepositoryError.failedToFetchCards
+
+            case .undocumented(let statusCode, let payload):
+                print("API Error: \(statusCode), \(payload.body, default: "")")
+                throw StatisticRepositoryError.apiError(statusCode, payload)
             }
         },
         getMyCard: {
@@ -76,8 +81,9 @@ nonisolated extension CardRepository: DependencyKey {
                         blocks: responseCard.identicon.blocks
                     )
                 )
-            default:
-                throw CardRepositoryError.failedToFetchCards
+
+            case .undocumented(let statusCode, let payload):
+                throw StatisticRepositoryError.apiError(statusCode, payload)
             }
         }
     )
