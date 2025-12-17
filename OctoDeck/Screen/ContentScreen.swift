@@ -27,6 +27,7 @@ struct ContentScreen: View {
                     await viewModel.handleURL(url)
                 }
             }
+            .preferredColorScheme(.dark)
     }
 
     @ViewBuilder
@@ -71,6 +72,12 @@ import Dependencies
     let viewModel = withDependencies {
         $0.gitHubAuthRepository.getAuthenticatedUser = {
             .stub0
+        }
+        $0.cardRepository.getMyCard = {
+            .stub0
+        }
+        $0.cardRepository.listCards = {
+            Card.stubs
         }
     } operation: {
         ContentViewModel()
