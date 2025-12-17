@@ -13,4 +13,8 @@ final actor MyDeckService {
     func getMyCard() async throws -> Card {
         try await cardRepository.getMyCard()
     }
+
+    func getCardsInMyDeck() async throws -> [Card] {
+        try await cardRepository.listCards()
+    }
 }
