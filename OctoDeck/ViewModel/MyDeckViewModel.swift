@@ -10,6 +10,7 @@ import Observation
 @Observable
 final class MyDeckViewModel {
     private(set) var myCard: Card?
+    private(set) var cardsInMyDeck: [Card]
     private(set) var isLoading: Bool = false
 
     private let service = MyDeckService()
@@ -21,7 +22,9 @@ final class MyDeckViewModel {
         }
 
         do {
-            myCard = try await service.getMyCard()
+            async let myCardTask = service.getMyCard()
+            async let cardsInMyDeckTask = service.getCardsInMyDeck()
+            (myCard, cardsInMyDeck) = try await (myCardTask, cardsInMyDeckTask)
         } catch {
             print(error)
         }
