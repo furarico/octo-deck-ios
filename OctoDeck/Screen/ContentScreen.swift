@@ -19,7 +19,7 @@ struct ContentScreen: View {
             .task {
                 await viewModel.onAppear()
             }
-            .sheet(item: $viewModel.safariViewURL) { item in
+            .fullScreenCover(item: $viewModel.safariViewURL) { item in
                 SafariView(url: item.url)
             }
             .onOpenURL { url in
@@ -48,7 +48,7 @@ struct ContentScreen: View {
     func tabView(user: User) -> some View {
         TabView {
             Tab("My Deck", systemImage: "person.crop.rectangle.stack") {
-                MyDeckScreen()
+                MyDeckScreen(card: $viewModel.card)
             }
 
             Tab("Debug", systemImage: "info.circle") {
