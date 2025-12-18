@@ -15,7 +15,7 @@ struct LoginView: View {
                 .scaledToFill()
                 .ignoresSafeArea()
             VStack {
-                Spacer()
+                //Spacer()
                 Image("OctoDeckIcon")
                     .resizable()
                     .scaledToFit()
@@ -23,21 +23,28 @@ struct LoginView: View {
                 Text("さぁ はじめよう")
                     .foregroundColor(Color.white)
                 Color.clear
-                    .frame(height: 68)
+                    .frame(height: 20)
+                Text("世界にひとつのあなたのカードで、\n挑戦と進化を振り返り、仲間とつながろう")
+                    .multilineTextAlignment(.center)
+                    .foregroundColor(Color.white)
+                Color.clear
+                    .frame(height: 48)
                 Button {
                     onConnectToGitHubButtonTapped()
                 } label: {
                     Text("GitHub連携")
-                        .accentColor(Color.white)
+                        .foregroundColor(Color.white)
                         .padding(.vertical, 12)
                         .padding(.horizontal, 20)
                         .background(Color.cyan)
                         .clipShape(Capsule())
                 }
-                Spacer()
+               // Spacer()
             }
         }
     }
 }
 
-
+#Preview {
+    LoginView(onConnectToGitHubButtonTapped: {})
+}

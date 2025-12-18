@@ -37,7 +37,7 @@ struct ContentScreen: View {
         } else if let user = viewModel.authenticatedUser {
             tabView(user: user)
         } else {
-            LoginView{
+            LoginView {
                 Task {
                     await viewModel.onSignInButtonTapped()
                 }
