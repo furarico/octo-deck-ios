@@ -33,7 +33,7 @@ struct ContentScreen: View {
         } else if let user = viewModel.authenticatedUser {
             tabView(user: user)
         } else {
-            Button("Sign In with GitHub") {
+            LoginView {
                 Task {
                     await viewModel.onSignInButtonTapped()
                 }
