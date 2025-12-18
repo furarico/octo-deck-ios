@@ -47,6 +47,10 @@ struct ContentScreen: View {
                 MyDeckScreen(card: $viewModel.card)
             }
 
+            Tab("Community", systemImage: "globe") {
+                CommunityScreen()
+            }
+
             Tab("Settings", systemImage: "gear") {
                 SettingScreen(user: user) {
                     viewModel.onSignOutButtonTapped()
