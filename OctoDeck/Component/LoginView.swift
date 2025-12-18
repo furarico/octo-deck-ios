@@ -34,14 +34,6 @@ struct LoginView: View {
                     onConnectToGitHubButtonTapped()
                 }
                 .buttonStyle(.glassProminent)
-//                } label: {
-//                    Text("GitHub連携")
-//                        .foregroundColor(Color.white)
-//                        .padding(.vertical, 12)
-//                        .padding(.horizontal, 20)
-//                        .background(Color.blue)
-//                        .clipShape(Capsule())
-//                }
             }
         }
     }
