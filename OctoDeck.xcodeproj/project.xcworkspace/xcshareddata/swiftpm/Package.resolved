@@ -1,5 +1,5 @@
 {
-  "originHash" : "0c41a4b44facfb040e1e4d501d0a1e7f817be6b73d17796965ec530666c42a32",
+  "originHash" : "6309c1e8b538b5e263b3ce1fb33a4c4e750b3c84ecf9878f0dde57296d17515d",
   "pins" : [
     {
       "identity" : "combine-schedulers",
@@ -11,9 +11,18 @@
       }
     },
     {
+      "identity" : "lottie-ios",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/airbnb/lottie-ios",
+      "state" : {
+        "revision" : "a004050748dc197c56256a14dca49a035d74726c",
+        "version" : "4.5.2"
+      }
+    },
+    {
       "identity" : "nuke",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/kean/Nuke",
+      "location" : "https://github.com/kean/Nuke.git",
       "state" : {
         "revision" : "0ead44350d2737db384908569c012fe67c421e4d",
         "version" : "12.8.0"
