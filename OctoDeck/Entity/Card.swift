@@ -14,6 +14,7 @@ struct Card: Equatable, Identifiable {
     let fullName: String
     let iconUrl: URL?
     let identicon: Identicon
+    let mostUsedLanguage: Language
 }
 
 extension Card {
@@ -22,7 +23,8 @@ extension Card {
         userName: "kantacky",
         fullName: "Kanta Oikawa",
         iconUrl: URL(string: "https://avatars.githubusercontent.com/u/51151242?v=4"),
-        identicon: .stub0
+        identicon: .stub0,
+        mostUsedLanguage: .stub0
     )
 
     static let stub1 = Card(
@@ -30,7 +32,8 @@ extension Card {
         userName: "masaya-osuga",
         fullName: "Masaya Osuga",
         iconUrl: URL(string: "https://avatars.githubusercontent.com/u/136790650?v=4"),
-        identicon: .stub0
+        identicon: .stub0,
+        mostUsedLanguage: .stub1
     )
 
     static let stubs = [stub0, stub1]
