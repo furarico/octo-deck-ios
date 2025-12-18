@@ -9,7 +9,7 @@ import Lottie
 
 struct CompletedView: View {
     var body: some View {
-        ZStack{
+        ZStack {
             Image("OctoDeckBackground")
                 .resizable()
                 .ignoresSafeArea()
@@ -17,8 +17,8 @@ struct CompletedView: View {
                 .overlay {
                     VStack(spacing: 24) {
                         LottieView(
-                            name:"OcotoDeckCompleted",
-                        ).frame(width: 256,height: 256)
+                            name: "OctoDeckCompleted"
+                        ).frame(width: 256, height: 256)
                         Text("連携完了")
                             .font(.largeTitle)
                             .bold()
