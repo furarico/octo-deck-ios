@@ -8,12 +8,15 @@
 import Dependencies
 import DependenciesMacros
 import Foundation
+import OpenAPIRuntime
 
 @DependencyClient
 nonisolated struct CardRepository {
     var listCards: @Sendable () async throws -> [Card]
     var getCard: @Sendable (_ id: Card.ID) async throws -> Card
     var getMyCard: @Sendable () async throws -> Card
+    var addCardToMyDeck: @Sendable (_ id: Card.ID) async throws -> Card
+    var removeCardFromMyDeck: @Sendable (_ id: Card.ID) async throws -> Card
 }
 
 nonisolated extension CardRepository: DependencyKey {
@@ -36,8 +39,10 @@ nonisolated extension CardRepository: DependencyKey {
                         )
                     )
                 }
-            default:
-                throw CardRepositoryError.failedToFetchCards
+
+            case .undocumented(let statusCode, let payload):
+                print("API Error: \(statusCode), \(payload.body, default: "")")
+                throw StatisticRepositoryError.apiError(statusCode, payload)
             }
         },
         getCard: { id in
@@ -56,8 +61,10 @@ nonisolated extension CardRepository: DependencyKey {
                         blocks: responseCard.identicon.blocks
                     )
                 )
-            default:
-                throw CardRepositoryError.failedToFetchCards
+
+            case .undocumented(let statusCode, let payload):
+                print("API Error: \(statusCode), \(payload.body, default: "")")
+                throw StatisticRepositoryError.apiError(statusCode, payload)
             }
         },
         getMyCard: {
@@ -76,8 +83,51 @@ nonisolated extension CardRepository: DependencyKey {
                         blocks: responseCard.identicon.blocks
                     )
                 )
-            default:
-                throw CardRepositoryError.failedToFetchCards
+
+            case .undocumented(let statusCode, let payload):
+                throw StatisticRepositoryError.apiError(statusCode, payload)
+            }
+        },
+        addCardToMyDeck: { id in
+            let client = try await Client.build()
+            let response = try await client.addCardToDeck(body: .plainText(.init(stringLiteral: id)))
+            switch response {
+            case .ok(let okResponse):
+                let responseCard = try okResponse.body.json.card
+                return Card(
+                    id: responseCard.githubId,
+                    userName: responseCard.userName,
+                    fullName: responseCard.fullName,
+                    iconUrl: URL(string: responseCard.iconUrl),
+                    identicon: Identicon(
+                        color: DomainColor(hexCode: responseCard.identicon.color),
+                        blocks: responseCard.identicon.blocks
+                    )
+                )
+
+            case .undocumented(let statusCode, let payload):
+                throw StatisticRepositoryError.apiError(statusCode, payload)
+            }
+        },
+        removeCardFromMyDeck: { id in
+            let client = try await Client.build()
+            let response = try await client.removeCardFromDeck(path: .init(githubId: id))
+            switch response {
+            case .ok(let okResponse):
+                let responseCard = try okResponse.body.json.card
+                return Card(
+                    id: responseCard.githubId,
+                    userName: responseCard.userName,
+                    fullName: responseCard.fullName,
+                    iconUrl: URL(string: responseCard.iconUrl),
+                    identicon: Identicon(
+                        color: DomainColor(hexCode: responseCard.identicon.color),
+                        blocks: responseCard.identicon.blocks
+                    )
+                )
+
+            case .undocumented(let statusCode, let payload):
+                throw StatisticRepositoryError.apiError(statusCode, payload)
             }
         }
     )
@@ -93,6 +143,12 @@ nonisolated extension CardRepository: TestDependencyKey {
         },
         getMyCard: {
             .stub0
+        },
+        addCardToMyDeck: { _ in
+            .stub1
+        },
+        removeCardFromMyDeck: { _ in
+            .stub1
         }
     )
 }

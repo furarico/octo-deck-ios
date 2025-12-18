@@ -8,10 +8,11 @@
 import SwiftUI
 
 struct MyDeckScreen: View {
-    @State private var viewModel: MyDeckViewModel
+    @State private var viewModel = MyDeckViewModel()
+    @Binding private var card: Card?
 
-    init(viewModel: MyDeckViewModel = MyDeckViewModel()) {
-        self.viewModel = viewModel
+    init(card: Binding<Card?>) {
+        self._card = card
     }
 
     var body: some View {
@@ -22,7 +23,14 @@ struct MyDeckScreen: View {
                 }
             }
             .sheet(item: $viewModel.selectedCard) { card in
-                CardDetailScreen(card: card)
+                CardDetailScreen(card: card, isAdded: viewModel.cardsInMyDeck.contains(card)) {
+                    viewModel.onAddButtonTapped(card: card)
+                }
+            }
+            .sheet(item: $card) { card in
+                CardDetailScreen(card: card, isAdded: viewModel.cardsInMyDeck.contains(card)) {
+                    viewModel.onAddButtonTapped(card: card)
+                }
             }
     }
 
@@ -63,5 +71,5 @@ struct MyDeckScreen: View {
 }
 
 #Preview {
-    MyDeckScreen()
+    MyDeckScreen(card: .constant(nil))
 }

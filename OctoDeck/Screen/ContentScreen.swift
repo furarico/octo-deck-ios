@@ -8,11 +8,7 @@
 import SwiftUI
 
 struct ContentScreen: View {
-    @State private var viewModel: ContentViewModel
-
-    init(viewModel: ContentViewModel = ContentViewModel()) {
-        self.viewModel = viewModel
-    }
+    @State private var viewModel = ContentViewModel()
 
     var body: some View {
         content
@@ -48,18 +44,12 @@ struct ContentScreen: View {
     func tabView(user: User) -> some View {
         TabView {
             Tab("My Deck", systemImage: "person.crop.rectangle.stack") {
-                MyDeckScreen()
+                MyDeckScreen(card: $viewModel.card)
             }
 
-            Tab("Debug", systemImage: "info.circle") {
-                VStack {
-                    Text("Hi! \(user.fullName).")
-
-                    Button("Sign Out") {
-                        Task {
-                            await viewModel.onSignOutButtonTapped()
-                        }
-                    }
+            Tab("Settings", systemImage: "gear") {
+                SettingScreen(user: user) {
+                    viewModel.onSignOutButtonTapped()
                 }
             }
         }

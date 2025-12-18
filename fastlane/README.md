@@ -79,6 +79,30 @@ Register a new device
 
 Test
 
+### ios build_for_release
+
+```sh
+[bundle exec] fastlane ios build_for_release
+```
+
+Build for Release
+
+### ios distribute_to_testflight
+
+```sh
+[bundle exec] fastlane ios distribute_to_testflight
+```
+
+Distribute to TestFlight
+
+### ios build_and_distribute_to_testflight
+
+```sh
+[bundle exec] fastlane ios build_and_distribute_to_testflight
+```
+
+Build and distribute to TestFlight
+
 ----
 
 This README.md is auto-generated and will be re-generated every time [_fastlane_](https://fastlane.tools) is run.

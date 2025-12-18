@@ -12,6 +12,7 @@ final class CardDetailViewModel {
     let card: Card
     private(set) var statistic: Statistic?
     private(set) var isLoading: Bool = false
+    private(set) var isDeckStatusLoading: Bool = false
 
     private let service = CardDetailService()
 
@@ -31,5 +32,21 @@ final class CardDetailViewModel {
             print(error)
         }
     }
-}
 
+    func onAddButtonTapped(isAdding: Bool) async {
+        isDeckStatusLoading = true
+        defer {
+            isDeckStatusLoading = false
+        }
+
+        do {
+            if isAdding {
+                _ = try await service.addCardToMyDeck(githubId: card.id)
+            } else {
+                _ = try await service.removeCardFromMyDeck(githubId: card.id)
+            }
+        } catch {
+            print(error)
+        }
+    }
+}

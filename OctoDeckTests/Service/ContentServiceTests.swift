@@ -42,66 +42,6 @@ struct ContentServiceTests {
         }
     }
 
-    @Test("SignOutが正しく終了する")
-    func testSignOutSuccess() async throws {
-        let expected = "user1234"
-
-        let service = withDependencies {
-            $0.gitHubAuthRepository.signOut = {
-                expected
-            }
-        } operation: {
-            ContentService()
-        }
-
-        #expect(try await service.signOut() == expected)
-    }
-
-    @Test("SignOutがエラーをthrowする")
-    func testSignOutFailure() async throws {
-        let service = withDependencies {
-            $0.gitHubAuthRepository.signOut = {
-                throw GitHubAuthRepositoryError.userIdNotFound
-            }
-        } operation: {
-            ContentService()
-        }
-
-        await #expect(throws: GitHubAuthRepositoryError.self) {
-            try await service.signOut()
-        }
-    }
-
-    @Test("AccessTokenが正しく返却される")
-    func testGetAccessTokenSuccess() async throws {
-        let expected = "access-token-1234"
-
-        let service = withDependencies {
-            $0.gitHubAuthRepository.getAccessToken = {
-                expected
-            }
-        } operation: {
-            ContentService()
-        }
-
-        #expect(try await service.getAccessToken() == expected)
-    }
-
-    @Test("AccessTokenが返却されない")
-    func testGetAccessTokenFailure() async throws {
-        let service = withDependencies {
-            $0.gitHubAuthRepository.getAccessToken = {
-                throw GitHubAuthRepositoryError.userIdNotFound
-            }
-        } operation: {
-            ContentService()
-        }
-
-        await #expect(throws: GitHubAuthRepositoryError.self) {
-            try await service.getAccessToken()
-        }
-    }
-
     @Test("SignInURLが正しく返却される")
     func testGetSignInURLSuccess() async throws {
         let expected = URL(string: "https://github.com/login/oauth/authorize")!
@@ -159,6 +99,36 @@ struct ContentServiceTests {
 
         await #expect(throws: GitHubAuthRepositoryError.self) {
             try await service.getAuthenticatedUser()
+        }
+    }
+
+    @Test("Cardが正しく返却される")
+    func testGetCardSuccess() async throws {
+        let expected = Card.stub0
+
+        let service = withDependencies {
+            $0.cardRepository.getCard = { _ in
+                expected
+            }
+        } operation: {
+            ContentService()
+        }
+
+        #expect(try await service.getCard(id: "51151242") == expected)
+    }
+
+    @Test("Cardが返却されない")
+    func testGetCardFailure() async throws {
+        let service = withDependencies {
+            $0.cardRepository.getCard = { _ in
+                throw CardRepositoryError.apiError(404, nil)
+            }
+        } operation: {
+            ContentService()
+        }
+
+        await #expect(throws: CardRepositoryError.self) {
+            try await service.getCard(id: "invalid-id")
         }
     }
 }

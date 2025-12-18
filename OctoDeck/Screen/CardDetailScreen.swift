@@ -11,19 +11,19 @@ import SwiftUI
 struct CardDetailScreen: View {
     @Environment(\.dismiss) private var dismiss
     private let card: Card
+    private let isAdded: Bool
+    private let onAddButtonTapped: () -> Void
     @State private var viewModel: CardDetailViewModel
-
-    init(card: Card) {
-        self.card = card
-        self.viewModel = CardDetailViewModel(card: card)
-    }
 
     init(
         card: Card,
-        viewModel: CardDetailViewModel
+        isAdded: Bool,
+        onAddButtonTapped: @escaping () -> Void
     ) {
         self.card = card
-        self.viewModel = viewModel
+        self.isAdded = isAdded
+        self.onAddButtonTapped = onAddButtonTapped
+        self.viewModel = CardDetailViewModel(card: card)
     }
 
     var body: some View {
@@ -41,16 +41,9 @@ struct CardDetailScreen: View {
             ScrollView {
                 VStack(spacing: 16) {
                     HStack {
-                        Button(role: .close) {
-                            dismiss()
-                        } label: {
-                            Image(systemName: "xmark")
-                                .font(.title3)
-                                .padding(8)
-                        }
-                        .buttonStyle(.glass)
-                        .buttonBorderShape(.circle)
+                        dismissButton
                         Spacer()
+                        addButtonTapped
                         shareLink
                     }
 
@@ -67,6 +60,40 @@ struct CardDetailScreen: View {
         }
     }
 
+    private var dismissButton: some View {
+        Button(role: .close) {
+            dismiss()
+        } label: {
+            Image(systemName: "xmark")
+                .foregroundStyle(Color.primary)
+                .frame(width: 48, height: 48)
+                .font(.system(size: 24))
+                .glassEffect()
+        }
+    }
+
+    private var addButtonTapped: some View {
+        Button {
+            Task {
+                await viewModel.onAddButtonTapped(isAdding: !isAdded)
+            }
+            onAddButtonTapped()
+        } label: {
+            if viewModel.isDeckStatusLoading {
+                ProgressView()
+                    .frame(width: 48, height: 48)
+                    .glassEffect()
+            } else {
+                Image(systemName: isAdded ? "trash" : "plus")
+                    .foregroundStyle(Color.primary)
+                    .frame(width: 48, height: 48)
+                    .font(.system(size: 24))
+                    .glassEffect()
+            }
+        }
+        .disabled(viewModel.isDeckStatusLoading)
+    }
+
     private var shareLink: some View {
         ShareLink(
             item: URL(string: "https://octodeck.furari.co/users/\(viewModel.card.id)")!,
@@ -75,15 +102,20 @@ struct CardDetailScreen: View {
             )
         ) {
             Image(systemName: "square.and.arrow.up")
-                .offset(y: -2)
-                .font(.title3)
-                .padding(4)
+                .foregroundStyle(Color.primary)
+                .frame(width: 48, height: 48)
+                .font(.system(size: 24))
+                .glassEffect()
         }
-        .buttonStyle(.glass)
-        .buttonBorderShape(.circle)
     }
 }
 
 #Preview {
-    CardDetailScreen(card: .stub0)
+    CardDetailScreen(card: .stub0, isAdded: true) {
+    }
+}
+
+#Preview {
+    CardDetailScreen(card: .stub0, isAdded: false) {
+    }
 }

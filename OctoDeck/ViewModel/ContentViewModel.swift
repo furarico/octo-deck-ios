@@ -12,8 +12,9 @@ import SwiftUI
 @Observable
 final class ContentViewModel {
     var safariViewURL: IdentifiableURL? = nil
-    var authenticatedUser: User? = nil
-    var isLoading: Bool = false
+    var card: Card? = nil
+    private(set) var authenticatedUser: User? = nil
+    private(set) var isLoading: Bool = false
 
     private let service = ContentService()
 
@@ -44,14 +45,7 @@ final class ContentViewModel {
         }
     }
 
-    func onSignOutButtonTapped() async {
-        do {
-            let userID = try await service.signOut()
-            print("Signed out from \(userID)")
-        } catch {
-            print(error)
-        }
-        
+    func onSignOutButtonTapped() {
         authenticatedUser = nil
     }
 
@@ -64,26 +58,37 @@ final class ContentViewModel {
         guard url.host() == "octodeck.furari.co" else {
             return
         }
+
         let path = url.pathComponents
-        guard path == ["/", "app", "github", "oauth", "callback"] else {
-            return
-        }
         let components = URLComponents(url: url, resolvingAgainstBaseURL: true)
-        guard let code = components?.queryItems?.first(where: { $0.name == "code" })?.value else {
-            return
-        }
-        do {
-            let userID = try await service.signIn(code: code)
-            print("Signed in as \(userID)")
 
-            isLoading = true
-            defer {
-                isLoading = false
+        if path == ["/", "app", "github", "oauth", "callback"] {
+            guard let code = components?.queryItems?.first(where: { $0.name == "code" })?.value else {
+                return
             }
+            do {
+                let userID = try await service.signIn(code: code)
+                print("Signed in as \(userID)")
 
-            await refresh()
-        } catch {
-            print(error)
+                isLoading = true
+                defer {
+                    isLoading = false
+                }
+
+                await refresh()
+            } catch {
+                print(error)
+                return
+            }
+        } else if path.count == 3 && path.prefix(2) == ["/", "users"] {
+            let userId = path[2]
+            do {
+                card = try await service.getCard(id: userId)
+            } catch {
+                print(error)
+                return
+            }
+        } else {
             return
         }
     }

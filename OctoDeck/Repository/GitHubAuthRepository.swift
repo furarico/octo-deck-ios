@@ -73,7 +73,8 @@ nonisolated extension GitHubAuthRepository: DependencyKey {
             let user = User(
                 id: response.id.description,
                 userName: response.login,
-                fullName: response.name
+                fullName: response.name,
+                avatarUrl: URL(string: response.avatarUrl)
             )
 
             return user
@@ -123,6 +124,7 @@ nonisolated extension GitHubAuthRepository {
         let id: Int
         let login: String
         let name: String
+        let avatarUrl: String
     }
 
     private static func loadGitHubAppInfo() throws -> (clientID: String, clientSecret: String) {
