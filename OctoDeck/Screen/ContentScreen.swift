@@ -8,42 +8,26 @@
 import SwiftUI
 
 struct ContentScreen: View {
-    @State private var viewModel = ContentViewModel()
-    var body: some View {
-        ZStack {
-            Image("OctoDeck-background")
-                .resizable()
-                .scaledToFill()
-                .ignoresSafeArea()
-            VStack {
-                Spacer()
-                Image("OctoDeck")
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 160, height: 160)
-                Text("さぁ はじめよう")
-                    .foregroundColor(Color.white)
-                Spacer().frame(height: 20)
-                Text("テキストテキストテキストテキスト\nテキストテキストテキスト")
-                    .multilineTextAlignment(.center)
-                    .foregroundColor(Color.white)
-                Spacer().frame(height: 48)
-                content
-                    .task {
-                        await viewModel.onAppear()
-                    }
-                    .sheet(item: $viewModel.safariViewURL) { item in
-                        SafariView(url: item.url)
-                    }
-                    .onOpenURL { url in
-                        Task {
-                            await viewModel.handleURL(url)
-                        }
-                    }
-                Spacer()
-            }
-        }
+    @State private var viewModel: ContentViewModel
 
+    init(viewModel: ContentViewModel = ContentViewModel()) {
+        self.viewModel = viewModel
+    }
+
+    var body: some View {
+        content
+            .task {
+                await viewModel.onAppear()
+            }
+            .sheet(item: $viewModel.safariViewURL) { item in
+                SafariView(url: item.url)
+            }
+            .onOpenURL { url in
+                Task {
+                    await viewModel.handleURL(url)
+                }
+            }
+            .preferredColorScheme(.dark)
     }
 
     @ViewBuilder
@@ -53,19 +37,16 @@ struct ContentScreen: View {
         } else if let user = viewModel.authenticatedUser {
             tabView(user: user)
         } else {
-            Button {
+            LoginView{
                 Task {
-                    await viewModel.onSignInButtonTapped()
-                }
-            } label: {
-                Text("GitHub連携")
-                    .accentColor(Color.white)
-                    .frame(width: 132, height: 48)
-                    .background(Color.cyan)
-                    .clipShape(Capsule())
-
-
+                    await viewModel.onSignInButtonTapped()}
             }
+            // ここを書き換え
+//            Button("Sign In with GitHub") {
+//                Task {
+//                    await viewModel.onSignInButtonTapped()
+//                }
+//            }
         }
     }
 
@@ -93,4 +74,3 @@ struct ContentScreen: View {
 #Preview {
     ContentScreen()
 }
-
