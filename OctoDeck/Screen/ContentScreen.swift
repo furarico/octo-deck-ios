@@ -39,14 +39,9 @@ struct ContentScreen: View {
         } else {
             LoginView{
                 Task {
-                    await viewModel.onSignInButtonTapped()}
+                    await viewModel.onSignInButtonTapped()
+                }
             }
-            // ここを書き換え
-//            Button("Sign In with GitHub") {
-//                Task {
-//                    await viewModel.onSignInButtonTapped()
-//                }
-//            }
         }
     }
 
