@@ -18,7 +18,7 @@ struct CompletedView: View {
                     VStack(spacing: 24) {
                         LottieView(
                             name: "OctoDeckCompleted"
-                        ).frame(width: 256, height: 256)
+                        ).frame(width: 128, height: 128)
                         Text("連携完了")
                             .font(.largeTitle)
                             .bold()
