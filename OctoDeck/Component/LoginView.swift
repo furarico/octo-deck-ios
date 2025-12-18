@@ -19,14 +19,14 @@ struct LoginView: View {
                     .resizable()
                     .scaledToFit()
                     .frame(width: 160, height: 160)
-                Text("さぁ はじめよう")
-                    .foregroundColor(Color.white)
+                    .foregroundStyle(Color.white)
                     .font(.largeTitle)
                     .bold()
                 Color.clear
                     .frame(height: 8)
                 Text("世界にひとつのあなたのカードで、\n挑戦と進化を振り返り、仲間とつながろう")
-                    .foregroundColor(Color.white)
+                    .multilineTextAlignment(.center)
+                    .foregroundStyle(Color.white)
                 Color.clear
                     .frame(height: 48)
                 Button("GitHub連携") {
