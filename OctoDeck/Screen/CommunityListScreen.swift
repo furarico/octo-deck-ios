@@ -12,7 +12,6 @@ struct CommunityListScreen: View {
 
     var body: some View {
         content
-            .navigationTitle("Communities")
             .task {
                 await viewModel.onAppear()
             }
