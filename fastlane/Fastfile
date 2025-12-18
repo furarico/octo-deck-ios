@@ -98,6 +98,13 @@ platform :ios do
     )
   end
 
+  desc "Reset build number"
+  lane :reset_build_number do
+    increment_build_number({
+      build_number: 1
+    })
+  end
+
   desc "Build and distribute to TestFlight"
   lane :build_and_distribute_to_testflight do
     increment_build_number({
