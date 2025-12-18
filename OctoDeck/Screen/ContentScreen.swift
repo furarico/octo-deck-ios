@@ -51,15 +51,9 @@ struct ContentScreen: View {
                 MyDeckScreen(card: $viewModel.card)
             }
 
-            Tab("Debug", systemImage: "info.circle") {
-                VStack {
-                    Text("Hi! \(user.fullName).")
-
-                    Button("Sign Out") {
-                        Task {
-                            await viewModel.onSignOutButtonTapped()
-                        }
-                    }
+            Tab("Settings", systemImage: "gear") {
+                SettingScreen(user: user) {
+                    viewModel.onSignOutButtonTapped()
                 }
             }
         }

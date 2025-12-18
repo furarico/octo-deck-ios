@@ -45,14 +45,7 @@ final class ContentViewModel {
         }
     }
 
-    func onSignOutButtonTapped() async {
-        do {
-            let userID = try await service.signOut()
-            print("Signed out from \(userID)")
-        } catch {
-            print(error)
-        }
-        
+    func onSignOutButtonTapped() {
         authenticatedUser = nil
     }
 
