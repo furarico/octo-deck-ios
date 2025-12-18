@@ -8,18 +8,14 @@
 import SwiftUI
 
 struct ContentScreen: View {
-    @State private var viewModel: ContentViewModel
-
-    init(viewModel: ContentViewModel = ContentViewModel()) {
-        self.viewModel = viewModel
-    }
+    @State private var viewModel = ContentViewModel()
 
     var body: some View {
         content
             .task {
                 await viewModel.onAppear()
             }
-            .fullScreenCover(item: $viewModel.safariViewURL) { item in
+            .sheet(item: $viewModel.safariViewURL) { item in
                 SafariView(url: item.url)
             }
             .onOpenURL { url in

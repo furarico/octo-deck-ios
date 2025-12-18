@@ -26,18 +26,6 @@ struct CardDetailScreen: View {
         self.viewModel = CardDetailViewModel(card: card)
     }
 
-    init(
-        card: Card,
-        isAdded: Bool,
-        onAddButtonTapped: @escaping () -> Void,
-        viewModel: CardDetailViewModel
-    ) {
-        self.card = card
-        self.isAdded = isAdded
-        self.onAddButtonTapped = onAddButtonTapped
-        self.viewModel = viewModel
-    }
-
     var body: some View {
         content
             .task {
