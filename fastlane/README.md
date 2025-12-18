@@ -95,6 +95,14 @@ Build for Release
 
 Distribute to TestFlight
 
+### ios reset_build_number
+
+```sh
+[bundle exec] fastlane ios reset_build_number
+```
+
+Reset build number
+
 ### ios build_and_distribute_to_testflight
 
 ```sh

@@ -107,8 +107,11 @@ platform :ios do
 
   desc "Build and distribute to TestFlight"
   lane :build_and_distribute_to_testflight do
+    build_number = latest_testflight_build_number({
+      api_key_path: "./fastlane/app_store_connect_api_key.json",
+    })
     increment_build_number({
-      build_number: latest_testflight_build_number + 1
+      build_number: build_number + 1
     })
     build_for_release
     distribute_to_testflight
