@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Community: Equatable, Identifiable {
+struct Community: Hashable, Identifiable {
     let id: String
     let name: String
 }
@@ -25,4 +25,3 @@ extension Community {
 
     static let stubs = [stub0, stub1]
 }
-
