@@ -9,33 +9,39 @@ import SwiftUI
 struct LoginView: View {
     let onConnectToGitHubButtonTapped: () -> Void
     var body: some View {
-        ZStack {
-            Image("OctoDeckBackground")
-                .resizable()
-                .scaledToFill()
-                .ignoresSafeArea()
-            VStack {
-                Image("OctoDeckIcon")
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 160, height: 160)
-                Text("さぁ はじめよう")
-                    .foregroundStyle(Color.white)
-                    .font(.largeTitle)
-                    .bold()
-                Color.clear
-                    .frame(height: 8)
-                Text("世界にひとつのあなたのカードで、\n挑戦と進化を振り返り、仲間とつながろう")
-                    .multilineTextAlignment(.center)
-                    .foregroundStyle(Color.white)
-                Color.clear
-                    .frame(height: 48)
-                Button("GitHub連携") {
-                    onConnectToGitHubButtonTapped()
+        Image("OctoDeckBackground")
+            .resizable()
+            .ignoresSafeArea()
+            .scaledToFill()
+            .overlay {
+                VStack(spacing: 48) {
+                    VStack {
+                        Image("OctoDeckIcon")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 160, height: 160)
+
+                        VStack(spacing: 8) {
+                            Text("さぁ はじめよう")
+                                .font(.largeTitle)
+                                .bold()
+                            Text(
+                                 """
+                                 世界にひとつのあなたのカードで、
+                                 挑戦と進化を振り返り、仲間とつながろう
+                                 """
+                            )
+                            .multilineTextAlignment(.center)
+                        }
+                        .foregroundStyle(Color.white)
+                    }
+
+                    Button("GitHub連携") {
+                        onConnectToGitHubButtonTapped()
+                    }
+                    .buttonStyle(.glassProminent)
                 }
-                .buttonStyle(.glassProminent)
             }
-        }
     }
 }
 
