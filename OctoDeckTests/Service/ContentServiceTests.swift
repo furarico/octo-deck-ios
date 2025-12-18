@@ -161,4 +161,34 @@ struct ContentServiceTests {
             try await service.getAuthenticatedUser()
         }
     }
+
+    @Test("Cardが正しく返却される")
+    func testGetCardSuccess() async throws {
+        let expected = Card.stub0
+
+        let service = withDependencies {
+            $0.cardRepository.getCard = { _ in
+                expected
+            }
+        } operation: {
+            ContentService()
+        }
+
+        #expect(try await service.getCard(id: "51151242") == expected)
+    }
+
+    @Test("Cardが返却されない")
+    func testGetCardFailure() async throws {
+        let service = withDependencies {
+            $0.cardRepository.getCard = { _ in
+                throw CardRepositoryError.apiError(404, nil)
+            }
+        } operation: {
+            ContentService()
+        }
+
+        await #expect(throws: CardRepositoryError.self) {
+            try await service.getCard(id: "invalid-id")
+        }
+    }
 }
