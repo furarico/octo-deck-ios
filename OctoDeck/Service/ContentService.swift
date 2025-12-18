@@ -9,6 +9,7 @@ import Dependencies
 import Foundation
 
 final actor ContentService {
+    @Dependency(\.cardRepository) private var cardRepository
     @Dependency(\.gitHubAuthRepository) private var gitHubAuthRepository
 
     func signIn(code: String) async throws -> String {
@@ -29,5 +30,9 @@ final actor ContentService {
 
     func getAuthenticatedUser() async throws -> User {
         try await gitHubAuthRepository.getAuthenticatedUser()
+    }
+
+    func getCard(id: String) async throws -> Card {
+        try await cardRepository.getCard(id: id)
     }
 }
