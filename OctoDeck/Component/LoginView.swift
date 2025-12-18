@@ -19,6 +19,7 @@ struct LoginView: View {
                     .resizable()
                     .scaledToFit()
                     .frame(width: 160, height: 160)
+                Text("さぁ はじめよう")
                     .foregroundStyle(Color.white)
                     .font(.largeTitle)
                     .bold()
