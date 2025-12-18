@@ -8,18 +8,14 @@
 import SwiftUI
 
 struct ContentScreen: View {
-    @State private var viewModel: ContentViewModel
-
-    init(viewModel: ContentViewModel = ContentViewModel()) {
-        self.viewModel = viewModel
-    }
+    @State private var viewModel = ContentViewModel()
 
     var body: some View {
         content
             .task {
                 await viewModel.onAppear()
             }
-            .fullScreenCover(item: $viewModel.safariViewURL) { item in
+            .sheet(item: $viewModel.safariViewURL) { item in
                 SafariView(url: item.url)
             }
             .onOpenURL { url in
@@ -51,15 +47,9 @@ struct ContentScreen: View {
                 MyDeckScreen(card: $viewModel.card)
             }
 
-            Tab("Debug", systemImage: "info.circle") {
-                VStack {
-                    Text("Hi! \(user.fullName).")
-
-                    Button("Sign Out") {
-                        Task {
-                            await viewModel.onSignOutButtonTapped()
-                        }
-                    }
+            Tab("Settings", systemImage: "gear") {
+                SettingScreen(user: user) {
+                    viewModel.onSignOutButtonTapped()
                 }
             }
         }

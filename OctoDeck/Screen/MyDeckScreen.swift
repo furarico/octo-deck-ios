@@ -8,11 +8,10 @@
 import SwiftUI
 
 struct MyDeckScreen: View {
-    @State private var viewModel: MyDeckViewModel
+    @State private var viewModel = MyDeckViewModel()
     @Binding private var card: Card?
 
-    init(viewModel: MyDeckViewModel = MyDeckViewModel(), card: Binding<Card?>) {
-        self.viewModel = viewModel
+    init(card: Binding<Card?>) {
         self._card = card
     }
 
