@@ -26,7 +26,6 @@ struct LoginView: View {
                 Color.clear
                     .frame(height: 8)
                 Text("世界にひとつのあなたのカードで、\n挑戦と進化を振り返り、仲間とつながろう")
-                    .multilineTextAlignment(.center)
                     .foregroundColor(Color.white)
                 Color.clear
                     .frame(height: 48)
