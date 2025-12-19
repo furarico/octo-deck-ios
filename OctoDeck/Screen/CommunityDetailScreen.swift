@@ -20,6 +20,11 @@ struct CommunityDetailScreen: View {
                 await viewModel.onAppear()
             }
             .navigationTitle(viewModel.community.name)
+            .sheet(item: $viewModel.selectedCard) { card in
+                CardDetailScreen(card: card, isAdded: viewModel.cardsInMyDeck.contains(card)) {
+                    viewModel.onAddButtonTapped()
+                }
+            }
     }
 
     @ViewBuilder
@@ -35,11 +40,11 @@ struct CommunityDetailScreen: View {
                                 .font(.title)
                                 .bold()
                                 .padding(.horizontal)
-                            
+
                             highlightedCardView(highlightedCard)
                         }
                     }
-                    
+
                     VStack(alignment: .leading) {
                         Text("All Members")
                             .font(.title)
@@ -60,6 +65,9 @@ struct CommunityDetailScreen: View {
                         .font(.title2)
                         .bold()
                     CardView(card: highlightedCard.bestContributor)
+                        .onTapGesture {
+                            viewModel.onCardTapped(highlightedCard.bestContributor)
+                        }
                 }
                 .containerRelativeFrame(.horizontal)
 
@@ -68,6 +76,9 @@ struct CommunityDetailScreen: View {
                         .font(.title2)
                         .bold()
                     CardView(card: highlightedCard.bestCommitter)
+                        .onTapGesture {
+                            viewModel.onCardTapped(highlightedCard.bestCommitter)
+                        }
                 }
                 .containerRelativeFrame(.horizontal)
 
@@ -76,6 +87,9 @@ struct CommunityDetailScreen: View {
                         .font(.title2)
                         .bold()
                     CardView(card: highlightedCard.bestReviewer)
+                        .onTapGesture {
+                            viewModel.onCardTapped(highlightedCard.bestReviewer)
+                        }
                 }
                 .containerRelativeFrame(.horizontal)
 
@@ -84,6 +98,9 @@ struct CommunityDetailScreen: View {
                         .font(.title2)
                         .bold()
                     CardView(card: highlightedCard.bestIssuer)
+                        .onTapGesture {
+                            viewModel.onCardTapped(highlightedCard.bestIssuer)
+                        }
                 }
                 .containerRelativeFrame(.horizontal)
 
@@ -92,6 +109,9 @@ struct CommunityDetailScreen: View {
                         .font(.title2)
                         .bold()
                     CardView(card: highlightedCard.bestPullRequester)
+                        .onTapGesture {
+                            viewModel.onCardTapped(highlightedCard.bestPullRequester)
+                        }
                 }
                 .containerRelativeFrame(.horizontal)
             }
