@@ -14,7 +14,7 @@ struct CardView: View {
     private let overrideColor: Color?
     private var languageColor: Color {
         let domainColor = card.mostUsedLanguage.color
-        return Color(red: domainColor.r, green: domainColor.g, blue: domainColor.b)
+        return Color(domainColor: domainColor)
     }
 
     init(card: Card, isMini: Bool = false, overrideColor: DomainColor? = nil) {
@@ -45,6 +45,14 @@ struct CardView: View {
 
     var body: some View {
         cardBackground
+            .overlay {
+                HStack {
+                    Spacer()
+                    IdenticonView(identicon: card.identicon)
+                        .opacity(0.4)
+                        .padding(isMini ? 8 : 20)
+                }
+            }
             .overlay {
                 HStack(spacing: isMini ? 8 : 16) {
                     image
@@ -94,7 +102,7 @@ struct CardView: View {
             .overlay {
                 RoundedRectangle(cornerRadius: 8)
                     .fill(overrideColor ?? languageColor)
-                    .opacity(0.2)
+                    .opacity(0.1)
             }
             .shadow(
                 color: overrideColor ?? languageColor,

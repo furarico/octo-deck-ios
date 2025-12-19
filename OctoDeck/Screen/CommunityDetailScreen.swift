@@ -134,6 +134,9 @@ struct CommunityDetailScreen: View {
         LazyVGrid(columns: cardsColumns, spacing: 16) {
             ForEach(cards) { card in
                 CardView(card: card, isMini: true)
+                    .onTapGesture {
+                        viewModel.onCardTapped(card)
+                    }
             }
         }
     }
