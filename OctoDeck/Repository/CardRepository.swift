@@ -27,18 +27,7 @@ nonisolated extension CardRepository: DependencyKey {
             switch response {
             case .ok(let okResponse):
                 let responseCards = try okResponse.body.json.cards
-                return responseCards.map {
-                    Card(
-                        id: $0.githubId,
-                        userName: $0.userName,
-                        fullName: $0.fullName,
-                        iconUrl: URL(string: $0.iconUrl),
-                        identicon: Identicon(
-                            color: DomainColor(hexCode: $0.identicon.color),
-                            blocks: $0.identicon.blocks
-                        )
-                    )
-                }
+                return responseCards.map { makeCard(from: $0) }
 
             case .undocumented(let statusCode, let payload):
                 print("API Error: \(statusCode), \(payload.body, default: "")")
@@ -51,16 +40,7 @@ nonisolated extension CardRepository: DependencyKey {
             switch response {
             case .ok(let okResponse):
                 let responseCard = try okResponse.body.json.card
-                return Card(
-                    id: responseCard.githubId,
-                    userName: responseCard.userName,
-                    fullName: responseCard.fullName,
-                    iconUrl: URL(string: responseCard.iconUrl),
-                    identicon: Identicon(
-                        color: DomainColor(hexCode: responseCard.identicon.color),
-                        blocks: responseCard.identicon.blocks
-                    )
-                )
+                return makeCard(from: responseCard)
 
             case .undocumented(let statusCode, let payload):
                 print("API Error: \(statusCode), \(payload.body, default: "")")
@@ -73,16 +53,7 @@ nonisolated extension CardRepository: DependencyKey {
             switch response {
             case .ok(let okResponse):
                 let responseCard = try okResponse.body.json.card
-                return Card(
-                    id: responseCard.githubId,
-                    userName: responseCard.userName,
-                    fullName: responseCard.fullName,
-                    iconUrl: URL(string: responseCard.iconUrl),
-                    identicon: Identicon(
-                        color: DomainColor(hexCode: responseCard.identicon.color),
-                        blocks: responseCard.identicon.blocks
-                    )
-                )
+                return makeCard(from: responseCard)
 
             case .undocumented(let statusCode, let payload):
                 throw StatisticRepositoryError.apiError(statusCode, payload)
@@ -94,16 +65,7 @@ nonisolated extension CardRepository: DependencyKey {
             switch response {
             case .ok(let okResponse):
                 let responseCard = try okResponse.body.json.card
-                return Card(
-                    id: responseCard.githubId,
-                    userName: responseCard.userName,
-                    fullName: responseCard.fullName,
-                    iconUrl: URL(string: responseCard.iconUrl),
-                    identicon: Identicon(
-                        color: DomainColor(hexCode: responseCard.identicon.color),
-                        blocks: responseCard.identicon.blocks
-                    )
-                )
+                return makeCard(from: responseCard)
 
             case .undocumented(let statusCode, let payload):
                 throw StatisticRepositoryError.apiError(statusCode, payload)
@@ -115,16 +77,7 @@ nonisolated extension CardRepository: DependencyKey {
             switch response {
             case .ok(let okResponse):
                 let responseCard = try okResponse.body.json.card
-                return Card(
-                    id: responseCard.githubId,
-                    userName: responseCard.userName,
-                    fullName: responseCard.fullName,
-                    iconUrl: URL(string: responseCard.iconUrl),
-                    identicon: Identicon(
-                        color: DomainColor(hexCode: responseCard.identicon.color),
-                        blocks: responseCard.identicon.blocks
-                    )
-                )
+                return makeCard(from: responseCard)
 
             case .undocumented(let statusCode, let payload):
                 throw StatisticRepositoryError.apiError(statusCode, payload)
@@ -157,5 +110,24 @@ nonisolated extension DependencyValues {
     var cardRepository: CardRepository {
         get { self[CardRepository.self] }
         set { self[CardRepository.self] = newValue }
+    }
+}
+
+nonisolated extension CardRepository {
+    private static func makeCard(from response: Components.Schemas.Card) -> Card {
+        Card(
+            id: response.githubId,
+            userName: response.userName,
+            fullName: response.fullName,
+            iconUrl: URL(string: response.iconUrl),
+            identicon: Identicon(
+                color: DomainColor(hexCode: response.identicon.color),
+                blocks: response.identicon.blocks
+            ),
+            mostUsedLanguage: Language(
+                name: response.mostUsedLanguage.name,
+                color: DomainColor(hexCode: response.mostUsedLanguage.color)
+            )
+        )
     }
 }

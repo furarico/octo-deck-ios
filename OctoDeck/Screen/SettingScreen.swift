@@ -19,32 +19,35 @@ struct SettingScreen: View {
     }
 
     var body: some View {
-        List {
-            HStack {
-                image
-                    .frame(width: 50, height: 50)
-                    .clipped()
-                    .clipShape(Circle())
-                VStack(alignment: .leading) {
-                    Text(user.fullName)
-                        .font(.title3)
-                        .bold()
-                    HStack {
-                        Text(user.userName)
-                            .font(.callout)
-                        Text("ID: \(user.id)")
-                            .font(.caption)
-                            .foregroundStyle(.secondary)
+        NavigationStack {
+            List {
+                HStack {
+                    image
+                        .frame(width: 50, height: 50)
+                        .clipped()
+                        .clipShape(Circle())
+                    VStack(alignment: .leading) {
+                        Text(user.fullName)
+                            .font(.title3)
+                            .bold()
+                        HStack {
+                            Text(user.userName)
+                                .font(.callout)
+                            Text("ID: \(user.id)")
+                                .font(.caption)
+                                .foregroundStyle(.secondary)
+                        }
+                    }
+                }
+
+                Button("Sign Out", role: .destructive) {
+                    Task {
+                        await viewModel.onSignOutButtonTapped()
+                        onSignOutButtonTapped()
                     }
                 }
             }
-
-            Button("Sign Out", role: .destructive) {
-                Task {
-                    await viewModel.onSignOutButtonTapped()
-                    onSignOutButtonTapped()
-                }
-            }
+            .navigationTitle("Settings")
         }
     }
 

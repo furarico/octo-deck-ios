@@ -9,7 +9,13 @@ import NukeUI
 import SwiftUI
 
 struct CardView: View {
-    let card: Card
+    private let card: Card
+    private let isMini: Bool
+
+    init(card: Card, isMini: Bool = false) {
+        self.card = card
+        self.isMini = isMini
+    }
 
     private let gradient = LinearGradient(
         stops: [
@@ -32,11 +38,11 @@ struct CardView: View {
     )
 
     var body: some View {
-        imageCard
+        cardBackground
             .overlay {
-                HStack(spacing: 16) {
+                HStack(spacing: isMini ? 8 : 16) {
                     image
-                        .frame(width: 80, height: 80)
+                        .frame(width: isMini ? 32 : 80, height: isMini ? 32 : 80)
                         .clipped()
                         .clipShape(Circle())
                         .overlay {
@@ -45,31 +51,32 @@ struct CardView: View {
                         }
 
                     textView
-
-                    Spacer()
                 }
-                .padding(20)
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .padding(isMini ? 8 : 20)
             }
             .overlay {
-                VStack {
-                    HStack {
+                if !isMini {
+                    VStack {
+                        HStack {
+                            Spacer()
+
+                            Text(card.userName)
+                                .font(.subheadline)
+                                .bold()
+                                .foregroundStyle(Color.gray)
+                                .lineLimit(1)
+                                .multilineTextAlignment(.trailing)
+                        }
+
                         Spacer()
-
-                        Text(card.userName)
-                            .font(.subheadline)
-                            .bold()
-                            .foregroundStyle(Color.gray)
-                            .lineLimit(1)
-                            .multilineTextAlignment(.trailing)
                     }
-
-                    Spacer()
+                    .padding(16)
                 }
-                .padding(16)
             }
     }
 
-    private var imageCard: some View {
+    private var cardBackground: some View {
         RoundedRectangle(cornerRadius: 8)
             .fill(Color.white)
             .aspectRatio(1.58, contentMode: .fit)
@@ -82,16 +89,18 @@ struct CardView: View {
 
     private var textView: some View {
         VStack(alignment: .leading, spacing: 0) {
-            Text(card.fullName)
-                .font(.title2)
-                .bold()
-                .foregroundStyle(Color.black)
-                .lineLimit(1)
-                .multilineTextAlignment(.leading)
-                .foregroundStyle(Color.black)
+            if !isMini {
+                Text(card.fullName)
+                    .font(.title2)
+                    .bold()
+                    .foregroundStyle(Color.black)
+                    .lineLimit(1)
+                    .multilineTextAlignment(.leading)
+            }
 
             Text(card.userName)
-                .font(.subheadline)
+                .font(isMini ? .caption2 : .subheadline)
+                .bold(isMini)
                 .foregroundStyle(Color.black)
                 .lineLimit(1)
                 .multilineTextAlignment(.leading)
@@ -125,5 +134,15 @@ struct CardView: View {
         CardView(card: .stub0)
         CardView(card: .stub1)
     }
+    .padding()
+}
+
+
+#Preview {
+    VStack {
+        CardView(card: .stub0, isMini: true)
+        CardView(card: .stub1, isMini: true)
+    }
+    .frame(maxWidth: 120)
     .padding()
 }
