@@ -9,6 +9,11 @@ import SwiftUI
 
 struct CommunityListScreen: View {
     @State private var viewModel = CommunityListViewModel()
+    @Binding private var selectedCommunity: Community?
+
+    init(selectedCommunity: Binding<Community?>) {
+        self._selectedCommunity = selectedCommunity
+    }
 
     var body: some View {
         content
@@ -28,10 +33,8 @@ struct CommunityListScreen: View {
                 description: Text("Communities you join will appear here.")
             )
         } else {
-            List(viewModel.communities) { community in
-                NavigationLink(value: community) {
-                    Text(community.name)
-                }
+            List(viewModel.communities, selection: $selectedCommunity) { community in
+                NavigationLink(community.name, value: community)
             }
         }
     }
@@ -39,6 +42,6 @@ struct CommunityListScreen: View {
 
 #Preview {
     NavigationStack {
-        CommunityListScreen()
+        CommunityListScreen(selectedCommunity: .constant(nil))
     }
 }

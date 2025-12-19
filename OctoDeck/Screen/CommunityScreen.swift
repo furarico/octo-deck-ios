@@ -8,11 +8,16 @@
 import SwiftUI
 
 struct CommunityScreen: View {
+    @State private var selectedCommunity: Community?
+
     var body: some View {
         NavigationSplitView {
-            CommunityListScreen()
+            CommunityListScreen(selectedCommunity: $selectedCommunity)
                 .navigationTitle("Communities")
         } detail: {
+            if let selectedCommunity {
+                CommunityDetailScreen(community: selectedCommunity)
+            }
         }
     }
 }

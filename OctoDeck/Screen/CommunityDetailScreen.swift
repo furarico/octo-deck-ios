@@ -15,32 +15,41 @@ struct CommunityDetailScreen: View {
     }
 
     var body: some View {
-        ScrollView {
-            VStack(alignment: .leading, spacing: 32) {
-                if let highlightedCard = viewModel.highlightedCard {
+        content
+            .task {
+                await viewModel.onAppear()
+            }
+            .navigationTitle(viewModel.community.name)
+    }
+
+    @ViewBuilder
+    private var content: some View {
+        if viewModel.isLoading {
+            ProgressView()
+        } else {
+            ScrollView {
+                VStack(alignment: .leading, spacing: 32) {
+                    if let highlightedCard = viewModel.highlightedCard {
+                        VStack(alignment: .leading) {
+                            Text("Highlighted Members")
+                                .font(.title)
+                                .bold()
+                                .padding(.horizontal)
+                            
+                            highlightedCardView(highlightedCard)
+                        }
+                    }
+                    
                     VStack(alignment: .leading) {
-                        Text("Highlighted Members")
+                        Text("All Members")
                             .font(.title)
                             .bold()
                             .padding(.horizontal)
-
-                        highlightedCardView(highlightedCard)
                     }
                 }
-
-                VStack(alignment: .leading) {
-                    Text("All Members")
-                        .font(.title)
-                        .bold()
-                        .padding(.horizontal)
-                }
+                .padding(.vertical)
             }
-            .padding(.vertical)
         }
-        .task {
-            await viewModel.onAppear()
-        }
-        .navigationTitle(viewModel.community.name)
     }
 
     private func highlightedCardView(_ highlightedCard: HighlightedCard) -> some View {
