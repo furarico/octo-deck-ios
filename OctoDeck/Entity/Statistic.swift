@@ -9,6 +9,9 @@ import Foundation
 
 struct Statistic: Equatable {
     let contributions: [Contribution]
+    let totalContribution: Int
+    let mostUsedLanguage: Language
+    let contributionDetail: ContributionDetail
 
     func maxContributionCount() -> Int {
         contributions.map { $0.count }.max() ?? 0
@@ -26,6 +29,11 @@ extension Statistic {
             let count = Int.random(in: 0...15)
             return Contribution(date: date, count: count)
         }.reversed()
-        return Statistic(contributions: Array(contributions))
+        return Statistic(
+            contributions: Array(contributions),
+            totalContribution: contributions.reduce(0) { $0 + $1.count },
+            mostUsedLanguage: .stub0,
+            contributionDetail: .stub0
+        )
     }()
 }
