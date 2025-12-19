@@ -46,6 +46,14 @@ struct CardView: View {
     var body: some View {
         cardBackground
             .overlay {
+                HStack {
+                    Spacer()
+                    IdenticonView(identicon: card.identicon)
+                        .opacity(0.2)
+                        .padding(isMini ? 8 : 20)
+                }
+            }
+            .overlay {
                 HStack(spacing: isMini ? 8 : 16) {
                     image
                         .frame(width: isMini ? 32 : 80, height: isMini ? 32 : 80)
@@ -94,7 +102,7 @@ struct CardView: View {
             .overlay {
                 RoundedRectangle(cornerRadius: 8)
                     .fill(overrideColor ?? languageColor)
-                    .opacity(0.2)
+                    .opacity(0.1)
             }
             .shadow(
                 color: overrideColor ?? languageColor,
