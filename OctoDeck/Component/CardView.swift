@@ -14,7 +14,7 @@ struct CardView: View {
     private let overrideColor: Color?
     private var languageColor: Color {
         let domainColor = card.mostUsedLanguage.color
-        return Color(red: domainColor.r, green: domainColor.g, blue: domainColor.b)
+        return Color(domainColor: domainColor)
     }
 
     init(card: Card, isMini: Bool = false, overrideColor: DomainColor? = nil) {

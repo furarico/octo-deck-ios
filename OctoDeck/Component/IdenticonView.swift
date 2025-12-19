@@ -12,7 +12,7 @@ struct IdenticonView: View {
     private let opacities: [[CGFloat]]
     private var color: Color {
         let domainColor = identicon.color
-        return Color(red: domainColor.r, green: domainColor.g, blue: domainColor.b)
+        return Color(domainColor: domainColor)
     }
 
     init(
