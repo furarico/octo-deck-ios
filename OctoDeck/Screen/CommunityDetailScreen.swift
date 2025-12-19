@@ -9,6 +9,11 @@ import SwiftUI
 
 struct CommunityDetailScreen: View {
     @State private var viewModel: CommunityDetailViewModel
+    private let cardsColumns = [
+        GridItem(.flexible()),
+        GridItem(.flexible()),
+        GridItem(.flexible()),
+    ]
 
     init(community: Community) {
         viewModel = CommunityDetailViewModel(community: community)
@@ -50,6 +55,9 @@ struct CommunityDetailScreen: View {
                             .font(.title)
                             .bold()
                             .padding(.horizontal)
+
+                        cardsView(viewModel.cards)
+                            .padding(.horizontal)
                     }
                 }
                 .padding(.vertical)
@@ -59,7 +67,7 @@ struct CommunityDetailScreen: View {
 
     private func highlightedCardView(_ highlightedCard: HighlightedCard) -> some View {
         ScrollView(.horizontal, showsIndicators: false) {
-            HStack {
+            LazyHStack {
                 VStack(alignment: .leading) {
                     Text("Best Contributor")
                         .font(.title2)
@@ -119,6 +127,14 @@ struct CommunityDetailScreen: View {
         }
         .scrollTargetBehavior(.viewAligned)
         .safeAreaPadding(.horizontal)
+    }
+
+    private func cardsView(_ cards: [Card]) -> some View {
+        LazyVGrid(columns: cardsColumns, spacing: 16) {
+            ForEach(cards) { card in
+                CardView(card: card, isMini: true)
+            }
+        }
     }
 }
 
