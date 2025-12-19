@@ -56,7 +56,7 @@ struct CommunityDetailServiceTests {
             CommunityDetailService()
         }
 
-        let result = try await service.getCards(id: Community.stub0.id)
+        let result = try await service.getCardsInCommunity(id: Community.stub0.id)
         #expect(result == expectedCards)
     }
 
@@ -71,7 +71,38 @@ struct CommunityDetailServiceTests {
         }
 
         await #expect(throws: CommunityRepositoryError.self) {
-            try await service.getCards(id: "invalid-id")
+            try await service.getCardsInCommunity(id: "invalid-id")
+        }
+    }
+
+    @Test("MyDeckのCardsが正しく返却される")
+    func testGetCardsInMyDeckSuccess() async throws {
+        let expectedCards = Card.stubs
+
+        let service = withDependencies {
+            $0.cardRepository.listCards = {
+                expectedCards
+            }
+        } operation: {
+            CommunityDetailService()
+        }
+
+        let result = try await service.getCardsInMyDeck()
+        #expect(result == expectedCards)
+    }
+
+    @Test("MyDeckのCardsが返却されない")
+    func testGetCardsInMyDeckFailure() async throws {
+        let service = withDependencies {
+            $0.cardRepository.listCards = {
+                throw CardRepositoryError.apiError(404, nil)
+            }
+        } operation: {
+            CommunityDetailService()
+        }
+
+        await #expect(throws: CardRepositoryError.self) {
+            try await service.getCardsInMyDeck()
         }
     }
 }

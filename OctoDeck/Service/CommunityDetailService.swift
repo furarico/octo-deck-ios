@@ -8,6 +8,7 @@
 import Dependencies
 
 final actor CommunityDetailService {
+    @Dependency(\.cardRepository) private var cardRepository
     @Dependency(\.communityRepository) private var communityRepository
 
     func getHighlightedCard(id: Community.ID) async throws -> HighlightedCard {
@@ -15,7 +16,11 @@ final actor CommunityDetailService {
         return highlightedCard
     }
 
-    func getCards(id: Community.ID) async throws -> [Card] {
+    func getCardsInCommunity(id: Community.ID) async throws -> [Card] {
         try await communityRepository.getCommunityCards(id: id)
+    }
+
+    func getCardsInMyDeck() async throws -> [Card] {
+        try await cardRepository.listCards()
     }
 }
