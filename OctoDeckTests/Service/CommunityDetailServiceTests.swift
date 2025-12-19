@@ -43,4 +43,35 @@ struct CommunityDetailServiceTests {
             try await service.getHighlightedCard(id: "invalid-id")
         }
     }
+
+    @Test("Cardsが正しく返却される")
+    func testGetCardsSuccess() async throws {
+        let expectedCards = Card.stubs
+
+        let service = withDependencies {
+            $0.communityRepository.getCommunityCards = { _ in
+                expectedCards
+            }
+        } operation: {
+            CommunityDetailService()
+        }
+
+        let result = try await service.getCards(id: Community.stub0.id)
+        #expect(result == expectedCards)
+    }
+
+    @Test("Cardsが返却されない")
+    func testGetCardsFailure() async throws {
+        let service = withDependencies {
+            $0.communityRepository.getCommunityCards = { _ in
+                throw CommunityRepositoryError.apiError(404, nil)
+            }
+        } operation: {
+            CommunityDetailService()
+        }
+
+        await #expect(throws: CommunityRepositoryError.self) {
+            try await service.getCards(id: "invalid-id")
+        }
+    }
 }
