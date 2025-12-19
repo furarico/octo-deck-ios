@@ -8,10 +8,25 @@
 import SwiftUI
 
 struct IdenticonView: View {
-    let identicon: Identicon
+    private let identicon: Identicon
+    private let opacities: [[CGFloat]]
     private var color: Color {
         let domainColor = identicon.color
         return Color(red: domainColor.r, green: domainColor.g, blue: domainColor.b)
+    }
+
+    init(
+        identicon: Identicon,
+        opacities: [[CGFloat]] = [
+            [1, 1, 1, 1, 1],
+            [1, 1, 1, 1, 1],
+            [1, 1, 1, 1, 1],
+            [1, 1, 1, 1, 1],
+            [1, 1, 1, 1, 1],
+        ]
+    ) {
+        self.identicon = identicon
+        self.opacities = opacities
     }
 
     var body: some View {
@@ -21,6 +36,7 @@ struct IdenticonView: View {
                     ForEach(row.element.enumerated(), id: \.offset) { col in
                         Color(col.element ? color : .clear)
                             .aspectRatio(1, contentMode: .fit)
+                            .opacity(opacities[safe: row.offset]?[safe: col.offset] ?? 0)
                     }
                 }
             }
