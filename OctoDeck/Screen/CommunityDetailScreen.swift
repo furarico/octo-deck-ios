@@ -30,6 +30,12 @@ struct CommunityDetailScreen: View {
                     viewModel.onAddButtonTapped()
                 }
             }
+            .background(
+                Image(.octoDeckBackground)
+                    .resizable()
+                    .ignoresSafeArea()
+                    .scaledToFill()
+            )
     }
 
     @ViewBuilder

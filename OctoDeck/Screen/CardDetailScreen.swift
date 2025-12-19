@@ -31,6 +31,12 @@ struct CardDetailScreen: View {
             .task {
                 await viewModel.onAppear()
             }
+            .background(
+                Image(.octoDeckBackground)
+                    .resizable()
+                    .ignoresSafeArea()
+                    .scaledToFill()
+            )
     }
 
     @ViewBuilder
