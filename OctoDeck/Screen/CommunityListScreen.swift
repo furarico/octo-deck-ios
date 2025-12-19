@@ -29,7 +29,7 @@ struct CommunityListScreen: View {
         } else if viewModel.communities.isEmpty {
             ContentUnavailableView(
                 "No Communities",
-                systemImage: "person.3",
+                systemImage: "globe",
                 description: Text("Communities you join will appear here.")
             )
         } else {
@@ -41,7 +41,5 @@ struct CommunityListScreen: View {
 }
 
 #Preview {
-    NavigationStack {
-        CommunityListScreen(selectedCommunity: .constant(nil))
-    }
+    CommunityListScreen(selectedCommunity: .constant(nil))
 }

@@ -32,12 +32,19 @@ struct MyDeckScreen: View {
                     viewModel.onAddButtonTapped(card: card)
                 }
             }
+            .background(
+                Image(.octoDeckBackground)
+                    .resizable()
+                    .ignoresSafeArea()
+                    .scaledToFill()
+            )
     }
 
     @ViewBuilder
     var content: some View {
         if viewModel.isLoading {
             ProgressView()
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
         } else if let myCard = viewModel.myCard {
             ScrollView {
                 VStack(alignment: .leading, spacing: 32) {
@@ -57,15 +64,27 @@ struct MyDeckScreen: View {
                             .font(.title)
                             .bold()
 
-                        CardStackView(cards: viewModel.cardsInMyDeck) { card in
-                            viewModel.onCardSelected(card)
+                        if viewModel.cardsInMyDeck.isEmpty {
+                            ContentUnavailableView(
+                                "No Cards",
+                                systemImage: "person.3"
+                            )
+                            .frame(maxWidth: .infinity, maxHeight: .infinity)
+                        } else {
+                            CardStackView(cards: viewModel.cardsInMyDeck) { card in
+                                viewModel.onCardSelected(card)
+                            }
                         }
                     }
                 }
                 .padding()
             }
         } else {
-            Text("No card available.")
+                ContentUnavailableView(
+                    "No Cards",
+                    systemImage: "person.crop.rectangle.stack"
+                )
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
         }
     }
 }
