@@ -11,10 +11,16 @@ import SwiftUI
 struct CardView: View {
     private let card: Card
     private let isMini: Bool
+    private let overrideColor: Color?
+    private var languageColor: Color {
+        let domainColor = card.mostUsedLanguage.color
+        return Color(red: domainColor.r, green: domainColor.g, blue: domainColor.b)
+    }
 
-    init(card: Card, isMini: Bool = false) {
+    init(card: Card, isMini: Bool = false, overrideColor: DomainColor? = nil) {
         self.card = card
         self.isMini = isMini
+        self.overrideColor = overrideColor.map { Color(red: $0.r, green: $0.g, blue: $0.b) }
     }
 
     private let gradient = LinearGradient(
@@ -85,6 +91,15 @@ struct CardView: View {
                     .fill(gradient.opacity(0.12))
                     .stroke(gradient.opacity(0.7), lineWidth: 4)
             }
+            .overlay {
+                RoundedRectangle(cornerRadius: 8)
+                    .fill(overrideColor ?? languageColor)
+                    .opacity(0.2)
+            }
+            .shadow(
+                color: overrideColor ?? languageColor,
+                radius: 8
+            )
     }
 
     private var textView: some View {
@@ -130,19 +145,23 @@ struct CardView: View {
 }
 
 #Preview {
-    VStack {
-        CardView(card: .stub0)
-        CardView(card: .stub1)
-    }
-    .padding()
+    CardView(card: .stub0)
+        .padding()
 }
 
+#Preview {
+    CardView(card: .stub1)
+        .padding()
+}
 
 #Preview {
-    VStack {
-        CardView(card: .stub0, isMini: true)
-        CardView(card: .stub1, isMini: true)
-    }
-    .frame(maxWidth: 120)
-    .padding()
+    CardView(card: .stub0, isMini: true)
+        .frame(maxWidth: 120)
+        .padding()
+}
+
+#Preview {
+    CardView(card: .stub1, isMini: true)
+        .frame(maxWidth: 120)
+        .padding()
 }

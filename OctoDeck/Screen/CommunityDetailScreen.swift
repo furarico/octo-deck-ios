@@ -67,12 +67,12 @@ struct CommunityDetailScreen: View {
 
     private func highlightedCardView(_ highlightedCard: HighlightedCard) -> some View {
         ScrollView(.horizontal, showsIndicators: false) {
-            LazyHStack {
+            LazyHStack(spacing: 24) {
                 VStack(alignment: .leading) {
                     Text("Best Contributor")
                         .font(.title2)
                         .bold()
-                    CardView(card: highlightedCard.bestContributor)
+                    CardView(card: highlightedCard.bestContributor, overrideColor: .init(hexCode: "#ffff24"))
                         .onTapGesture {
                             viewModel.onCardTapped(highlightedCard.bestContributor)
                         }
@@ -83,7 +83,7 @@ struct CommunityDetailScreen: View {
                     Text("Best Committer")
                         .font(.title2)
                         .bold()
-                    CardView(card: highlightedCard.bestCommitter)
+                    CardView(card: highlightedCard.bestCommitter, overrideColor: .init(hexCode: "#4493f8"))
                         .onTapGesture {
                             viewModel.onCardTapped(highlightedCard.bestCommitter)
                         }
@@ -94,7 +94,7 @@ struct CommunityDetailScreen: View {
                     Text("Best Reviewer")
                         .font(.title2)
                         .bold()
-                    CardView(card: highlightedCard.bestReviewer)
+                    CardView(card: highlightedCard.bestReviewer, overrideColor: .init(hexCode: "#da3633"))
                         .onTapGesture {
                             viewModel.onCardTapped(highlightedCard.bestReviewer)
                         }
@@ -105,7 +105,7 @@ struct CommunityDetailScreen: View {
                     Text("Best Issuer")
                         .font(.title2)
                         .bold()
-                    CardView(card: highlightedCard.bestIssuer)
+                    CardView(card: highlightedCard.bestIssuer, overrideColor: .init(hexCode: "#238636"))
                         .onTapGesture {
                             viewModel.onCardTapped(highlightedCard.bestIssuer)
                         }
@@ -116,7 +116,7 @@ struct CommunityDetailScreen: View {
                     Text("Best Pull Requester")
                         .font(.title2)
                         .bold()
-                    CardView(card: highlightedCard.bestPullRequester)
+                    CardView(card: highlightedCard.bestPullRequester, overrideColor: .init(hexCode: "#8957e5"))
                         .onTapGesture {
                             viewModel.onCardTapped(highlightedCard.bestPullRequester)
                         }
@@ -126,7 +126,8 @@ struct CommunityDetailScreen: View {
             .scrollTargetLayout()
         }
         .scrollTargetBehavior(.viewAligned)
-        .safeAreaPadding(.horizontal)
+        .safeAreaPadding(.vertical)
+        .safeAreaPadding(.horizontal, 16)
     }
 
     private func cardsView(_ cards: [Card]) -> some View {
