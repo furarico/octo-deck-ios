@@ -49,7 +49,7 @@ struct CardView: View {
                 HStack {
                     Spacer()
                     IdenticonView(identicon: card.identicon)
-                        .opacity(0.2)
+                        .opacity(0.4)
                         .padding(isMini ? 8 : 20)
                 }
             }
