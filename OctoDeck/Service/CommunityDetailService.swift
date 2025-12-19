@@ -11,7 +11,11 @@ final actor CommunityDetailService {
     @Dependency(\.communityRepository) private var communityRepository
 
     func getHighlightedCard(id: Community.ID) async throws -> HighlightedCard {
-        let (community, highlightedCard) = try await communityRepository.getCommunity(id: id)
+        let (_, highlightedCard) = try await communityRepository.getCommunity(id: id)
         return highlightedCard
+    }
+
+    func getCards(id: Community.ID) async throws -> [Card] {
+        try await communityRepository.getCommunityCards(id: id)
     }
 }
