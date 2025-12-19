@@ -1,0 +1,36 @@
+//
+//  CompletedView.swift
+//  OctoDeck
+//
+//  Created by 藤間里緒香 on 2025/12/18.
+//
+import SwiftUI
+import Lottie
+
+struct CompletedView: View {
+    var body: some View {
+        ZStack {
+            Image("OctoDeckBackground")
+                .resizable()
+                .ignoresSafeArea()
+                .scaledToFill()
+                .overlay {
+                    VStack(spacing: 24) {
+                        LottieView(
+                            name: "OctoDeckCompleted"
+                        )
+                        .frame(width: 128, height: 128)
+                        .accessibilityLabel(Text("連携完了アニメーション"))
+                        Text("連携完了")
+                            .font(.largeTitle)
+                            .bold()
+                    }
+                    .foregroundStyle(Color.white)
+                }
+        }
+    }
+}
+
+#Preview {
+    CompletedView()
+}
