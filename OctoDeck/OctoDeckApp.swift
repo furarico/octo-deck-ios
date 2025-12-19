@@ -11,8 +11,7 @@ import SwiftUI
 struct OctoDeckApp: App {
     var body: some Scene {
         WindowGroup {
-            CardIssueView()
-           // ContentScreen()
+           ContentScreen()
         }
     }
 }

@@ -6,18 +6,17 @@
 //
 
 import SwiftUI
-import UIKit
 
 struct CardIssueView: View {
     @State private var progress = 0.0
 
     var body: some View {
-        ZStack{
+        ZStack {
             Image("OctoDeckBackground")
                 .resizable()
                 .ignoresSafeArea()
                 .scaledToFill()
-            VStack(spacing: 8){
+            VStack(spacing: 8) {
                 Text("カードを発行しています")
                     .font(.title)
                     .bold()
