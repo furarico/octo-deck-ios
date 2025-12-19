@@ -9,7 +9,7 @@ import Observation
 
 @Observable
 final class CommunityDetailViewModel {
-    private let community: Community
+    let community: Community
 
     private(set) var highlightedCard: HighlightedCard? = nil
     private(set) var cards: [Card] = []
