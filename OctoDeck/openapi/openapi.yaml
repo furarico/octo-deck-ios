@@ -146,9 +146,22 @@ paths:
       requestBody:
         required: true
         content:
-          text/plain:
+          application/json:
             schema:
-              type: string
+              type: object
+              properties:
+                name:
+                  type: string
+                startDateTime:
+                  type: string
+                  format: date-time
+                endDateTime:
+                  type: string
+                  format: date-time
+              required:
+                - name
+                - startDateTime
+                - endDateTime
   /communities/{id}:
     get:
       operationId: getCommunity
@@ -331,11 +344,19 @@ components:
       required:
         - id
         - name
+        - startDateTime
+        - endDateTime
       properties:
         id:
           type: string
         name:
           type: string
+        startDateTime:
+          type: string
+          format: date-time
+        endDateTime:
+          type: string
+          format: date-time
     Contribution:
       type: object
       required:
@@ -346,6 +367,26 @@ components:
           type: string
           format: date
         count:
+          type: integer
+          format: int32
+    ContributionDetail:
+      type: object
+      required:
+        - reviewCount
+        - commitCount
+        - pullRequestCount
+        - issueCount
+      properties:
+        reviewCount:
+          type: integer
+          format: int32
+        commitCount:
+          type: integer
+          format: int32
+        pullRequestCount:
+          type: integer
+          format: int32
+        issueCount:
           type: integer
           format: int32
     HighlightedCard:
@@ -399,11 +440,21 @@ components:
       type: object
       required:
         - contributions
+        - totalContribution
+        - mostUsedLanguage
+        - contributionDetail
       properties:
         contributions:
           type: array
           items:
             $ref: '#/components/schemas/Contribution'
+        totalContribution:
+          type: integer
+          format: int32
+        mostUsedLanguage:
+          $ref: '#/components/schemas/Language'
+        contributionDetail:
+          $ref: '#/components/schemas/ContributionDetail'
   securitySchemes:
     BearerAuth:
       type: http
