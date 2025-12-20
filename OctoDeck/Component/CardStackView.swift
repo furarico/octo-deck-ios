@@ -11,16 +11,24 @@ struct CardStackView: View {
     let cards: [Card]
     let onSelected: (_ card: Card) -> Void
 
+    private let offsetY: CGFloat = 48
+
     var body: some View {
-        ZStack {
-            ForEach(Array(cards.enumerated()), id: \.element.id) { index, card in
-                CardView(card: card)
-                    .offset(y: CGFloat(index) * 48)
-                    .onTapGesture {
-                        onSelected(card)
-                    }
+        VStack(spacing: 0) {
+            ZStack {
+                ForEach(Array(cards.enumerated()), id: \.element.id) { index, card in
+                    CardView(card: card)
+                        .offset(y: CGFloat(index) * offsetY)
+                        .onTapGesture {
+                            onSelected(card)
+                        }
+                }
             }
+
+            Color.clear
+                .frame(height: CGFloat(cards.count - 1) * offsetY)
         }
+        .border(Color.red)
     }
 }
 
