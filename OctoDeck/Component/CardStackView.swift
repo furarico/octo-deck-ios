@@ -28,7 +28,6 @@ struct CardStackView: View {
             Color.clear
                 .frame(height: CGFloat(cards.count - 1) * offsetY)
         }
-        .border(Color.red)
     }
 }
 
