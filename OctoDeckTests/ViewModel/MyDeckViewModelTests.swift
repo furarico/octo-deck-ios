@@ -41,7 +41,7 @@ struct MyDeckViewModelTests {
 
         let viewModel = withDependencies {
             $0.cardRepository.getMyCard = {
-                throw CardRepositoryError.apiError(500, nil)
+                throw CardRepositoryError.apiError(500)
             }
             $0.cardRepository.listCards = {
                 expectedCardsInMyDeck
@@ -66,7 +66,7 @@ struct MyDeckViewModelTests {
                 expectedMyCard
             }
             $0.cardRepository.listCards = {
-                throw CardRepositoryError.apiError(500, nil)
+                throw CardRepositoryError.apiError(500)
             }
         } operation: {
             MyDeckViewModel()

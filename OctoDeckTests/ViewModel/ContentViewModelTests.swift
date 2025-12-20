@@ -289,7 +289,7 @@ struct ContentViewModelTests {
     func testHandleURLUserPathFailure() async throws {
         let viewModel = withDependencies {
             $0.cardRepository.getCard = { _ in
-                throw CardRepositoryError.apiError(404, nil)
+                throw CardRepositoryError.apiError(404)
             }
         } operation: {
             ContentViewModel()

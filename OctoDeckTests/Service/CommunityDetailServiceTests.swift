@@ -33,7 +33,7 @@ struct CommunityDetailServiceTests {
     func testGetHighlightedCardFailure() async throws {
         let service = withDependencies {
             $0.communityRepository.getCommunity = { _ in
-                throw CommunityRepositoryError.apiError(404, nil)
+                throw CommunityRepositoryError.apiError(404)
             }
         } operation: {
             CommunityDetailService()
@@ -64,7 +64,7 @@ struct CommunityDetailServiceTests {
     func testGetCardsFailure() async throws {
         let service = withDependencies {
             $0.communityRepository.getCommunityCards = { _ in
-                throw CommunityRepositoryError.apiError(404, nil)
+                throw CommunityRepositoryError.apiError(404)
             }
         } operation: {
             CommunityDetailService()
@@ -95,7 +95,7 @@ struct CommunityDetailServiceTests {
     func testGetCardsInMyDeckFailure() async throws {
         let service = withDependencies {
             $0.cardRepository.listCards = {
-                throw CardRepositoryError.apiError(404, nil)
+                throw CardRepositoryError.apiError(404)
             }
         } operation: {
             CommunityDetailService()

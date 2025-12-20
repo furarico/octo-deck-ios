@@ -34,7 +34,7 @@ struct CardDetailServiceTests {
 
         let service = withDependencies {
             $0.statisticRepository.getUserStats = { _ in
-                throw StatisticRepositoryError.apiError(500, nil)
+                throw StatisticRepositoryError.apiError(500)
             }
         } operation: {
             CardDetailService()
@@ -88,7 +88,7 @@ struct CardDetailServiceTests {
 
         let service = withDependencies {
             $0.cardRepository.addCardToMyDeck = { _ in
-                throw StatisticRepositoryError.apiError(500, nil)
+                throw StatisticRepositoryError.apiError(500)
             }
         } operation: {
             CardDetailService()
@@ -142,7 +142,7 @@ struct CardDetailServiceTests {
 
         let service = withDependencies {
             $0.cardRepository.removeCardFromMyDeck = { _ in
-                throw StatisticRepositoryError.apiError(500, nil)
+                throw StatisticRepositoryError.apiError(500)
             }
         } operation: {
             CardDetailService()

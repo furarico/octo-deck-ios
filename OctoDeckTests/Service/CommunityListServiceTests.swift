@@ -46,7 +46,7 @@ struct CommunityListServiceTests {
     func testListCommunitiesFailure() async throws {
         let service = withDependencies {
             $0.communityRepository.listCommunities = {
-                throw CommunityRepositoryError.apiError(500, nil)
+                throw CommunityRepositoryError.apiError(500)
             }
         } operation: {
             CommunityListService()

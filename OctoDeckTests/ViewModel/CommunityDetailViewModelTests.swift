@@ -74,7 +74,7 @@ struct CommunityDetailViewModelTests {
 
         let viewModel = withDependencies {
             $0.communityRepository.getCommunity = { _ in
-                throw CommunityRepositoryError.apiError(404, nil)
+                throw CommunityRepositoryError.apiError(404)
             }
             $0.communityRepository.getCommunityCards = { _ in
                 Card.stubs
@@ -104,7 +104,7 @@ struct CommunityDetailViewModelTests {
                 (community, expectedHighlightedCard)
             }
             $0.communityRepository.getCommunityCards = { _ in
-                throw CommunityRepositoryError.apiError(404, nil)
+                throw CommunityRepositoryError.apiError(404)
             }
             $0.cardRepository.listCards = {
                 Card.stubs
@@ -135,7 +135,7 @@ struct CommunityDetailViewModelTests {
                 expectedCards
             }
             $0.cardRepository.listCards = {
-                throw CardRepositoryError.apiError(404, nil)
+                throw CardRepositoryError.apiError(404)
             }
         } operation: {
             CommunityDetailViewModel(community: community)
@@ -184,16 +184,16 @@ struct CommunityDetailViewModelTests {
         let expectedCardsInMyDeck = [Card.stub1]
         let community = Community.stub1
 
-        var receivedCommunityId: String?
-        var receivedCardsId: String?
+        let receivedCommunityId = LockIsolated<String?>(nil)
+        let receivedCardsId = LockIsolated<String?>(nil)
 
         let viewModel = withDependencies {
             $0.communityRepository.getCommunity = { id in
-                receivedCommunityId = id
+                receivedCommunityId.setValue(id)
                 return (community, expectedHighlightedCard)
             }
             $0.communityRepository.getCommunityCards = { id in
-                receivedCardsId = id
+                receivedCardsId.setValue(id)
                 return expectedCards
             }
             $0.cardRepository.listCards = {
@@ -205,8 +205,8 @@ struct CommunityDetailViewModelTests {
 
         await viewModel.onAppear()
 
-        #expect(receivedCommunityId == community.id)
-        #expect(receivedCardsId == community.id)
+        #expect(receivedCommunityId.value == community.id)
+        #expect(receivedCardsId.value == community.id)
         #expect(viewModel.highlightedCard == expectedHighlightedCard)
         #expect(viewModel.cards == expectedCards)
         #expect(viewModel.cardsInMyDeck == expectedCardsInMyDeck)

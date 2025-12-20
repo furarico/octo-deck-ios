@@ -52,7 +52,7 @@ struct CommunityListViewModelTests {
     func testOnAppearFailure() async throws {
         let viewModel = withDependencies {
             $0.communityRepository.listCommunities = {
-                throw CommunityRepositoryError.apiError(500, nil)
+                throw CommunityRepositoryError.apiError(500)
             }
         } operation: {
             CommunityListViewModel()

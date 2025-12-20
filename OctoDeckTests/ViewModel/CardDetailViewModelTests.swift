@@ -55,7 +55,7 @@ struct CardDetailViewModelTests {
 
         let viewModel = withDependencies {
             $0.statisticRepository.getUserStats = { _ in
-                throw StatisticRepositoryError.apiError(500, nil)
+                throw StatisticRepositoryError.apiError(500)
             }
         } operation: {
             CardDetailViewModel(card: card)
@@ -188,7 +188,7 @@ struct CardDetailViewModelTests {
 
         let viewModel = withDependencies {
             $0.cardRepository.addCardToMyDeck = { _ in
-                throw StatisticRepositoryError.apiError(500, nil)
+                throw StatisticRepositoryError.apiError(500)
             }
         } operation: {
             CardDetailViewModel(card: card)
@@ -205,7 +205,7 @@ struct CardDetailViewModelTests {
 
         let viewModel = withDependencies {
             $0.cardRepository.removeCardFromMyDeck = { _ in
-                throw StatisticRepositoryError.apiError(500, nil)
+                throw StatisticRepositoryError.apiError(500)
             }
         } operation: {
             CardDetailViewModel(card: card)

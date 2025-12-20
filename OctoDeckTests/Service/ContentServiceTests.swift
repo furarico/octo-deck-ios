@@ -121,7 +121,7 @@ struct ContentServiceTests {
     func testGetCardFailure() async throws {
         let service = withDependencies {
             $0.cardRepository.getCard = { _ in
-                throw CardRepositoryError.apiError(404, nil)
+                throw CardRepositoryError.apiError(404)
             }
         } operation: {
             ContentService()

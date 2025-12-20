@@ -31,7 +31,7 @@ struct MyDeckServiceTests {
     func testGetMyCardFailure() async throws {
         let service = withDependencies {
             $0.cardRepository.getMyCard = {
-                throw CardRepositoryError.apiError(500, nil)
+                throw CardRepositoryError.apiError(500)
             }
         } operation: {
             MyDeckService()
@@ -76,7 +76,7 @@ struct MyDeckServiceTests {
     func testGetCardsInMyDeckFailure() async throws {
         let service = withDependencies {
             $0.cardRepository.listCards = {
-                throw CardRepositoryError.apiError(500, nil)
+                throw CardRepositoryError.apiError(500)
             }
         } operation: {
             MyDeckService()
