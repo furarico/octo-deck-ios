@@ -31,7 +31,7 @@ nonisolated extension CardRepository: DependencyKey {
 
             case .undocumented(let statusCode, let payload):
                 print("API Error: \(statusCode), \(payload.body, default: "")")
-                throw StatisticRepositoryError.apiError(statusCode, payload)
+                throw StatisticRepositoryError.apiError(statusCode)
             }
         },
         getCard: { id in
@@ -44,7 +44,7 @@ nonisolated extension CardRepository: DependencyKey {
 
             case .undocumented(let statusCode, let payload):
                 print("API Error: \(statusCode), \(payload.body, default: "")")
-                throw StatisticRepositoryError.apiError(statusCode, payload)
+                throw StatisticRepositoryError.apiError(statusCode)
             }
         },
         getMyCard: {
@@ -56,7 +56,7 @@ nonisolated extension CardRepository: DependencyKey {
                 return makeCard(from: responseCard)
 
             case .undocumented(let statusCode, let payload):
-                throw StatisticRepositoryError.apiError(statusCode, payload)
+                throw StatisticRepositoryError.apiError(statusCode)
             }
         },
         addCardToMyDeck: { id in
@@ -68,7 +68,7 @@ nonisolated extension CardRepository: DependencyKey {
                 return makeCard(from: responseCard)
 
             case .undocumented(let statusCode, let payload):
-                throw StatisticRepositoryError.apiError(statusCode, payload)
+                throw StatisticRepositoryError.apiError(statusCode)
             }
         },
         removeCardFromMyDeck: { id in
@@ -80,7 +80,7 @@ nonisolated extension CardRepository: DependencyKey {
                 return makeCard(from: responseCard)
 
             case .undocumented(let statusCode, let payload):
-                throw StatisticRepositoryError.apiError(statusCode, payload)
+                throw StatisticRepositoryError.apiError(statusCode)
             }
         }
     )

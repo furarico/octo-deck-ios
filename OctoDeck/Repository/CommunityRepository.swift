@@ -40,7 +40,7 @@ nonisolated extension CommunityRepository: DependencyKey {
 
             case .undocumented(let statusCode, let payload):
                 print("API Error: \(statusCode), \(payload.body, default: "")")
-                throw CommunityRepositoryError.apiError(statusCode, payload)
+                throw CommunityRepositoryError.apiError(statusCode)
             }
         },
         getCommunity: { id in
@@ -68,7 +68,7 @@ nonisolated extension CommunityRepository: DependencyKey {
 
             case .undocumented(let statusCode, let payload):
                 print("API Error: \(statusCode), \(payload.body, default: "")")
-                throw CommunityRepositoryError.apiError(statusCode, payload)
+                throw CommunityRepositoryError.apiError(statusCode)
             }
         },
         createCommunity: { name, startAt, endAt in
@@ -94,7 +94,7 @@ nonisolated extension CommunityRepository: DependencyKey {
 
             case .undocumented(let statusCode, let payload):
                 print("API Error: \(statusCode), \(payload.body, default: "")")
-                throw CommunityRepositoryError.apiError(statusCode, payload)
+                throw CommunityRepositoryError.apiError(statusCode)
             }
         },
         deleteCommunity: { id in
@@ -112,7 +112,7 @@ nonisolated extension CommunityRepository: DependencyKey {
 
             case .undocumented(let statusCode, let payload):
                 print("API Error: \(statusCode), \(payload.body, default: "")")
-                throw CommunityRepositoryError.apiError(statusCode, payload)
+                throw CommunityRepositoryError.apiError(statusCode)
             }
         },
         getCommunityCards: { id in
@@ -125,7 +125,7 @@ nonisolated extension CommunityRepository: DependencyKey {
 
             case .undocumented(let statusCode, let payload):
                 print("API Error: \(statusCode), \(payload.body, default: "")")
-                throw CommunityRepositoryError.apiError(statusCode, payload)
+                throw CommunityRepositoryError.apiError(statusCode)
             }
         },
         addCardToCommunity: { id in
@@ -138,7 +138,7 @@ nonisolated extension CommunityRepository: DependencyKey {
 
             case .undocumented(let statusCode, let payload):
                 print("API Error: \(statusCode), \(payload.body, default: "")")
-                throw CommunityRepositoryError.apiError(statusCode, payload)
+                throw CommunityRepositoryError.apiError(statusCode)
             }
         },
         removeCardFromCommunity: { id in
@@ -151,7 +151,7 @@ nonisolated extension CommunityRepository: DependencyKey {
 
             case .undocumented(let statusCode, let payload):
                 print("API Error: \(statusCode), \(payload.body, default: "")")
-                throw CommunityRepositoryError.apiError(statusCode, payload)
+                throw CommunityRepositoryError.apiError(statusCode)
             }
         }
     )

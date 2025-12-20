@@ -28,7 +28,7 @@ nonisolated extension StatisticRepository: DependencyKey {
 
             case .undocumented(let statusCode, let payload):
                 print("API Error: \(statusCode), \(payload.body, default: "")")
-                throw StatisticRepositoryError.apiError(statusCode, payload)
+                throw StatisticRepositoryError.apiError(statusCode)
             }
         },
         getUserStats: { githubId in
@@ -41,7 +41,7 @@ nonisolated extension StatisticRepository: DependencyKey {
 
             case .undocumented(let statusCode, let payload):
                 print("API Error: \(statusCode), \(payload.body, default: "")")
-                throw StatisticRepositoryError.apiError(statusCode, payload)
+                throw StatisticRepositoryError.apiError(statusCode)
             }
         }
     )
