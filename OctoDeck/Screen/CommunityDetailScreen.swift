@@ -42,6 +42,7 @@ struct CommunityDetailScreen: View {
     private var content: some View {
         if viewModel.isLoading {
             ProgressView()
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
         } else {
             ScrollView {
                 VStack(alignment: .leading, spacing: 32) {
