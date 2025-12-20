@@ -25,23 +25,43 @@ struct CardView: View {
 
     private let gradient = LinearGradient(
         stops: [
-            .init(color: Color(red: 219/255, green: 219/255, blue: 219/255), location: 0),
-            .init(color: Color.white, location: 0.081),
-            .init(color: Color(red: 110/255, green: 110/255, blue: 255/255), location: 0.150),
-            .init(color: Color(red: 255/255, green: 78/255, blue: 143/255), location: 0.192),
-            .init(color: Color(red: 208/255, green: 255/255, blue: 126/255), location: 0.286),
-            .init(color: Color(red: 0/255, green: 194/255, blue: 29/255), location: 0.354),
-            .init(color: Color.white, location: 0.446),
-            .init(color: Color.white, location: 0.574),
-            .init(color: Color(red: 110/255, green: 110/255, blue: 255/255), location: 0.695),
-            .init(color: Color(red: 255/255, green: 78/255, blue: 143/255), location: 0.768),
-            .init(color: Color(red: 208/255, green: 255/255, blue: 126/255), location: 0.855),
-            .init(color: Color(red: 0/255, green: 194/255, blue: 29/255), location: 0.918),
-            .init(color: Color(red: 225/255, green: 225/255, blue: 225/255), location: 1),
+            .init(color: Color.white, location: 0),
+            .init(color: Color.white, location: 0.1),
+            .init(color: Color(red: 110/255, green: 110/255, blue: 255/255), location: 0.2),
+            .init(color: Color(red: 255/255, green: 78/255, blue: 143/255), location: 0.25),
+            .init(color: Color(red: 208/255, green: 255/255, blue: 126/255), location: 0.3),
+            .init(color: Color(red: 0/255, green: 194/255, blue: 29/255), location: 0.35),
+            .init(color: Color.white, location: 0.45),
+            .init(color: Color.white, location: 0.55),
+            .init(color: Color(red: 110/255, green: 110/255, blue: 255/255), location: 0.65),
+            .init(color: Color(red: 255/255, green: 78/255, blue: 143/255), location: 0.7),
+            .init(color: Color(red: 208/255, green: 255/255, blue: 126/255), location: 0.75),
+            .init(color: Color(red: 0/255, green: 194/255, blue: 29/255), location: 0.8),
+            .init(color: Color.white, location: 0.9),
+            .init(color: Color.white, location: 1),
         ],
         startPoint: .topLeading,
         endPoint: .bottomTrailing
     )
+
+    private var colorGradient: LinearGradient {
+        LinearGradient(
+            stops: [
+                .init(color: overrideColor ?? languageColor, location: 0),
+                .init(color: overrideColor ?? languageColor, location: 0.1),
+                .init(color: Color.clear, location: 0.2),
+                .init(color: Color.clear, location: 0.35),
+                .init(color: overrideColor ?? languageColor, location: 0.45),
+                .init(color: overrideColor ?? languageColor, location: 0.55),
+                .init(color: Color.clear, location: 0.65),
+                .init(color: Color.clear, location: 0.8),
+                .init(color: overrideColor ?? languageColor, location: 0.9),
+                .init(color: overrideColor ?? languageColor, location: 1),
+            ],
+            startPoint: .topLeading,
+            endPoint: .bottomTrailing
+        )
+    }
 
     var body: some View {
         cardBackground
@@ -61,8 +81,12 @@ struct CardView: View {
                         .clipShape(Circle())
                         .overlay {
                             Circle()
-                                .stroke(gradient.opacity(0.7), lineWidth: 2)
+                                .stroke(gradient, lineWidth: isMini ? 1 : 2)
                         }
+                        .shadow(
+                            color: overrideColor ?? languageColor,
+                            radius: isMini ? 8 : 12
+                        )
 
                     textView
                 }
@@ -96,17 +120,16 @@ struct CardView: View {
             .aspectRatio(1.58, contentMode: .fit)
             .overlay {
                 RoundedRectangle(cornerRadius: 8)
-                    .fill(gradient.opacity(0.12))
-                    .stroke(gradient.opacity(0.7), lineWidth: 4)
+                    .fill(gradient.opacity(0.2))
+                    .stroke(gradient, lineWidth: isMini ? 2 : 4)
             }
             .overlay {
                 RoundedRectangle(cornerRadius: 8)
-                    .fill(overrideColor ?? languageColor)
-                    .opacity(0.1)
+                    .fill(colorGradient.opacity(0.4))
             }
             .shadow(
                 color: overrideColor ?? languageColor,
-                radius: 8
+                radius: isMini ? 8 : 12
             )
     }
 
