@@ -33,6 +33,7 @@ struct StatisticView: View {
             }
         }
         .frame(maxWidth: .infinity, alignment: .leading)
+        .lineLimit(1)
     }
 
     private var mostUsedLanguage: some View {
