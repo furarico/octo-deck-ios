@@ -14,7 +14,7 @@ import OpenAPIRuntime
 nonisolated struct CommunityRepository {
     var listCommunities: @Sendable () async throws -> [Community]
     var getCommunity: @Sendable (_ id: Community.ID) async throws -> (Community, HighlightedCard)
-    var createCommunity: @Sendable (_ name: String) async throws -> Community
+    var createCommunity: @Sendable (_ name: String, _ startAt: Date, _ endAt: Date) async throws -> Community
     var deleteCommunity: @Sendable (_ id: Community.ID) async throws -> Community
     var getCommunityCards: @Sendable (_ id: Community.ID) async throws -> [Card]
     var addCardToCommunity: @Sendable (_ id: Community.ID) async throws -> Card
@@ -32,7 +32,9 @@ nonisolated extension CommunityRepository: DependencyKey {
                 return responseCommunities.map {
                     Community(
                         id: $0.id,
-                        name: $0.name
+                        name: $0.name,
+                        startAt: $0.startDateTime,
+                        endAt: $0.endDateTime
                     )
                 }
 
@@ -51,7 +53,9 @@ nonisolated extension CommunityRepository: DependencyKey {
                 let responseHighlightedCard = json.highlightedCard
                 let community = Community(
                     id: responseCommunity.id,
-                    name: responseCommunity.name
+                    name: responseCommunity.name,
+                    startAt: responseCommunity.startDateTime,
+                    endAt: responseCommunity.endDateTime
                 )
                 let highlightedCard = HighlightedCard(
                     bestReviewer: makeCard(from: responseHighlightedCard.bestReviewer),
@@ -67,15 +71,25 @@ nonisolated extension CommunityRepository: DependencyKey {
                 throw CommunityRepositoryError.apiError(statusCode, payload)
             }
         },
-        createCommunity: { name in
+        createCommunity: { name, startAt, endAt in
             let client = try await Client.build()
-            let response = try await client.createCommunity(body: .plainText(.init(stringLiteral: name)))
+            let response = try await client.createCommunity(
+                body: .json(
+                    .init(
+                        name: name,
+                        startDateTime: startAt,
+                        endDateTime: endAt
+                    )
+                )
+            )
             switch response {
             case .ok(let okResponse):
                 let responseCommunity = try okResponse.body.json.community
                 return Community(
                     id: responseCommunity.id,
-                    name: responseCommunity.name
+                    name: responseCommunity.name,
+                    startAt: responseCommunity.startDateTime,
+                    endAt: responseCommunity.endDateTime
                 )
 
             case .undocumented(let statusCode, let payload):
@@ -91,7 +105,9 @@ nonisolated extension CommunityRepository: DependencyKey {
                 let responseCommunity = try okResponse.body.json.community
                 return Community(
                     id: responseCommunity.id,
-                    name: responseCommunity.name
+                    name: responseCommunity.name,
+                    startAt: responseCommunity.startDateTime,
+                    endAt: responseCommunity.endDateTime
                 )
 
             case .undocumented(let statusCode, let payload):
@@ -149,20 +165,25 @@ nonisolated extension CommunityRepository: TestDependencyKey {
         getCommunity: { _ in
             (.stub0, .stub0)
         },
-        createCommunity: { name in
-            Community(id: "new-community", name: name)
+        createCommunity: { name, startAt, endAt in
+            Community(
+                id: "new-community",
+                name: name,
+                startAt: startAt,
+                endAt: endAt
+            )
         },
         deleteCommunity: { _ in
-            .stub0
+                .stub0
         },
         getCommunityCards: { _ in
             Card.stubs
         },
         addCardToCommunity: { _ in
-            .stub0
+                .stub0
         },
         removeCardFromCommunity: { _ in
-            .stub0
+                .stub0
         }
     )
 }
