@@ -8,6 +8,7 @@
 import Observation
 
 @Observable
+@MainActor
 final class CommunityDetailViewModel {
     let community: Community
 

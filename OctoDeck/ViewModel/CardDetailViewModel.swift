@@ -8,6 +8,7 @@
 import Observation
 
 @Observable
+@MainActor
 final class CardDetailViewModel {
     let card: Card
     private(set) var statistic: Statistic?

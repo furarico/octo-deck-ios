@@ -47,11 +47,11 @@ nonisolated extension StatisticRepository: DependencyKey {
     )
 }
 
-private extension StatisticRepository {
+nonisolated private extension StatisticRepository {
     static func makeStatistic(from responseStats: Components.Schemas.UserStats) -> Statistic {
         Statistic(
             contributions: responseStats.contributions.compactMap { contribution in
-                guard let date = ISO8601DateFormatter.dateOnly.date(from: contribution.date) else {
+                guard let date = dateFormatter.date(from: contribution.date) else {
                     return nil
                 }
                 return Contribution(date: date, count: Int(contribution.count))
@@ -69,6 +69,12 @@ private extension StatisticRepository {
             )
         )
     }
+
+    nonisolated(unsafe) static let dateFormatter: ISO8601DateFormatter = {
+        let formatter = ISO8601DateFormatter()
+        formatter.formatOptions = [.withFullDate]
+        return formatter
+    }()
 }
 
 nonisolated extension StatisticRepository: TestDependencyKey {
@@ -87,12 +93,4 @@ nonisolated extension DependencyValues {
         get { self[StatisticRepository.self] }
         set { self[StatisticRepository.self] = newValue }
     }
-}
-
-private extension ISO8601DateFormatter {
-    static let dateOnly: ISO8601DateFormatter = {
-        let formatter = ISO8601DateFormatter()
-        formatter.formatOptions = [.withFullDate]
-        return formatter
-    }()
 }

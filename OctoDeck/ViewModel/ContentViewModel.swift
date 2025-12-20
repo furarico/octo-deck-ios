@@ -10,6 +10,7 @@ import Observation
 import SwiftUI
 
 @Observable
+@MainActor
 final class ContentViewModel {
     var safariViewURL: IdentifiableURL? = nil
     var card: Card? = nil

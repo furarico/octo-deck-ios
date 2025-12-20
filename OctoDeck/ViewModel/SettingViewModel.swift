@@ -10,6 +10,7 @@ import Observation
 import SwiftUI
 
 @Observable
+@MainActor
 final class SettingViewModel {
     private let service = SettingService()
 

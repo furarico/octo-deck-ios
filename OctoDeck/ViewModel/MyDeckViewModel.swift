@@ -8,6 +8,7 @@
 import Observation
 
 @Observable
+@MainActor
 final class MyDeckViewModel {
     private(set) var myCard: Card?
     private(set) var cardsInMyDeck: [Card] = []

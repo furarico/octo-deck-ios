@@ -8,6 +8,7 @@
 import Observation
 
 @Observable
+@MainActor
 final class CommunityListViewModel {
     private(set) var communities: [Community] = []
     private(set) var isLoading: Bool = false
