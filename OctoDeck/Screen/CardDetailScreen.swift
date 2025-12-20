@@ -27,16 +27,31 @@ struct CardDetailScreen: View {
     }
 
     var body: some View {
-        content
-            .task {
-                await viewModel.onAppear()
-            }
-            .background(
-                Image(.octoDeckBackground)
-                    .resizable()
-                    .ignoresSafeArea()
-                    .scaledToFill()
-            )
+        NavigationStack {
+            content
+                .toolbar {
+                    ToolbarItem(placement: .topBarLeading) {
+                        Button(role: .close) {
+                            dismiss()
+                        }
+                    }
+                    ToolbarItem(placement: .topBarTrailing) {
+                        addButtonTapped
+                    }
+                    ToolbarItem(placement: .topBarTrailing) {
+                        shareLink
+                    }
+                }
+                .background(
+                    Image(.octoDeckBackground)
+                        .resizable()
+                        .ignoresSafeArea()
+                        .scaledToFill()
+                )
+        }
+        .task {
+            await viewModel.onAppear()
+        }
     }
 
     @ViewBuilder
@@ -46,21 +61,13 @@ struct CardDetailScreen: View {
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
         } else if let statistic = viewModel.statistic {
             ScrollView {
-                VStack(spacing: 16) {
-                    HStack {
-                        dismissButton
-                        Spacer()
-                        addButtonTapped
-                        shareLink
-                    }
+                VStack(alignment: .leading, spacing: 32) {
+                    CardView(card: viewModel.card)
+                        .padding(.horizontal)
 
-                    VStack(alignment: .leading, spacing: 54) {
-                        CardView(card: viewModel.card)
-
-                        StatisticView(statistic: statistic)
-                    }
+                    StatisticView(statistic: statistic)
                 }
-                .padding()
+                .padding(.vertical)
             }
         } else {
             ContentUnavailableView(
@@ -68,18 +75,6 @@ struct CardDetailScreen: View {
                 systemImage: "person.text.rectangle",
                 description: Text("Card and/or statistics not available.")
             )
-        }
-    }
-
-    private var dismissButton: some View {
-        Button(role: .close) {
-            dismiss()
-        } label: {
-            Image(systemName: "xmark")
-                .foregroundStyle(Color.primary)
-                .frame(width: 48, height: 48)
-                .font(.system(size: 24))
-                .glassEffect()
         }
     }
 
@@ -92,14 +87,8 @@ struct CardDetailScreen: View {
         } label: {
             if viewModel.isDeckStatusLoading {
                 ProgressView()
-                    .frame(width: 48, height: 48)
-                    .glassEffect()
             } else {
                 Image(systemName: isAdded ? "trash" : "plus")
-                    .foregroundStyle(Color.primary)
-                    .frame(width: 48, height: 48)
-                    .font(.system(size: 24))
-                    .glassEffect()
             }
         }
         .disabled(viewModel.isDeckStatusLoading)
@@ -113,10 +102,6 @@ struct CardDetailScreen: View {
             )
         ) {
             Image(systemName: "square.and.arrow.up")
-                .foregroundStyle(Color.primary)
-                .frame(width: 48, height: 48)
-                .font(.system(size: 24))
-                .glassEffect()
         }
     }
 }
