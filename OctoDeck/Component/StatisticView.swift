@@ -22,7 +22,7 @@ struct StatisticView: View {
             }
             .padding(.horizontal)
 
-            VStack(alignment: .leading, spacing: 16) {
+            VStack(alignment: .leading, spacing: 8) {
                 Text("Contributions")
                     .font(.title2)
                     .bold()
@@ -51,7 +51,7 @@ struct StatisticView: View {
     @ViewBuilder
     private var contributions: some View {
         let maxContributionCount = statistic.maxContributionCount()
-        VStack(spacing: 24) {
+        VStack(spacing: 16) {
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack(alignment: .top, spacing: 4) {
                     ForEach(0...(statistic.contributions.count / 7), id: \.self) { week in
@@ -62,7 +62,7 @@ struct StatisticView: View {
                         }
                     }
                 }
-                .padding(.horizontal)
+                .padding()
             }
 
             VStack(spacing: 8) {
@@ -126,7 +126,7 @@ struct StatisticView: View {
         if index >= statistic.contributions.count {
             EmptyView()
         } else {
-            let contributionRate = CGFloat(statistic.contributions[index].count) / CGFloat(maxContributionCount)
+            let contributionRate = CGFloat(log(Double(statistic.contributions[index].count))) / CGFloat(log(Double(maxContributionCount)))
             RoundedRectangle(cornerRadius: 2)
                 .fill(
                     LinearGradient(
@@ -141,7 +141,11 @@ struct StatisticView: View {
                     )
                 )
                 .frame(width: 12, height: 12)
-                .opacity(0.2 + 0.8 * contributionRate)
+                .opacity(0.2 + 0.8 * (contributionRate < 0 ? 0 : contributionRate))
+                .shadow(
+                    color: Color(red: 255/255, green: 254/255, blue: 222/255),
+                    radius: 8
+                )
         }
     }
 }
