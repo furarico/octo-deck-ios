@@ -126,7 +126,17 @@ struct StatisticView: View {
         if index >= statistic.contributions.count {
             EmptyView()
         } else {
-            let contributionRate = CGFloat(log(Double(statistic.contributions[index].count))) / CGFloat(log(Double(maxContributionCount)))
+            let contributionCount = statistic.contributions[index].count
+            let contributionRate: Double = {
+                if maxContributionCount == 1 && contributionCount == 1 {
+                    1
+                } else if maxContributionCount <= 1 || contributionCount == 0 {
+                    0
+                } else {
+                    log(Double(contributionCount)) / log(Double(maxContributionCount))
+                }
+            }()
+
             RoundedRectangle(cornerRadius: 2)
                 .fill(
                     LinearGradient(
@@ -141,7 +151,7 @@ struct StatisticView: View {
                     )
                 )
                 .frame(width: 12, height: 12)
-                .opacity(0.2 + 0.8 * (contributionRate < 0 ? 0 : contributionRate))
+                .opacity(0.2 + 0.8 * contributionRate)
                 .shadow(
                     color: Color(red: 255/255, green: 254/255, blue: 222/255),
                     radius: 8
