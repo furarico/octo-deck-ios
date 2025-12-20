@@ -12,7 +12,7 @@ extension Client {
     static func build() async throws -> Client {
         return Client(
             serverURL: try Servers.Server4.url(),
-            configuration: .init(dateTranscoder: .iso8601WithFractionalSeconds),
+            configuration: .init(dateTranscoder: .iso8601),
             transport: URLSessionTransport(),
             middlewares: [APIAuthMiddleware()]
         )
