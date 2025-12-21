@@ -17,10 +17,8 @@ struct MyDeckScreen: View {
 
     var body: some View {
         content
-            .onAppear {
-                Task {
-                    await viewModel.onAppear()
-                }
+            .task {
+                await viewModel.onAppear()
             }
             .sheet(item: $viewModel.selectedCard) { card in
                 CardDetailScreen(card: card, isAdded: viewModel.cardsInMyDeck.contains(card)) {
