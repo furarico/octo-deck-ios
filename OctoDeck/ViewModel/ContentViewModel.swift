@@ -24,11 +24,10 @@ final class ContentViewModel {
         defer {
             isLoading = false
         }
-
         await refresh()
     }
 
-    func refresh() async {
+    private func refresh() async {
         do {
             authenticatedUser = try await service.getAuthenticatedUser()
         } catch {
