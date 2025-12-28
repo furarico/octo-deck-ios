@@ -40,21 +40,16 @@ struct CommunityDetailScreen: View {
 
     @ViewBuilder
     private var content: some View {
-        if viewModel.isLoading {
-            ProgressView()
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
-        } else {
+        if let highlightedCard = viewModel.highlightedCard {
             ScrollView {
                 VStack(alignment: .leading, spacing: 32) {
-                    if let highlightedCard = viewModel.highlightedCard {
-                        VStack(alignment: .leading) {
-                            Text("Highlighted Members")
-                                .font(.title)
-                                .bold()
-                                .padding(.horizontal)
+                    VStack(alignment: .leading) {
+                        Text("Highlighted Members")
+                            .font(.title)
+                            .bold()
+                            .padding(.horizontal)
 
-                            highlightedCardView(highlightedCard)
-                        }
+                        highlightedCardView(highlightedCard)
                     }
 
                     VStack(alignment: .leading) {
@@ -69,6 +64,15 @@ struct CommunityDetailScreen: View {
                 }
                 .padding(.vertical)
             }
+        } else if viewModel.isLoading {
+            ProgressView()
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+        } else {
+            ContentUnavailableView(
+                "No Data",
+                systemImage: "exclamationmark.triangle.fill",
+                description: Text("Unable to load community data.")
+            )
         }
     }
 
