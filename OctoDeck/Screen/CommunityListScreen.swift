@@ -24,18 +24,21 @@ struct CommunityListScreen: View {
 
     @ViewBuilder
     var content: some View {
-        if viewModel.isLoading {
+        if !viewModel.communities.isEmpty {
+            List(viewModel.communities, selection: $selectedCommunity) { community in
+                NavigationLink(community.name, value: community)
+            }
+            .refreshable {
+                await viewModel.onRefresh()
+            }
+        } else if viewModel.isLoading {
             ProgressView()
-        } else if viewModel.communities.isEmpty {
+        } else {
             ContentUnavailableView(
                 "No Communities",
                 systemImage: "globe",
                 description: Text("Communities you join will appear here.")
             )
-        } else {
-            List(viewModel.communities, selection: $selectedCommunity) { community in
-                NavigationLink(community.name, value: community)
-            }
         }
     }
 }
