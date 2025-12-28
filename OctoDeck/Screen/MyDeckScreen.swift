@@ -40,10 +40,7 @@ struct MyDeckScreen: View {
 
     @ViewBuilder
     var content: some View {
-        if viewModel.isLoading {
-            ProgressView()
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
-        } else if let myCard = viewModel.myCard {
+        if let myCard = viewModel.myCard {
             ScrollView {
                 VStack(alignment: .leading, spacing: 32) {
                     VStack(alignment: .leading) {
@@ -77,6 +74,12 @@ struct MyDeckScreen: View {
                 }
                 .padding()
             }
+            .refreshable {
+                await viewModel.onRefresh()
+            }
+        } else if viewModel.isLoading {
+            ProgressView()
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
         } else {
                 ContentUnavailableView(
                     "No Cards",
