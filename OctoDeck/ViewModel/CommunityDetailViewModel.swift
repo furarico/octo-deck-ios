@@ -32,6 +32,14 @@ final class CommunityDetailViewModel {
         await refresh()
     }
 
+    func onRefresh() async {
+        isLoading = true
+        defer {
+            isLoading = false
+        }
+        await refresh()
+    }
+
     private func refresh() async {
         do {
             async let highlightedCardTask = try await service.getHighlightedCard(id: community.id)
