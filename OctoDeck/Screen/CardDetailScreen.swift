@@ -65,9 +65,9 @@ struct CardDetailScreen: View {
                     StatisticView(statistic: statistic)
                 }
                 .padding(.vertical)
-                .refreshable {
-                    await viewModel.onRefresh()
-                }
+            }
+            .refreshable {
+                await viewModel.onRefresh()
             }
         } else if viewModel.isLoading {
             ProgressView()

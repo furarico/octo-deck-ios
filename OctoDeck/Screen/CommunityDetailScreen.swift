@@ -63,9 +63,9 @@ struct CommunityDetailScreen: View {
                     }
                 }
                 .padding(.vertical)
-                .refreshable {
-                    await viewModel.onRefresh()
-                }
+            }
+            .refreshable {
+                await viewModel.onRefresh()
             }
         } else if viewModel.isLoading {
             ProgressView()
