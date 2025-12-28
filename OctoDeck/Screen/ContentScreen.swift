@@ -28,10 +28,10 @@ struct ContentScreen: View {
 
     @ViewBuilder
     var content: some View {
-        if viewModel.isLoading {
-            ProgressView()
-        } else if let user = viewModel.authenticatedUser {
+        if let user = viewModel.authenticatedUser {
             tabView(user: user)
+        } else if viewModel.isLoading {
+            ProgressView()
         } else {
             LoginView {
                 Task {
