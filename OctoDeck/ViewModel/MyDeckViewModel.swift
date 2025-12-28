@@ -25,6 +25,14 @@ final class MyDeckViewModel {
         await refresh()
     }
 
+    func onRefresh() async {
+        isLoading = true
+        defer {
+            isLoading = false
+        }
+        await refresh()
+    }
+
     private func refresh() async {
         do {
             async let myCardTask = service.getMyCard()
