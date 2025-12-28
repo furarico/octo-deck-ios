@@ -56,10 +56,7 @@ struct CardDetailScreen: View {
 
     @ViewBuilder
     private var content: some View {
-        if viewModel.isLoading {
-            ProgressView()
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
-        } else if let statistic = viewModel.statistic {
+        if let statistic = viewModel.statistic {
             ScrollView {
                 VStack(alignment: .leading, spacing: 32) {
                     CardView(card: viewModel.card)
@@ -68,7 +65,13 @@ struct CardDetailScreen: View {
                     StatisticView(statistic: statistic)
                 }
                 .padding(.vertical)
+                .refreshable {
+                    await viewModel.onRefresh()
+                }
             }
+        } else if viewModel.isLoading {
+            ProgressView()
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
         } else {
             ContentUnavailableView(
                 "No Statistics",
