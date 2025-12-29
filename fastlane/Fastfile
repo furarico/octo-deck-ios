@@ -86,6 +86,7 @@ platform :ios do
     increment_build_number(
       build_number: build_number + 1
     )
+    match_fetch_development
     match_fetch_appstore
     gym
     increment_build_number(
