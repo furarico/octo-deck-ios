@@ -25,7 +25,7 @@ jobs:
           defaults write com.apple.dt.Xcode IDESkipMacroFingerprintValidation -bool YES
       - name: Setup App Store Connect API Key
         run: |
-          echo ${{ secrets.APP_STORE_CONNECT_API_KEY_JSON }} > ./fastlane/app_store_connect_api_key.json
+          echo "${{ secrets.APP_STORE_CONNECT_API_KEY_JSON }}" > ./fastlane/app_store_connect_api_key.json
       - name: Setup Project
         run: task install
       - name: Build and Distribute to TestFlight
