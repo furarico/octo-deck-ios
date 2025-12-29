@@ -25,7 +25,9 @@ jobs:
           defaults write com.apple.dt.Xcode IDESkipMacroFingerprintValidation -bool YES
       - name: Setup Deploy Key for Match
         run: |
-          echo '${{ secrets.MATCH_GIT_PRIVATE_KEY }}' > ./fastlane/deploy_key.pem
+          echo '${{ secrets.MATCH_GIT_PRIVATE_KEY }}' > ~/.ssh/kantacky-apple-certificates-deploy-key.pem
+          chmod 600 ~/.ssh/kantacky-apple-certificates-deploy-key.pem
+          git config --global user.email "iam@kantacky.com"
       - name: Setup App Store Connect API Key
         run: |
           echo '${{ secrets.APP_STORE_CONNECT_API_KEY_JSON }}' > ./fastlane/app_store_connect_api_key.json
@@ -35,7 +37,7 @@ jobs:
         run: bundle exec fastlane beta
         env:
           MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
-          MATCH_GIT_PRIVATE_KEY: ./fastlane/deploy_key.pem
+          MATCH_GIT_PRIVATE_KEY: ~/.ssh/kantacky-apple-certificates-deploy-key.pem
           APP_STORE_CONNECT_API_KEY_ID: ${{ secrets.APP_STORE_CONNECT_API_KEY_ID }}
           APP_STORE_CONNECT_API_KEY_ISSUER_ID: ${{ secrets.APP_STORE_CONNECT_API_KEY_ISSUER_ID }}
           APP_STORE_CONNECT_API_KEY_CONTENT_BASE64: ${{ secrets.APP_STORE_CONNECT_API_KEY_CONTENT_BASE64 }}
