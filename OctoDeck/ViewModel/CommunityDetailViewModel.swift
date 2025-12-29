@@ -29,12 +29,22 @@ final class CommunityDetailViewModel {
         defer {
             isLoading = false
         }
+        await refresh()
+    }
 
+    func onRefresh() async {
+        isLoading = true
+        defer {
+            isLoading = false
+        }
+        await refresh()
+    }
+
+    private func refresh() async {
         do {
             async let highlightedCardTask = try await service.getHighlightedCard(id: community.id)
             async let cardsTask = try await service.getCardsInCommunity(id: community.id)
             async let cardsInMyDeckTask = try await service.getCardsInMyDeck()
-
             (highlightedCard, cards, cardsInMyDeck) = try await (highlightedCardTask, cardsTask, cardsInMyDeckTask)
         } catch {
             print(error)
@@ -45,7 +55,6 @@ final class CommunityDetailViewModel {
         guard let selectedCard else {
             return
         }
-
         if cardsInMyDeck.contains(selectedCard) {
             cardsInMyDeck.removeAll(where: { $0.id == selectedCard.id })
         } else {

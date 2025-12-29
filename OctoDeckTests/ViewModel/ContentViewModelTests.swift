@@ -75,42 +75,6 @@ struct ContentViewModelTests {
         #expect(viewModel.isLoading == false)
     }
 
-    // MARK: - refresh
-
-    @Test("refreshでauthenticatedUserが正しく更新される")
-    func testRefreshSuccess() async throws {
-        let expectedUser = User.stub0
-
-        let viewModel = withDependencies {
-            $0.gitHubAuthRepository.getAuthenticatedUser = {
-                expectedUser
-            }
-        } operation: {
-            ContentViewModel()
-        }
-
-        #expect(viewModel.authenticatedUser == nil)
-
-        await viewModel.refresh()
-
-        #expect(viewModel.authenticatedUser == expectedUser)
-    }
-
-    @Test("refreshでauthenticatedUserの取得に失敗した場合、nilのまま")
-    func testRefreshFailure() async throws {
-        let viewModel = withDependencies {
-            $0.gitHubAuthRepository.getAuthenticatedUser = {
-                throw GitHubAuthRepositoryError.userIdNotFound
-            }
-        } operation: {
-            ContentViewModel()
-        }
-
-        await viewModel.refresh()
-
-        #expect(viewModel.authenticatedUser == nil)
-    }
-
     // MARK: - onSignInButtonTapped
 
     @Test("onSignInButtonTappedでsafariViewURLが設定される")

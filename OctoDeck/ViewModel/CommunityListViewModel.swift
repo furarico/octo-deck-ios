@@ -20,7 +20,18 @@ final class CommunityListViewModel {
         defer {
             isLoading = false
         }
+        await refresh()
+    }
 
+    func onRefresh() async {
+        isLoading = true
+        defer {
+            isLoading = false
+        }
+        await refresh()
+    }
+
+    private func refresh() async {
         do {
             communities = try await service.listCommunities()
         } catch {
