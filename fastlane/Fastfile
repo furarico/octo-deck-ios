@@ -88,13 +88,13 @@ platform :ios do
     )
     match_fetch_appstore
     gym
+    increment_build_number(
+      build_number: 1
+    )
     pilot(
       api_key: get_app_store_connect_api_key,
       ipa: "./build/OctoDeck.ipa",
       skip_submission: true,
-    )
-    increment_build_number(
-      build_number: 1
     )
   end
 end
