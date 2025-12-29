@@ -79,30 +79,6 @@ Register a new device
 
 Test
 
-### ios build_for_release
-
-```sh
-[bundle exec] fastlane ios build_for_release
-```
-
-Build for Release
-
-### ios distribute_to_testflight
-
-```sh
-[bundle exec] fastlane ios distribute_to_testflight
-```
-
-Distribute to TestFlight
-
-### ios reset_build_number
-
-```sh
-[bundle exec] fastlane ios reset_build_number
-```
-
-Reset build number
-
 ### ios beta
 
 ```sh
