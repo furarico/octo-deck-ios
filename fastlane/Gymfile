@@ -1,2 +1,9 @@
 scheme("OctoDeck")
 output_directory("./build")
+export_method("app-store")
+export_options({
+  clean: true,
+  provisioningProfiles: {
+    "co.furari.OctoDeck" => "match AppStore co.furari.OctoDeck",
+  }
+})
