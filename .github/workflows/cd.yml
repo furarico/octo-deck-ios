@@ -16,6 +16,16 @@ jobs:
       - tartelet
     timeout-minutes: 60
     steps:
+      - name: Generate a token
+        id: generate-token
+        uses: actions/create-github-app-token@v2
+        with:
+          app-id: ${{ vars.KANTACKY_APPLE_CERTIFICATES_APP_ID }}
+          private-key: ${{ secrets.KANTACKY_APPLE_CERTIFICATES_PRIVATE_KEY }}
+      - name: Generate Git Basic Authorization for Match
+        id: generate-git-basic-authorization
+        run: |
+          echo "authorization=$(echo -n "x-access-token:${{ steps.generate-token.outputs.token }}" | base64)" >> $GITHUB_OUTPUT
       - name: Checkout
         uses: actions/checkout@v4
       - name: Setup Xcode
@@ -23,12 +33,6 @@ jobs:
           xcodes select
           defaults write com.apple.dt.Xcode IDESkipPackagePluginFingerprintValidatation -bool YES
           defaults write com.apple.dt.Xcode IDESkipMacroFingerprintValidation -bool YES
-      - name: Setup Deploy Key for Match
-        run: |
-          mkdir -p ~/.ssh
-          echo '${{ secrets.MATCH_GIT_PRIVATE_KEY }}' > ~/.ssh/kantacky-apple-certificates-deploy-key.pem
-          chmod 600 ~/.ssh/kantacky-apple-certificates-deploy-key.pem
-          ssh-add ~/.ssh/kantacky-apple-certificates-deploy-key.pem
       - name: Setup App Store Connect API Key
         run: |
           echo '${{ secrets.APP_STORE_CONNECT_API_KEY_JSON }}' > ./fastlane/app_store_connect_api_key.json
@@ -38,7 +42,7 @@ jobs:
         run: bundle exec fastlane beta
         env:
           MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
-          MATCH_GIT_PRIVATE_KEY: ~/.ssh/kantacky-apple-certificates-deploy-key.pem
+          MATCH_GIT_BASIC_AUTHORIZATION: ${{ steps.generate-git-basic-authorization.outputs.authorization }}
           APP_STORE_CONNECT_API_KEY_ID: ${{ secrets.APP_STORE_CONNECT_API_KEY_ID }}
           APP_STORE_CONNECT_API_KEY_ISSUER_ID: ${{ secrets.APP_STORE_CONNECT_API_KEY_ISSUER_ID }}
           APP_STORE_CONNECT_API_KEY_CONTENT_BASE64: ${{ secrets.APP_STORE_CONNECT_API_KEY_CONTENT_BASE64 }}

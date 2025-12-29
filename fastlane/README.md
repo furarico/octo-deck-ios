@@ -103,10 +103,10 @@ Distribute to TestFlight
 
 Reset build number
 
-### ios build_and_distribute_to_testflight
+### ios beta
 
 ```sh
-[bundle exec] fastlane ios build_and_distribute_to_testflight
+[bundle exec] fastlane ios beta
 ```
 
 Build and distribute to TestFlight
