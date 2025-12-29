@@ -23,6 +23,9 @@ jobs:
           xcodes select
           defaults write com.apple.dt.Xcode IDESkipPackagePluginFingerprintValidatation -bool YES
           defaults write com.apple.dt.Xcode IDESkipMacroFingerprintValidation -bool YES
+      - name: Setup Deploy Key for Match
+        run: |
+          echo '${{ secrets.MATCH_GIT_PRIVATE_KEY }}' > ./fastlane/deploy_key.pem
       - name: Setup App Store Connect API Key
         run: |
           echo '${{ secrets.APP_STORE_CONNECT_API_KEY_JSON }}' > ./fastlane/app_store_connect_api_key.json
@@ -35,4 +38,4 @@ jobs:
           APP_STORE_CONNECT_API_KEY_ID: ${{ secrets.APP_STORE_CONNECT_API_KEY_ID }}
           APP_STORE_CONNECT_API_KEY_ISSUER_ID: ${{ secrets.APP_STORE_CONNECT_API_KEY_ISSUER_ID }}
           APP_STORE_CONNECT_API_KEY_CONTENT_BASE64: ${{ secrets.APP_STORE_CONNECT_API_KEY_CONTENT_BASE64 }}
-          MATCH_GIT_PRIVATE_KEY: ${{ secrets.MATCH_GIT_PRIVATE_KEY }}
+          MATCH_GIT_PRIVATE_KEY: ./fastlane/deploy_key.pem
