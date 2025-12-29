@@ -22,6 +22,8 @@ jobs:
         with:
           app-id: ${{ vars.KANTACKY_APPLE_CERTIFICATES_APP_ID }}
           private-key: ${{ secrets.KANTACKY_APPLE_CERTIFICATES_PRIVATE_KEY }}
+          owner: kantacky
+          repositories: apple-certificates
       - name: Generate Git Basic Authorization for Match
         id: generate-git-basic-authorization
         run: |
