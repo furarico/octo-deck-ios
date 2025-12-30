@@ -97,5 +97,9 @@ platform :ios do
       ipa: "./build/OctoDeck.ipa",
       skip_submission: true,
     )
+    slack(
+      message: "Do Later App Distributed to TestFlight:",
+      slack_url: ENV["SLACK_URL"],
+    )
   end
 end
