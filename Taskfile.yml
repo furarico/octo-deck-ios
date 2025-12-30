@@ -3,18 +3,13 @@
 version: "3"
 
 vars:
-  FASTLANE: bundle exec fastlane
+  FASTLANE: fastlane
 
 tasks:
   default:
     cmds:
       - task --list-all
     silent: true
-
-  install:
-    desc: Install dependencies
-    cmds:
-      - bundle install
 
   match-fetch-development:
     cmds:
