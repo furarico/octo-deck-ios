@@ -119,29 +119,25 @@ nonisolated extension DependencyValues {
 }
 
 nonisolated extension GitHubAuthRepository {
-    struct GetAccessTokenRequest: Encodable {
+    protocol GetAccessTokenRequestProtocol: Encodable {
+        var clientId: String { get }
+        var clientSecret: String { get }
+    }
+
+    struct GetAccessTokenFromCodeRequest: GetAccessTokenRequestProtocol {
         let clientId: String
         let clientSecret: String
         let code: String
     }
 
-    struct GetAccessTokenResponse: Decodable {
-        let accessToken: String
-        let expiresIn: Int
-        let refreshToken: String
-        let refreshTokenExpiresIn: Int
-        let scope: String
-        let tokenType: String
-    }
-
-    struct RefreshAccessTokenRequest: Encodable {
+    struct GetAccessTokenFromRefreshTokenRequest: GetAccessTokenRequestProtocol {
         let clientId: String
         let clientSecret: String
         let grantType: String = "refresh_token"
         let refreshToken: String
     }
 
-    struct RefreshAccessTokenResponse: Decodable {
+    struct GetAccessTokenResponse: Decodable {
         let accessToken: String
         let expiresIn: Int
         let refreshToken: String
@@ -171,49 +167,38 @@ nonisolated extension GitHubAuthRepository {
     }
 
     private static func getAccessTokenFromCode(_ code: String) async throws -> (accessToken: String, refreshToken: String) {
-        guard let url = URL(string: "https://github.com/login/oauth/access_token") else {
-            throw URLError(.badURL)
-        }
-
-        var request = URLRequest(url: url)
-        request.httpMethod = "POST"
-        request.addValue("application/json", forHTTPHeaderField: "Accept")
-        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-
         let gitHubAppInfo = try loadGitHubAppInfo()
         let clientID = gitHubAppInfo.clientID
         let clientSecret = gitHubAppInfo.clientSecret
 
-        let requestBody = GetAccessTokenRequest(
+        let requestBody = GetAccessTokenFromCodeRequest(
             clientId: clientID,
             clientSecret: clientSecret,
             code: code
         )
 
-        let encoder = JSONEncoder()
-        encoder.keyEncodingStrategy = .convertToSnakeCase
-
-        let requestBodyData = try encoder.encode(requestBody)
-        request.httpBody = requestBodyData
-
-        let (data, response) = try await URLSession.shared.data(for: request)
-
-        guard
-            let statusCode = (response as? HTTPURLResponse)?.statusCode,
-            statusCode >= 200 && statusCode < 299
-        else {
-            throw GitHubAuthRepositoryError.invalidResponse
-        }
-
-        let decoder = JSONDecoder()
-        decoder.keyDecodingStrategy = .convertFromSnakeCase
-
-        let responseBody = try decoder.decode(GetAccessTokenResponse.self, from: data)
+        let responseBody = try await getAccessToken(request: requestBody)
 
         return (responseBody.accessToken, responseBody.refreshToken)
     }
 
     private static func getAccessTokenFromRefreshToken(_ refreshToken: String) async throws -> (accessToken: String, refreshToken: String) {
+        let gitHubAppInfo = try loadGitHubAppInfo()
+        let clientID = gitHubAppInfo.clientID
+        let clientSecret = gitHubAppInfo.clientSecret
+
+        let requestBody = GetAccessTokenFromRefreshTokenRequest(
+            clientId: clientID,
+            clientSecret: clientSecret,
+            refreshToken: refreshToken
+        )
+
+        let responseBody = try await getAccessToken(request: requestBody)
+
+        return (responseBody.accessToken, responseBody.refreshToken)
+    }
+
+    private static func getAccessToken(request requestBody: GetAccessTokenRequestProtocol) async throws -> GetAccessTokenResponse {
         guard let url = URL(string: "https://github.com/login/oauth/access_token") else {
             throw URLError(.badURL)
         }
@@ -227,12 +212,6 @@ nonisolated extension GitHubAuthRepository {
         let clientID = gitHubAppInfo.clientID
         let clientSecret = gitHubAppInfo.clientSecret
 
-        let requestBody = RefreshAccessTokenRequest(
-            clientId: clientID,
-            clientSecret: clientSecret,
-            refreshToken: refreshToken
-        )
-
         let encoder = JSONEncoder()
         encoder.keyEncodingStrategy = .convertToSnakeCase
 
@@ -251,9 +230,7 @@ nonisolated extension GitHubAuthRepository {
         let decoder = JSONDecoder()
         decoder.keyDecodingStrategy = .convertFromSnakeCase
 
-        let responseBody = try decoder.decode(RefreshAccessTokenResponse.self, from: data)
-
-        return (responseBody.accessToken, responseBody.refreshToken)
+        return try decoder.decode(GetAccessTokenResponse.self, from: data)
     }
 
     private static func getUser(accessToken: String) async throws -> GitHubUser {
