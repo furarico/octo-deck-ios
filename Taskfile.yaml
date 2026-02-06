@@ -3,26 +3,39 @@
 version: "3"
 
 vars:
-  FASTLANE: fastlane
+  FASTLANE: bundle exec fastlane
 
 tasks:
   default:
     cmds:
-      - task --list-all
+      - task --list
     silent: true
 
+  install:
+    desc: "Install dependencies"
+    cmds:
+      - bundle install
+
+  test:
+    desc: "Run tests"
+    cmds:
+      - "{{.FASTLANE}} test"
+
+  beta:
+    desc: "Build and distribute to TestFlight"
+    cmds:
+      - "{{.FASTLANE}} beta"
+
   match-fetch-development:
+    desc: "Fastlane match fetch development certificates"
     cmds:
       - "{{.FASTLANE}} match_fetch_development"
 
   register-device:
+    desc: "Register a new device"
     cmds:
       - "{{.FASTLANE}} register_a_new_device"
     env:
       DEVICE_NAME: '{{.DEVICE_NAME| default ""}}'
       DEVICE_UDID: '{{.DEVICE_UDID| default ""}}'
       DEVICE_PLATFORM: '{{.DEVICE_PLATFORM| default "ios"}}'
-
-  test:
-    cmds:
-      - "{{.FASTLANE}} test"

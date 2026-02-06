@@ -28,15 +28,17 @@ jobs:
       - macOS
       - ARM64
       - tartelet
-    timeout-minutes: 60
+    timeout-minutes: 30
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v6
+      - uses: jdx/mise-action@v3
       - name: Setup Xcode
         run: |
           xcodes select
           defaults write com.apple.dt.Xcode IDESkipPackagePluginFingerprintValidatation -bool YES
           defaults write com.apple.dt.Xcode IDESkipMacroFingerprintValidation -bool YES
+      - name: Install dependencies
+        run: task install
       - name: Test
         run: task test
         env:

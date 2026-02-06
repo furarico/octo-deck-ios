@@ -14,10 +14,9 @@ jobs:
       - macOS
       - ARM64
       - tartelet
-    timeout-minutes: 60
+    timeout-minutes: 30
     steps:
-      - name: Generate a token
-        id: generate-token
+      - id: generate-token
         uses: actions/create-github-app-token@v2
         with:
           app-id: ${{ vars.KANTACKY_APPLE_CERTIFICATES_APP_ID }}
@@ -26,22 +25,22 @@ jobs:
           repositories: apple-certificates
       - name: Generate Git Basic Authorization for Match
         id: generate-git-basic-authorization
-        run: |
-          echo "authorization=$(echo -n "x-access-token:${{ steps.generate-token.outputs.token }}" | base64)" >> $GITHUB_OUTPUT
-      - name: Checkout
-        uses: actions/checkout@v4
+        run: echo "authorization=$(echo -n "x-access-token:${{ steps.generate-token.outputs.token }}" | base64)" >> $GITHUB_OUTPUT
+      - uses: actions/checkout@v6
+      - uses: jdx/mise-action@v3
       - name: Setup Xcode
         run: |
           xcodes select
           defaults write com.apple.dt.Xcode IDESkipPackagePluginFingerprintValidatation -bool YES
           defaults write com.apple.dt.Xcode IDESkipMacroFingerprintValidation -bool YES
       - name: Setup App Store Connect API Key
-        run: |
-          echo '${{ secrets.APP_STORE_CONNECT_API_KEY_JSON }}' > ./fastlane/app_store_connect_api_key.json
+        run: echo '${{ secrets.APP_STORE_CONNECT_API_KEY_JSON }}' > ./fastlane/app_store_connect_api_key.json
       - name: Setup GitHub
         run: echo '${{ secrets._GITHUB_APP_INFO_PLIST }}' > ./OctoDeck/GitHubApp_Info.plist
+      - name: Install dependencies
+        run: task install
       - name: Build and Distribute to TestFlight
-        run: fastlane beta
+        run: task beta
         env:
           MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
           MATCH_GIT_BASIC_AUTHORIZATION: ${{ steps.generate-git-basic-authorization.outputs.authorization }}
