@@ -51,20 +51,20 @@ struct CommunityDetailScreen: View {
                     } label: {
                         Image(systemName: "trash")
                     }
-                }
-            }
-            .confirmationDialog(
-                "Delete Community",
-                isPresented: $viewModel.isDeleteConfirmationPresented,
-                titleVisibility: .visible
-            ) {
-                Button("Delete", role: .destructive) {
-                    Task {
-                        await viewModel.onDeleteConfirmed()
+                    .confirmationDialog(
+                        "Delete Community",
+                        isPresented: $viewModel.isDeleteConfirmationPresented,
+                        titleVisibility: .visible
+                    ) {
+                        Button("Delete", role: .destructive) {
+                            Task {
+                                await viewModel.onDeleteConfirmed()
+                            }
+                        }
+                    } message: {
+                        Text("Are you sure you want to delete this community? This action cannot be undone.")
                     }
                 }
-            } message: {
-                Text("Are you sure you want to delete this community? This action cannot be undone.")
             }
             .onChange(of: viewModel.isDeleted) {
                 if viewModel.isDeleted {
