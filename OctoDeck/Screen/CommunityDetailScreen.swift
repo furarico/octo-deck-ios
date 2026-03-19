@@ -45,6 +45,15 @@ struct CommunityDetailScreen: View {
                     }
                 }
 
+                ToolbarItem(placement: .primaryAction) {
+                    ShareLink(
+                        item: URL(string: "https://octodeck.furari.co/communities/\(viewModel.community.id)")!,
+                        preview: SharePreview(viewModel.community.name)
+                    ) {
+                        Image(systemName: "square.and.arrow.up")
+                    }
+                }
+
                 ToolbarItem(placement: .destructiveAction) {
                     Button(role: .destructive) {
                         viewModel.isDeleteConfirmationPresented = true

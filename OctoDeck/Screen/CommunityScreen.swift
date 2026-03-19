@@ -9,6 +9,11 @@ import SwiftUI
 
 struct CommunityScreen: View {
     @State private var selectedCommunity: Community?
+    @Binding private var community: Community?
+
+    init(community: Binding<Community?>) {
+        self._community = community
+    }
 
     var body: some View {
         NavigationSplitView {
@@ -19,9 +24,15 @@ struct CommunityScreen: View {
                 CommunityDetailScreen(community: selectedCommunity)
             }
         }
+        .onChange(of: community) {
+            if let community {
+                selectedCommunity = community
+                self.community = nil
+            }
+        }
     }
 }
 
 #Preview {
-    CommunityScreen()
+    CommunityScreen(community: .constant(nil))
 }

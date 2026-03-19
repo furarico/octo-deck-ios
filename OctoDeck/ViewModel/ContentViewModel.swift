@@ -14,6 +14,7 @@ import SwiftUI
 final class ContentViewModel {
     var safariViewURL: IdentifiableURL? = nil
     var card: Card? = nil
+    var community: Community? = nil
     private(set) var authenticatedUser: User? = nil
     private(set) var isLoading: Bool = false
 
@@ -84,6 +85,14 @@ final class ContentViewModel {
             let userId = path[2]
             do {
                 card = try await service.getCard(id: userId)
+            } catch {
+                print(error)
+                return
+            }
+        } else if path.count == 3 && path.prefix(2) == ["/", "communities"] {
+            let communityId = path[2]
+            do {
+                community = try await service.getCommunity(id: communityId)
             } catch {
                 print(error)
                 return

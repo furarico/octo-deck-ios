@@ -35,6 +35,7 @@ struct ContentViewModelTests {
 
         #expect(viewModel.safariViewURL == nil)
         #expect(viewModel.card == nil)
+        #expect(viewModel.community == nil)
         #expect(viewModel.authenticatedUser == nil)
         #expect(viewModel.isLoading == false)
     }
@@ -265,6 +266,40 @@ struct ContentViewModelTests {
         #expect(viewModel.card == nil)
     }
 
+    @Test("handleURLでコミュニティURLが正しく処理される")
+    func testHandleURLCommunityPathSuccess() async throws {
+        let expectedCommunity = Community.stub0
+
+        let viewModel = withDependencies {
+            $0.communityRepository.getCommunity = { _ in
+                (expectedCommunity, .stub0)
+            }
+        } operation: {
+            ContentViewModel()
+        }
+
+        let url = URL(string: "https://octodeck.furari.co/communities/\(expectedCommunity.id)")!
+        await viewModel.handleURL(url)
+
+        #expect(viewModel.community == expectedCommunity)
+    }
+
+    @Test("handleURLでコミュニティURLの取得に失敗した場合")
+    func testHandleURLCommunityPathFailure() async throws {
+        let viewModel = withDependencies {
+            $0.communityRepository.getCommunity = { _ in
+                throw CommunityRepositoryError.apiError(404)
+            }
+        } operation: {
+            ContentViewModel()
+        }
+
+        let url = URL(string: "https://octodeck.furari.co/communities/invalid-id")!
+        await viewModel.handleURL(url)
+
+        #expect(viewModel.community == nil)
+    }
+
     @Test("handleURLで不明なパスは無視される")
     func testHandleURLUnknownPath() async throws {
         let viewModel = withDependencies {
@@ -286,6 +321,7 @@ struct ContentViewModelTests {
 
         #expect(viewModel.authenticatedUser == nil)
         #expect(viewModel.card == nil)
+        #expect(viewModel.community == nil)
     }
 
     @Test("handleURLでsafariViewURLがnilにリセットされる")

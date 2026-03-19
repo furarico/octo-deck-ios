@@ -10,6 +10,7 @@ import Foundation
 
 final actor ContentService {
     @Dependency(\.cardRepository) private var cardRepository
+    @Dependency(\.communityRepository) private var communityRepository
     @Dependency(\.gitHubAuthRepository) private var gitHubAuthRepository
 
     func signIn(code: String) async throws -> String {
@@ -26,5 +27,10 @@ final actor ContentService {
 
     func getCard(id: String) async throws -> Card {
         try await cardRepository.getCard(id: id)
+    }
+
+    func getCommunity(id: String) async throws -> Community {
+        let (community, _) = try await communityRepository.getCommunity(id)
+        return community
     }
 }
