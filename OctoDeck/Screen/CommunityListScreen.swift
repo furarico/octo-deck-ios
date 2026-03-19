@@ -20,6 +20,20 @@ struct CommunityListScreen: View {
             .task {
                 await viewModel.onAppear()
             }
+            .toolbar {
+                ToolbarItem(placement: .primaryAction) {
+                    Button {
+                        viewModel.isCreateSheetPresented = true
+                    } label: {
+                        Image(systemName: "plus")
+                    }
+                }
+            }
+            .sheet(isPresented: $viewModel.isCreateSheetPresented) {
+                CommunityCreateScreen {
+                    await viewModel.onCommunityCreated()
+                }
+            }
     }
 
     @ViewBuilder

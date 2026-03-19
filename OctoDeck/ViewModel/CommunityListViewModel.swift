@@ -12,6 +12,7 @@ import Observation
 final class CommunityListViewModel {
     private(set) var communities: [Community] = []
     private(set) var isLoading: Bool = false
+    var isCreateSheetPresented: Bool = false
 
     private let service = CommunityListService()
 
@@ -28,6 +29,10 @@ final class CommunityListViewModel {
         defer {
             isLoading = false
         }
+        await refresh()
+    }
+
+    func onCommunityCreated() async {
         await refresh()
     }
 
