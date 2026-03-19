@@ -23,4 +23,20 @@ final actor CommunityDetailService {
     func getCardsInMyDeck() async throws -> [Card] {
         try await cardRepository.listCards()
     }
+
+    func getMyCard() async throws -> Card {
+        try await cardRepository.getMyCard()
+    }
+
+    func deleteCommunity(id: Community.ID) async throws {
+        _ = try await communityRepository.deleteCommunity(id: id)
+    }
+
+    func joinCommunity(id: Community.ID) async throws -> Card {
+        try await communityRepository.addCardToCommunity(id: id)
+    }
+
+    func leaveCommunity(id: Community.ID) async throws -> Card {
+        try await communityRepository.removeCardFromCommunity(id: id)
+    }
 }

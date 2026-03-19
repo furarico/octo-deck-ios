@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct CommunityDetailScreen: View {
+    @Environment(\.dismiss) private var dismiss
     @State private var viewModel: CommunityDetailViewModel
     private let cardsColumns = [
         GridItem(.flexible()),
@@ -25,6 +26,51 @@ struct CommunityDetailScreen: View {
                 await viewModel.onAppear()
             }
             .navigationTitle(viewModel.community.name)
+            .toolbar {
+                ToolbarItem(placement: .primaryAction) {
+                    if viewModel.isMembershipLoading {
+                        ProgressView()
+                    } else if viewModel.isMember {
+                        Button("Leave") {
+                            Task {
+                                await viewModel.onLeaveButtonTapped()
+                            }
+                        }
+                    } else {
+                        Button("Join") {
+                            Task {
+                                await viewModel.onJoinButtonTapped()
+                            }
+                        }
+                    }
+                }
+
+                ToolbarItem(placement: .destructiveAction) {
+                    Button(role: .destructive) {
+                        viewModel.isDeleteConfirmationPresented = true
+                    } label: {
+                        Image(systemName: "trash")
+                    }
+                }
+            }
+            .confirmationDialog(
+                "Delete Community",
+                isPresented: $viewModel.isDeleteConfirmationPresented,
+                titleVisibility: .visible
+            ) {
+                Button("Delete", role: .destructive) {
+                    Task {
+                        await viewModel.onDeleteConfirmed()
+                    }
+                }
+            } message: {
+                Text("Are you sure you want to delete this community? This action cannot be undone.")
+            }
+            .onChange(of: viewModel.isDeleted) {
+                if viewModel.isDeleted {
+                    dismiss()
+                }
+            }
             .sheet(item: $viewModel.selectedCard) { card in
                 CardDetailScreen(card: card, isAdded: viewModel.cardsInMyDeck.contains(card)) {
                     viewModel.onAddButtonTapped()
