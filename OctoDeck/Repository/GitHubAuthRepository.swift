@@ -23,12 +23,12 @@ nonisolated struct GitHubAuthRepository {
 nonisolated extension GitHubAuthRepository: DependencyKey {
     static let liveValue = GitHubAuthRepository(
         signIn: { code in
-            let (accessToken, refreshToken) = try await getAccessTokenFromCode(code)
+            let accessToken = try await getAccessTokenFromCode(code)
             let user = try await getUser(accessToken: accessToken)
 
             UserDefaults.standard.set(user.id, forKey: "githubUserId")
 
-            try saveTokens(accessToken: accessToken, refreshToken: refreshToken, userID: user.id)
+            try saveTokens(accessToken: accessToken, userID: user.id)
 
             return user.id.description
         },
@@ -69,14 +69,7 @@ nonisolated extension GitHubAuthRepository: DependencyKey {
             do {
                 response = try await getUser(accessToken: accessToken)
             } catch {
-                do {
-                    let storedRefreshToken = try KeychainHelper.read(service: "Octo Deck", account: "\(userId) GitHub OAuth2 Refresh Token")
-                    let (accessToken, refreshToken) = try await getAccessTokenFromRefreshToken(storedRefreshToken)
-                    response = try await getUser(accessToken: accessToken)
-                    try saveTokens(accessToken: accessToken, refreshToken: refreshToken, userID: response.id)
-                } catch {
-                    throw GitHubAuthRepositoryError.invalidResponse
-                }
+                throw GitHubAuthRepositoryError.invalidResponse
             }
 
             let user = User(
@@ -139,9 +132,6 @@ nonisolated extension GitHubAuthRepository {
 
     struct GetAccessTokenResponse: Decodable {
         let accessToken: String
-        let expiresIn: Int
-        let refreshToken: String
-        let refreshTokenExpiresIn: Int
         let scope: String
         let tokenType: String
     }
@@ -155,18 +145,18 @@ nonisolated extension GitHubAuthRepository {
 
     private static func loadGitHubAppInfo() throws -> (clientID: String, clientSecret: String) {
         guard
-            let plistPath = Bundle.main.path(forResource: "GitHubApp_Info", ofType: "plist"),
+            let plistPath = Bundle.main.path(forResource: "GitHubOAuthApp_Info", ofType: "plist"),
             let plistData = FileManager.default.contents(atPath: plistPath),
             let plist = try PropertyListSerialization.propertyList(from: plistData, format: nil) as? [String: Any],
-            let clientID = plist["GITHUB_APP_CLIENT_ID"] as? String,
-            let clientSecret = plist["GITHUB_APP_CLIENT_SECRET"] as? String
+            let clientID = plist["CLIENT_ID"] as? String,
+            let clientSecret = plist["CLIENT_SECRET"] as? String
         else {
             throw GitHubAuthRepositoryError.missingConfiguration
         }
         return (clientID, clientSecret)
     }
 
-    private static func getAccessTokenFromCode(_ code: String) async throws -> (accessToken: String, refreshToken: String) {
+    private static func getAccessTokenFromCode(_ code: String) async throws -> String {
         let gitHubAppInfo = try loadGitHubAppInfo()
         let clientID = gitHubAppInfo.clientID
         let clientSecret = gitHubAppInfo.clientSecret
@@ -179,23 +169,7 @@ nonisolated extension GitHubAuthRepository {
 
         let responseBody = try await getAccessToken(request: requestBody)
 
-        return (responseBody.accessToken, responseBody.refreshToken)
-    }
-
-    private static func getAccessTokenFromRefreshToken(_ refreshToken: String) async throws -> (accessToken: String, refreshToken: String) {
-        let gitHubAppInfo = try loadGitHubAppInfo()
-        let clientID = gitHubAppInfo.clientID
-        let clientSecret = gitHubAppInfo.clientSecret
-
-        let requestBody = GetAccessTokenFromRefreshTokenRequest(
-            clientId: clientID,
-            clientSecret: clientSecret,
-            refreshToken: refreshToken
-        )
-
-        let responseBody = try await getAccessToken(request: requestBody)
-
-        return (responseBody.accessToken, responseBody.refreshToken)
+        return responseBody.accessToken
     }
 
     private static func getAccessToken(request requestBody: GetAccessTokenRequestProtocol) async throws -> GetAccessTokenResponse {
@@ -258,15 +232,11 @@ nonisolated extension GitHubAuthRepository {
         return user
     }
 
-    private static func saveTokens(accessToken: String, refreshToken: String, userID: Int) throws {
-        guard
-            let accessTokenData = accessToken.data(using: .utf8),
-            let refreshTokenData = refreshToken.data(using: .utf8)
-        else {
+    private static func saveTokens(accessToken: String, userID: Int) throws {
+        guard let accessTokenData = accessToken.data(using: .utf8) else {
             throw GitHubAuthRepositoryError.invalidResponse
         }
 
         try KeychainHelper.write(accessTokenData, service: "Octo Deck", account: "\(userID) GitHub OAuth2 Access Token")
-        try KeychainHelper.write(refreshTokenData, service: "Octo Deck", account: "\(userID) GitHub OAuth2 Refresh Token")
     }
 }
